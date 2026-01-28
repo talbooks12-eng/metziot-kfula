@@ -1466,8 +1466,8 @@
 
         .gallery-track {
             display: flex;
-            gap: 1.5rem;
-            animation: marquee 45s linear infinite;
+            gap: 1rem;
+            animation: marquee 90s linear infinite;
             width: max-content;
         }
 
@@ -1486,7 +1486,7 @@
 
         .gallery-item {
             flex-shrink: 0;
-            width: calc((1000px - 3rem) / 3);
+            width: calc((1000px - 2rem) / 3);
         }
 
         .gallery-item img {
@@ -1513,29 +1513,30 @@
                 max-width: 100%;
             }
             .gallery-item {
-                width: calc((100vw - 3rem) / 3);
+                width: calc((100vw - 2rem) / 3);
             }
             .gallery-item img {
-                height: 200px;
-                padding: 0.75rem;
+                height: 180px;
+                padding: 0.5rem;
             }
             .gallery-track {
-                gap: 0.75rem;
-                animation-duration: 35s;
+                gap: 0.5rem;
+                animation-duration: 60s;
             }
         }
 
         @media (max-width: 480px) {
             .gallery-item {
-                width: calc((100vw - 2rem) / 3);
+                width: calc((100vw - 1.5rem) / 3);
             }
             .gallery-item img {
-                height: 140px;
-                padding: 0.5rem;
-                border-radius: 8px;
+                height: 130px;
+                padding: 0.4rem;
+                border-radius: 6px;
             }
             .gallery-track {
-                gap: 0.5rem;
+                gap: 0.4rem;
+                animation-duration: 50s;
             }
         }
 
