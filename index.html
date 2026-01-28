@@ -43,10 +43,143 @@
             direction: rtl;
         }
 
+        /* Urgency Banner */
+        .urgency-banner {
+            background: linear-gradient(90deg, #c0392b 0%, #e74c3c 50%, #c0392b 100%);
+            color: white;
+            text-align: center;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+        }
+
+        .urgency-banner .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .urgency-text {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 0.5rem;
+            direction: ltr;
+        }
+
+        .countdown-item {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            min-width: 35px;
+            text-align: center;
+        }
+
+        .countdown-item span {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .countdown-item small {
+            font-size: 0.65rem;
+            opacity: 0.9;
+        }
+
+        /* Hero Price Display */
+        .hero-price {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-price-old {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .hero-price-new {
+            font-size: 2.2rem;
+            font-family: 'Secular One', sans-serif;
+            color: #c0392b;
+        }
+
+        .hero-price-badge {
+            background: #c0392b;
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .hero-delivery {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero-delivery span {
+            font-size: 1.1rem;
+        }
+
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .trust-badge span {
+            font-size: 1.2rem;
+        }
+
+        /* Copies Sold Counter - Hidden for now */
+        .copies-sold {
+            display: none; /* Enable later */
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .copies-sold span {
+            font-weight: 700;
+        }
+
         /* Navigation */
         nav {
             position: fixed;
-            top: 0;
+            top: 45px;
             right: 0;
             left: 0;
             background: rgba(250, 247, 242, 0.97);
@@ -90,7 +223,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 7rem 2rem 5rem;
+            padding: 9rem 2rem 5rem;
             background: linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-warm) 100%);
         }
 
@@ -1105,6 +1238,167 @@
             background: #252525;
         }
 
+        /* FAQ Section */
+        .faq-section {
+            padding: 5rem 2rem;
+            background: var(--bg-warm);
+        }
+
+        .faq-section .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            gap: 1rem;
+        }
+
+        .faq-question h3 {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .faq-answer-content a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        body.dark-mode .faq-item {
+            background: #2d2d2d;
+        }
+
+        /* Floating Buy Button */
+        .floating-buy {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .floating-buy.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .floating-buy-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-family: 'Secular One', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(139, 115, 85, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .floating-buy-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(139, 115, 85, 0.5);
+        }
+
+        .floating-buy-btn span {
+            font-size: 1.2rem;
+        }
+
+        /* Hide on very small screens to not overlap accessibility widget */
+        @media (max-width: 400px) {
+            .floating-buy {
+                right: 10px;
+                bottom: 80px;
+            }
+        }
+
+        /* Urgency banner mobile */
+        @media (max-width: 600px) {
+            .urgency-banner {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+            .urgency-banner .container {
+                gap: 0.75rem;
+            }
+            .countdown-item {
+                padding: 0.2rem 0.4rem;
+                min-width: 30px;
+            }
+            .countdown-item span {
+                font-size: 0.95rem;
+            }
+            .hero-price {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .trust-badges {
+                gap: 1rem;
+            }
+        }
+
         /* Gallery Section */
         .gallery {
             padding: 5rem 2rem;
@@ -1604,7 +1898,7 @@
             font-family: 'Frank Ruhl Libre', serif;
             font-size: 1.25rem;
             font-weight: 500;
-            color: var(--accent);
+            color: var(--text-dark);
             margin-bottom: 1.5rem;
         }
     </style>
@@ -1622,8 +1916,38 @@
         </div>
     </div>
 
+    <!-- Urgency Banner -->
+    <div class="urgency-banner">
+        <div class="container">
+            <div class="urgency-text">
+                🔥 <strong>מבצע השקה!</strong> מחיר מיוחד לזמן מוגבל
+            </div>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span id="days">00</span>
+                    <small>ימים</small>
+                </div>
+                <div class="countdown-item">
+                    <span id="hours">00</span>
+                    <small>שעות</small>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes">00</span>
+                    <small>דקות</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Skip to content link for accessibility -->
     <a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+
+    <!-- Floating Buy Button -->
+    <div class="floating-buy" id="floatingBuy">
+        <button class="floating-buy-btn" onclick="openPricing()">
+            <span>📖</span> לרכישת הספר
+        </button>
+    </div>
 
     <!-- Accessibility Widget -->
     <div class="accessibility-widget">
@@ -1661,7 +1985,38 @@
                 <h1 class="hero-title">מציאות כפולה</h1>
                 <p class="hero-author">טל הוך</p>
                 <p class="tagline">יומן מסע פנימי שנכתב בין לחימה להפוגה, בין הפחד הקיומי בחזית לשקט המתעתע של העורף.</p>
+
+                <!-- Copies Sold - Hidden for now -->
+                <div class="copies-sold">
+                    📚 כבר נמכרו <span>150+</span> עותקים!
+                </div>
+
+                <!-- Price Display -->
+                <div class="hero-price">
+                    <span class="hero-price-old">₪69</span>
+                    <span class="hero-price-new">₪59</span>
+                    <span class="hero-price-badge">חיסכון ₪10</span>
+                </div>
+
+                <!-- Delivery Promise -->
+                <div class="hero-delivery">
+                    <span>🚚</span> משלוח עד 14 ימי עסקים לכל הארץ
+                </div>
+
                 <button class="btn btn-primary" onclick="openPricing()">לרכישת הספר</button>
+
+                <!-- Trust Badges -->
+                <div class="trust-badges">
+                    <div class="trust-badge">
+                        <span>🔒</span> תשלום מאובטח
+                    </div>
+                    <div class="trust-badge">
+                        <span>📦</span> משלוח מאובטח
+                    </div>
+                    <div class="trust-badge">
+                        <span>✅</span> 100% שביעות רצון
+                    </div>
+                </div>
             </div>
             <div class="book-cover-wrapper">
                 <img src="assets/book-cover.png" alt="כריכת הספר מציאות כפולה" class="book-cover">
@@ -2163,6 +2518,106 @@
         }
     </script>
 
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section-title">שאלות נפוצות</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>כמה זמן לוקח המשלוח?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            זמן האספקה הוא עד 14 ימי עסקים מרגע אישור ההזמנה. המשלוח מתבצע לכל רחבי הארץ. תקבלו עדכון במייל כשהחבילה יוצאת לדרך.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>כמה עולה המשלוח?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            עלות המשלוח היא ₪29.90 לכל הזמנה, ללא קשר לכמות העותקים. המשלוח מתבצע לכל כתובת בישראל.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>איך מתבצע התשלום?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            לאחר שליחת טופס ההזמנה, אצור איתכם קשר לתיאום התשלום. התשלום מתבצע בהעברה בנקאית או ב-bit. פרטי התשלום יישלחו אליכם במייל.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>האם אפשר לקבל הקדשה אישית?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            בהחלט! בטופס ההזמנה יש שדה מיוחד להקדשה אישית. פשוט כתבו למי ומה תרצו שאכתוב, ואני אדאג להקדשה אישית וחתומה בכל עותק.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>מה מדיניות הביטולים וההחזרות?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            בהתאם לחוק הגנת הצרכן, ניתן לבטל את העסקה תוך 14 יום מקבלת הספר. לביטול יש לפנות למייל <a href="mailto:Talbooks12@gmail.com">Talbooks12@gmail.com</a>. החזר כספי יינתן תוך 14 ימי עסקים מקבלת הספר בחזרה במצב תקין. פרטים נוספים ב<a href="#" onclick="openTerms(); return false;">תקנון האתר</a>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>לאן הולך חלק מהרווחים?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            חלק מהרווחים מכל רכישה תורם לפרויקט <a href="https://www.sfat-hayam.com/" target="_blank">שפת הים</a> - סדנאות לאנשי מילואים ומעגלי שכול. כך הקנייה שלכם לא רק מביאה לכם ספר, אלא גם תורמת למטרה חשובה.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3>יש לי שאלה נוספת, איך יוצרים קשר?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            אשמח לעזור! ניתן ליצור איתי קשר במייל <a href="mailto:Talbooks12@gmail.com">Talbooks12@gmail.com</a> ואחזור אליכם בהקדם.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Script -->
+    <script>
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('open');
+        }
+    </script>
+
     <!-- Terms Modal -->
     <div class="legal-modal" id="termsModal">
         <div class="legal-modal-content">
@@ -2246,6 +2701,8 @@
     <!-- Footer -->
     <footer>
         <div class="footer-links">
+            <a href="#faq">שאלות נפוצות</a>
+            <span>|</span>
             <a href="#" onclick="openTerms(); return false;">תקנון האתר</a>
             <span>|</span>
             <a href="#" onclick="openPrivacy(); return false;">מדיניות פרטיות</a>
@@ -2328,6 +2785,58 @@
                 closePopup();
             }
         });
+
+        // Floating buy button - show after scrolling past hero
+        const floatingBuy = document.getElementById('floatingBuy');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 500) {
+                floatingBuy.classList.add('visible');
+            } else {
+                floatingBuy.classList.remove('visible');
+            }
+        });
+
+        // Countdown Timer - Set end date to 14 days from now
+        function initCountdown() {
+            // Check if we have a stored end date, otherwise create one
+            let endDate = localStorage.getItem('launchOfferEnd');
+            if (!endDate) {
+                // Set countdown to 14 days from now
+                const now = new Date();
+                now.setDate(now.getDate() + 14);
+                endDate = now.toISOString();
+                localStorage.setItem('launchOfferEnd', endDate);
+            }
+
+            const countdownEnd = new Date(endDate);
+
+            function updateCountdown() {
+                const now = new Date();
+                const diff = countdownEnd - now;
+
+                if (diff <= 0) {
+                    // Reset countdown when it ends
+                    const newEnd = new Date();
+                    newEnd.setDate(newEnd.getDate() + 14);
+                    localStorage.setItem('launchOfferEnd', newEnd.toISOString());
+                    location.reload();
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 60000); // Update every minute
+        }
+
+        initCountdown();
     </script>
 </body>
 </html>
