@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מציאות כפולה | טל הוך</title>
+    <meta name="description" content="מציאות כפולה - יומן מסע פנימי שנכתב בין לחימה להפוגה. ספר ביכורים מאת טל הוך.">
+    <meta name="keywords" content="מציאות כפולה, טל הוך, ספר, מילואים, 7 באוקטובר, חיילים">
+    <meta name="author" content="טל הוך">
+
+    <!-- Google Fonts - Beautiful Hebrew fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Rubik:wght@300;400;500;600&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-cream: #FAF7F2;
+            --bg-warm: #F0EBE3;
+            --bg-soft: #E8E4DC;
+            --text-dark: #2D2926;
+            --text-secondary: #5C5652;
+            --accent: #8B7355;
+            --accent-dark: #6B5744;
+            --border-light: #DDD8D0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+            direction: rtl;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            background: rgba(250, 247, 242, 0.97);
+            backdrop-filter: blur(12px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        nav .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-btn {
+            background: var(--accent);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 115, 85, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7rem 2rem 5rem;
+            background: linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-warm) 100%);
+        }
+
+        .hero .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(2.8rem, 6vw, 4rem);
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-content .author {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.25rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.9;
+            font-weight: 300;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.25rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.35);
+        }
+
+        .book-cover-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .book-cover {
+            max-width: 300px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+            transition: transform 0.5s ease;
+        }
+
+        .book-cover:hover {
+            transform: scale(1.03) rotate(-1deg);
+        }
+
+        /* Buy + Donation Banner - High visibility */
+        .buy-banner {
+            padding: 4rem 2rem;
+            background: var(--accent);
+            color: white;
+            text-align: center;
+        }
+
+        .buy-banner .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .buy-banner h2 {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .buy-banner p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .buy-banner .donation-note {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .buy-banner .btn {
+            background: white;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .buy-banner .btn:hover {
+            background: var(--bg-cream);
+            transform: translateY(-2px);
+        }
+
+        /* Section Styling */
+        section {
+            scroll-margin-top: 70px;
+        }
+
+        .section-title {
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(1.6rem, 4vw, 2rem);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+
+        /* About Section */
+        .about {
+            padding: 5rem 2rem;
+            background: var(--bg-cream);
+        }
+
+        .about .container {
+            max-width: 680px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 2;
+            font-weight: 300;
+        }
+
+        /* Quotes Section */
+        .quotes {
+            padding: 5rem 2rem;
+            background: var(--bg-warm);
+        }
+
+        .quotes .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quotes-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .quote-card {
+            background: white;
+            padding: 2.5rem 3rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .quote-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+        .quote-card p {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 5rem 2rem;
+            background: var(--bg-cream);
+        }
+
+        .gallery .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gallery-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        .gallery-slider {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item {
+            min-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .gallery-item img {
+            max-width: 400px;
+            max-height: 500px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .gallery-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            background: white;
+            color: var(--accent);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .gallery-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .gallery-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background: var(--accent);
+            transform: scale(1.2);
+        }
+
+        /* Author Section */
+        .author-section {
+            padding: 5rem 2rem;
+            background: var(--bg-warm);
+        }
+
+        .author-section .container {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .author-content p {
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 2;
+            font-weight: 300;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2.5rem 2rem;
+            background: var(--text-dark);
+            color: var(--bg-warm);
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        footer a {
+            color: var(--bg-warm);
+            text-decoration: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .hero-content {
+                order: 2;
+            }
+
+            .book-cover-wrapper {
+                order: 1;
+            }
+
+            .book-cover {
+                max-width: 240px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .quote-card {
+                padding: 2rem;
+            }
+
+            .quote-card p {
+                font-size: 1.2rem;
+            }
+
+            nav .logo {
+                font-size: 1.1rem;
+            }
+
+            .nav-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Smooth animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .book-cover-wrapper {
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        /* Accessibility Features */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            right: 0;
+            background: var(--accent);
+            color: white;
+            padding: 1rem;
+            z-index: 9999;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Focus states for keyboard navigation */
+        a:focus, button:focus, input:focus {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* Popup Modal */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-modal {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .popup-overlay.active .popup-modal {
+            transform: scale(1);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+
+        .popup-close:hover {
+            color: var(--text-dark);
+        }
+
+        .popup-badge {
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .popup-title {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+        }
+
+        .popup-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .popup-price span {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .popup-text {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .popup-btn {
+            background: var(--accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .popup-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Accessibility Widget */
+        .accessibility-widget {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+        }
+
+        .accessibility-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .accessibility-btn:hover {
+            transform: scale(1.1);
+            background: var(--accent-dark);
+        }
+
+        .accessibility-menu {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            padding: 1rem;
+            min-width: 200px;
+            display: none;
+        }
+
+        .accessibility-menu.open {
+            display: block;
+        }
+
+        .accessibility-menu h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 0.5rem;
+        }
+
+        .accessibility-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .accessibility-option:hover {
+            background: var(--bg-warm);
+        }
+
+        /* High contrast mode */
+        body.high-contrast {
+            --bg-cream: #000;
+            --bg-warm: #111;
+            --text-dark: #fff;
+            --text-secondary: #ddd;
+            --accent: #ffcc00;
+        }
+
+        body.high-contrast .quote-card,
+        body.high-contrast .gallery-item img {
+            background: #222;
+        }
+
+        /* Large text mode */
+        body.large-text {
+            font-size: 120%;
+        }
+
+        body.large-text .quote-card p {
+            font-size: 1.6rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Early Sales Popup -->
+    <div class="popup-overlay" id="salesPopup">
+        <div class="popup-modal">
+            <button class="popup-close" onclick="closePopup()">&times;</button>
+            <div class="popup-badge">רכישות מוקדמות</div>
+            <h3 class="popup-title">מבצע השקה!</h3>
+            <div class="popup-price">₪59 <span>בלבד</span></div>
+            <p class="popup-text">הזדמנות לרכוש את הספר במחיר מיוחד לתקופה מוגבלת</p>
+            <a href="mailto:Talbooks12@gmail.com?subject=רכישה מוקדמת - מציאות כפולה" class="popup-btn">לרכישה עכשיו</a>
+        </div>
+    </div>
+
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+
+    <!-- Accessibility Widget -->
+    <div class="accessibility-widget">
+        <button class="accessibility-btn" onclick="toggleAccessibilityMenu()" aria-label="תפריט נגישות" title="נגישות">
+            ♿
+        </button>
+        <div class="accessibility-menu" id="accessibilityMenu" role="menu">
+            <h3>הגדרות נגישות</h3>
+            <div class="accessibility-option" onclick="toggleHighContrast()" role="menuitem">
+                🔲 ניגודיות גבוהה
+            </div>
+            <div class="accessibility-option" onclick="toggleLargeText()" role="menuitem">
+                🔤 טקסט גדול
+            </div>
+            <div class="accessibility-option" onclick="resetAccessibility()" role="menuitem">
+                ↩️ איפוס הגדרות
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">מציאות כפולה</a>
+            <a href="#buy" class="nav-btn">לרכישה</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="main-content">
+        <div class="container">
+            <div class="hero-content">
+                <h1>מציאות כפולה</h1>
+                <p class="author">טל הוך</p>
+                <p class="tagline">יומן מסע פנימי שנכתב בין לחימה להפוגה, בין הפחד הקיומי בחזית לשקט המתעתע של העורף.</p>
+                <a href="#buy" class="btn btn-primary">לרכישת הספר</a>
+            </div>
+            <div class="book-cover-wrapper">
+                <img src="assets/book-cover.png" alt="כריכת הספר מציאות כפולה" class="book-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- Buy + Donation Banner - Prominent placement -->
+    <section class="buy-banner" id="buy">
+        <div class="container">
+            <h2>הספר זמין לרכישה</h2>
+            <p>רוצים להיות חלק מהסיפור?</p>
+            <div class="donation-note">
+                חלק מהרכישה תורם לפרויקט שפת הים - סדנאות לאנשי מילואים ומעגלי שכול
+            </div>
+            <br>
+            <a href="mailto:Talbooks12@gmail.com?subject=רכישת הספר מציאות כפולה" class="btn">צרו קשר לרכישה</a>
+        </div>
+    </section>
+
+    <!-- Quotes Section -->
+    <section class="quotes">
+        <div class="container">
+            <h2 class="section-title">מתוך הספר</h2>
+            <div class="quotes-grid">
+                <div class="quote-card">
+                    <p>"זה לא היה בשבילם,<br>זה היה למען כולם"</p>
+                </div>
+                <div class="quote-card">
+                    <p>"שלא יקטפו עוד פרחים,<br>השדות אפורים שרופים,<br>מלאים בסיפורי גיבורים"</p>
+                </div>
+                <div class="quote-card">
+                    <p>"פה כולנו חתיכות קטנות מפאזל אחד<br>שעוד מרכיב את עצמו בלילות"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title">איורים מתוך הספר</h2>
+            <p class="gallery-subtitle">כל איור מספר סיפור, כל קו משקף רגע מהמציאות הכפולה</p>
+            <div class="gallery-slider">
+                <div class="gallery-track" id="galleryTrack">
+                    <figure class="gallery-item">
+                        <img src="illustrations/01-hug.jpg" alt="חיבוק">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/02-mask.jpg" alt="מסכה">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/03-cleaning.jpg" alt="מול המראה">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/04-mirror.jpg" alt="מציאות כפולה">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/05-mirror2.jpg" alt="השתקפות">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/06-flag.jpg" alt="דגל">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/kfar-aza.png" alt="כפר עזה">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/shabbat.png" alt="שולחן שבת">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/soldiers.png" alt="לוחמים">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/battery.png" alt="סוללה חלשה">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/earphones.png" alt="אוזניות">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/cafe.png" alt="בית קפה">
+                    </figure>
+                </div>
+            </div>
+            <div class="gallery-nav">
+                <button class="gallery-btn" onclick="moveGallery(1)">→</button>
+                <div class="gallery-dots" id="galleryDots"></div>
+                <button class="gallery-btn" onclick="moveGallery(-1)">←</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let currentSlide = 0;
+        const track = document.getElementById('galleryTrack');
+        const items = track.querySelectorAll('.gallery-item');
+        const totalSlides = items.length;
+        const dotsContainer = document.getElementById('galleryDots');
+
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateDots() {
+            document.querySelectorAll('.gallery-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function moveGallery(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            track.style.transform = `translateX(${currentSlide * 100}%)`;
+            updateDots();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            track.style.transform = `translateX(${currentSlide * 100}%)`;
+            updateDots();
+        }
+
+        // Auto-advance every 5 seconds
+        setInterval(() => moveGallery(-1), 5000);
+    </script>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">על הספר</h2>
+            <div class="about-text">
+                <p>רגע אחד הוא היה שם, בטיול הגדול, נושם אוויר פסגות ומתכנן את החזרה הקרובה לניו-יורק. רגע לאחר מכן - השמיים נפלו.</p>
+                <p>ב-7 באוקטובר נגמרו התירוצים, נשברו הכלים, והמציאות הישראלית התפצלה לשניים. במקום המטוס לתפוח הגדול, מצא עצמו טל עולה על מדים ירוקים אל הלא נודע.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author Section -->
+    <section class="author-section" id="author">
+        <div class="container">
+            <h2 class="section-title">על המחבר</h2>
+            <div class="author-content">
+                <p>טל הוך, בן 24, סטודנט ולוחם במילואים בחטיבת הצנחנים 55.</p>
+                <p>תוך כדי שירות מילואים פעיל, במרחב שבו החיים ממשיכים במקביל ללחימה, נולדה הכתיבה – לא כעדות הירואית, אלא כניסיון לשקף מציאות יומיומית שמתקיימת מתחת לפני השטח.</p>
+                <p>דרך חוויות, מחשבות ותחושות, טל מבקש להוציא לאור את האנשים השקופים שחיים בינינו: מי שנעים בין חזית לעורף, בין שגרה אזרחית למציאות מלחמתית, ונושאים בתוכם חוויות שלא תמיד יש להן מקום או שפה.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 כל הזכויות שמורות לטל הוך</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">הטקסט נכתב על־ידי: טל הוך | איורים, עיצוב וכריכה: שחר יצחקי</p>
+        <p style="margin-top: 0.75rem; font-size: 0.75rem; opacity: 0.7; max-width: 500px; margin-left: auto; margin-right: auto;">אין להעתיק, לשכפל, להפיץ, לתרגם, לעבד, להקליט, לצלם או לעשות כל שימוש אחר בתוכן הספר ללא רשות בכתב מבעלי הזכויות.</p>
+        <p style="margin-top: 1rem;"><a href="mailto:Talbooks12@gmail.com">Talbooks12@gmail.com</a></p>
+        <p style="margin-top: 0.75rem; font-size: 0.8rem;"><a href="#accessibility-statement">הצהרת נגישות</a></p>
+    </footer>
+
+    <!-- Accessibility JavaScript -->
+    <script>
+        function toggleAccessibilityMenu() {
+            const menu = document.getElementById('accessibilityMenu');
+            menu.classList.toggle('open');
+        }
+
+        function toggleHighContrast() {
+            document.body.classList.toggle('high-contrast');
+            localStorage.setItem('highContrast', document.body.classList.contains('high-contrast'));
+        }
+
+        function toggleLargeText() {
+            document.body.classList.toggle('large-text');
+            localStorage.setItem('largeText', document.body.classList.contains('large-text'));
+        }
+
+        function resetAccessibility() {
+            document.body.classList.remove('high-contrast', 'large-text');
+            localStorage.removeItem('highContrast');
+            localStorage.removeItem('largeText');
+        }
+
+        // Load saved preferences
+        if (localStorage.getItem('highContrast') === 'true') {
+            document.body.classList.add('high-contrast');
+        }
+        if (localStorage.getItem('largeText') === 'true') {
+            document.body.classList.add('large-text');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const widget = document.querySelector('.accessibility-widget');
+            const menu = document.getElementById('accessibilityMenu');
+            if (!widget.contains(e.target)) {
+                menu.classList.remove('open');
+            }
+        });
+
+        // Popup functions
+        function closePopup() {
+            document.getElementById('salesPopup').classList.remove('active');
+            sessionStorage.setItem('popupClosed', 'true');
+        }
+
+        // Show popup after 1.5 seconds if not already closed this session
+        if (!sessionStorage.getItem('popupClosed')) {
+            setTimeout(() => {
+                document.getElementById('salesPopup').classList.add('active');
+            }, 1500);
+        }
+
+        // Close popup when clicking outside
+        document.getElementById('salesPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,422 @@
+/*
+ * Custom Styles for "מציאות כפולה" (Double Reality)
+ * A book about the soldier experience and returning from combat
+ * Design: Clean, minimal, muted earth tones - respectful and authentic
+ */
+
+/* ============================================
+   RTL (Right-to-Left) Support for Hebrew
+   ============================================ */
+
+html[lang="he"],
+html[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+html[lang="he"] body,
+html[dir="rtl"] body {
+  direction: rtl;
+}
+
+/* Flip flexbox layouts for RTL */
+html[lang="he"] .header__icons,
+html[dir="rtl"] .header__icons {
+  flex-direction: row-reverse;
+}
+
+html[lang="he"] .product__info-container,
+html[dir="rtl"] .product__info-container {
+  text-align: right;
+}
+
+/* RTL specific adjustments */
+html[lang="he"] .product__title,
+html[dir="rtl"] .product__title,
+html[lang="he"] .product__description,
+html[dir="rtl"] .product__description {
+  text-align: right;
+  direction: rtl;
+}
+
+/* ============================================
+   Custom Color Scheme - Earth Tones
+   Muted, respectful colors for the book's theme
+   ============================================ */
+
+:root {
+  /* Primary palette - Matching book cover tones */
+  --book-sand: #D4CBC0;
+  --book-sand-light: #EBE6E0;
+  --book-cream: #F5F2ED;
+  --book-cream-dark: #E8E3DB;
+  --book-charcoal: #2C2C2C;
+  --book-charcoal-light: #4A4A4A;
+  --book-gray: #6B6B6B;
+  --book-gray-light: #9A9A9A;
+
+  /* Accent - warm paper tones from cover */
+  --book-accent: #C9BFB0;
+  --book-accent-hover: #B5A999;
+
+  /* Text colors - strong contrast like the cover */
+  --book-text-primary: #1A1A1A;
+  --book-text-secondary: #4A4A4A;
+  --book-text-muted: #7A7A7A;
+}
+
+/* ============================================
+   Typography - Clean, Readable
+   ============================================ */
+
+/* Hebrew-friendly font stack */
+body {
+  font-family: 'Assistant', 'Heebo', 'Open Sans Hebrew', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.7;
+  color: var(--book-text-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Heebo', 'Assistant', 'Open Sans Hebrew', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--book-text-primary);
+}
+
+/* Book title styling */
+.book-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.book-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--book-text-secondary);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ============================================
+   Hero Section - Book Showcase
+   ============================================ */
+
+.book-hero {
+  background: linear-gradient(135deg, var(--book-cream) 0%, var(--book-sand-light) 100%);
+  padding: clamp(3rem, 8vw, 6rem) 0;
+  position: relative;
+}
+
+.book-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C9C9C' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.book-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .book-hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+/* Book cover styling */
+.book-cover-container {
+  position: relative;
+}
+
+.book-cover {
+  max-width: 100%;
+  height: auto;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 8px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  transform: perspective(1000px) rotateY(-5deg);
+  transition: transform 0.4s ease;
+}
+
+.book-cover:hover {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+/* ============================================
+   About Section - Author Story
+   ============================================ */
+
+.about-author {
+  background: var(--book-cream);
+  padding: clamp(3rem, 8vw, 5rem) 0;
+}
+
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.author-quote {
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--book-text-secondary);
+  border-right: 4px solid var(--book-olive);
+  padding-right: 1.5rem;
+  margin: 2rem 0;
+  line-height: 1.8;
+}
+
+html[lang="en"] .author-quote,
+html[dir="ltr"] .author-quote {
+  border-right: none;
+  border-left: 4px solid var(--book-olive);
+  padding-right: 0;
+  padding-left: 1.5rem;
+}
+
+/* ============================================
+   Buy Button - Call to Action
+   ============================================ */
+
+.book-buy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: var(--book-olive-dark);
+  color: #fff;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.book-buy-button:hover {
+  background: var(--book-olive);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.book-buy-button:active {
+  transform: translateY(0);
+}
+
+/* Secondary button style */
+.book-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--book-olive-dark);
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 2px solid var(--book-olive-dark);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.book-secondary-button:hover {
+  background: var(--book-olive-dark);
+  color: #fff;
+}
+
+/* ============================================
+   Testimonials / Reviews
+   ============================================ */
+
+.testimonials {
+  background: var(--book-sand-light);
+  padding: clamp(3rem, 8vw, 5rem) 0;
+}
+
+.testimonial-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.testimonial-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--book-text-secondary);
+  margin-bottom: 1rem;
+}
+
+.testimonial-author {
+  font-weight: 600;
+  color: var(--book-text-primary);
+}
+
+/* ============================================
+   Footer Customization
+   ============================================ */
+
+.book-footer {
+  background: var(--book-gray-dark);
+  color: var(--book-sand-light);
+  padding: 3rem 0;
+}
+
+.book-footer a {
+  color: var(--book-sand);
+  transition: color 0.3s ease;
+}
+
+.book-footer a:hover {
+  color: #fff;
+}
+
+/* ============================================
+   Language Switcher
+   ============================================ */
+
+.language-switcher {
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0.25rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.language-switcher button,
+.language-switcher a {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--book-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.language-switcher button:hover,
+.language-switcher a:hover,
+.language-switcher button.active,
+.language-switcher a.active {
+  background: #fff;
+  color: var(--book-text-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Product Page Enhancements
+   ============================================ */
+
+.product__title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.product__description {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--book-text-secondary);
+}
+
+.product__price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--book-olive-dark);
+}
+
+/* ============================================
+   Mobile Responsiveness
+   ============================================ */
+
+@media (max-width: 768px) {
+  .book-hero-content {
+    padding: 0 1rem;
+  }
+
+  .book-cover {
+    max-width: 280px;
+    margin: 0 auto;
+    transform: none;
+  }
+
+  .book-cover:hover {
+    transform: none;
+  }
+
+  .author-quote {
+    font-size: 1.1rem;
+    padding-right: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .book-buy-button {
+    width: 100%;
+    padding: 1.25rem 2rem;
+  }
+}
+
+/* ============================================
+   Animations - Subtle and Professional
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Stagger animation for multiple elements */
+.fade-in-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-in-up:nth-child(2) { animation-delay: 0.2s; }
+.fade-in-up:nth-child(3) { animation-delay: 0.3s; }
+.fade-in-up:nth-child(4) { animation-delay: 0.4s; }
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+  .book-hero {
+    background: #fff !important;
+  }
+
+  .book-buy-button,
+  .language-switcher {
+    display: none;
+  }
+}
