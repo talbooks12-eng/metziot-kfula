@@ -272,6 +272,83 @@
             letter-spacing: -0.01em;
         }
 
+        /* Who Am I Section */
+        .who-am-i {
+            padding: 5rem 2rem;
+            background: var(--bg-cream);
+        }
+
+        .who-am-i .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .intro-text {
+            background: linear-gradient(135deg, #FFFEF9 0%, #FBF8F1 100%);
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .intro-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 30px,
+                rgba(139, 115, 85, 0.08) 31px
+            );
+            pointer-events: none;
+            border-radius: 8px;
+        }
+
+        .intro-text p {
+            font-family: 'Gveret Levin AlefAlefAlef', 'Karantina', cursive;
+            font-size: 1.25rem;
+            line-height: 1.9;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .intro-greeting {
+            font-size: 1.5rem !important;
+            font-weight: 600;
+            color: var(--accent) !important;
+        }
+
+        .intro-wish {
+            margin-top: 2rem;
+            font-style: italic;
+        }
+
+        .intro-signature {
+            font-size: 1.4rem !important;
+            font-weight: 600;
+            color: var(--accent) !important;
+            text-align: left;
+            margin-top: 2rem;
+            margin-bottom: 0 !important;
+        }
+
+        body.dark-mode .intro-text {
+            background: linear-gradient(135deg, #3d3d3d 0%, #2d2d2d 100%);
+        }
+
+        body.dark-mode .intro-text::before {
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 30px,
+                rgba(255, 255, 255, 0.03) 31px
+            );
+        }
+
         /* About Section */
         .about {
             padding: 5rem 2rem;
@@ -378,23 +455,24 @@
         }
 
         .quote-note p {
-            font-family: 'Karantina', cursive;
-            font-size: 1.6rem;
+            font-family: 'Gveret Levin AlefAlefAlef', 'Karantina', cursive;
+            font-size: 1.5rem;
             font-weight: 400;
-            line-height: 1.6;
+            line-height: 1.7;
             color: #2D2926;
             text-align: center;
             position: relative;
             z-index: 1;
+            transform: rotate(-0.5deg);
         }
 
         .quote-source {
-            font-family: 'Karantina', cursive;
+            font-family: 'Gveret Levin AlefAlefAlef', 'Karantina', cursive;
             font-size: 1rem;
             color: var(--accent);
             text-align: left;
             margin-top: 1.5rem;
-            font-weight: 300;
+            font-weight: 400;
         }
 
         /* Navigation dots */
@@ -1217,6 +1295,48 @@
             </div>
             <br>
             <a href="mailto:Talbooks12@gmail.com?subject=רכישת הספר מציאות כפולה" class="btn">צרו קשר לרכישה</a>
+        </div>
+    </section>
+
+    <!-- Who Am I Section -->
+    <section class="who-am-i" id="intro">
+        <div class="container">
+            <h2 class="section-title">מי אני?</h2>
+            <div class="intro-text">
+                <p class="intro-greeting">אהלן אני טל,</p>
+                <p>אחד כמו כולם,<br>
+                צנחן,<br>
+                איש פשוט,<br>
+                חייל קטן.</p>
+
+                <p>החלטתי לשתף את הסיפורים שמאחורי הקלעים,<br>
+                את החוויות האישיות של הלוחם שבקצה,<br>
+                זה שלובש מדים ירוקים.</p>
+
+                <p>את נקודת המבט שלי –<br>
+                מי יודע,<br>
+                אולי חלקכם תתחברו ותדהו.</p>
+
+                <p>ספר זה נכתב בהשראתם של גיבורי ישראל,<br>
+                בהשפעת החוויות האישיות שעברתי<br>
+                לאורך מלחמת חרבות ברזל.<br>
+                רק אני והמחברת.</p>
+
+                <p>בין לחימה להפוגה,<br>
+                מצאתי פיסת נחמה בכתיבה.</p>
+
+                <p>מתוך רצון להנציח,<br>
+                כדי שנזכור את רגעי האור בחשיכה.</p>
+
+                <p>שנעריך את זה שאנחנו עם יחיד ומיוחד,<br>
+                שלא נשכח לתת יד,<br>
+                שנדע מהי אהבת אמת ונמשיך לתת ולחבק.</p>
+
+                <p class="intro-wish">אני מאחל לכולנו ימים טובים יותר,<br>
+                שהחטופים ישובו, שהחיילים ינוחו.</p>
+
+                <p class="intro-signature">טל הוך</p>
+            </div>
         </div>
     </section>
 
