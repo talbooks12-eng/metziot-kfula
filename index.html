@@ -822,21 +822,23 @@
         }
 
         .about-slider {
-            overflow: hidden;
             border-radius: 12px;
             background: white;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .about-slides {
-            display: flex;
-            transition: transform 0.5s ease;
+            position: relative;
         }
 
         .about-slide {
-            min-width: 100%;
             padding: 1.5rem 2rem;
             text-align: center;
+            display: none;
+        }
+
+        .about-slide.active {
+            display: block;
         }
 
         .about-slide p {
@@ -2360,7 +2362,7 @@
             </div>
             <div class="about-slider">
                 <div class="about-slides" id="aboutSlides">
-                    <div class="about-slide">
+                    <div class="about-slide active">
                         <p>רגע אחד הוא היה שם, בטיול הגדול, נושם אוויר פסגות ומתכנן את החזרה הקרובה לניו-יורק. רגע לאחר מכן - השמיים נפלו. ב-7 באוקטובר נגמרו התירוצים, נשברו הכלים, והמציאות הישראלית התפצלה לשניים. במקום המטוס לתפוח הגדול, מצא עצמו טל עולה על מדים ירוקים אל הלא נודע.</p>
                     </div>
                     <div class="about-slide">
@@ -2660,10 +2662,12 @@
     <!-- About Slider Script -->
     <script>
         function showAboutSlide(index) {
-            const slides = document.getElementById('aboutSlides');
+            const slides = document.querySelectorAll('.about-slide');
             const buttons = document.querySelectorAll('.about-nav-btn');
 
-            slides.style.transform = `translateX(${index * 100}%)`;
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
 
             buttons.forEach((btn, i) => {
                 btn.classList.toggle('active', i === index);
