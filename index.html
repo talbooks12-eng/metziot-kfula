@@ -411,125 +411,98 @@
             letter-spacing: -0.01em;
         }
 
-        /* Who Am I - Bottom Expandable Section */
-        .who-am-i-bottom {
-            background: var(--bg-warm);
-            padding: 0;
-        }
 
-        .who-am-i-bottom .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .who-am-i-header {
-            width: 100%;
-            background: transparent;
-            border: none;
-            padding: 2rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            transition: background 0.3s ease;
-        }
-
-        .who-am-i-header:hover {
-            background: rgba(139, 115, 85, 0.05);
-        }
-
-        .who-am-i-header h2 {
-            font-family: 'Secular One', sans-serif;
-            font-size: 1.5rem;
-            color: var(--accent);
-            margin: 0;
-        }
-
-        .toggle-arrow {
-            font-size: 0.8rem;
-            color: var(--accent);
-            transition: transform 0.3s ease;
-        }
-
-        .who-am-i-header.open .toggle-arrow {
-            transform: rotate(180deg);
-        }
-
-        .who-am-i-content-expand {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-        }
-
-        .who-am-i-content-expand.open {
-            max-height: 800px;
-        }
-
-        .intro-text-bottom {
-            padding: 0 2rem 2.5rem;
-            text-align: center;
-        }
-
-        .intro-text-bottom p {
-            font-family: 'Rubik', sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.9;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            font-weight: 300;
-        }
-
-        .intro-text-bottom .intro-greeting {
-            font-family: 'Secular One', sans-serif;
-            font-size: 1.3rem !important;
-            font-weight: 400;
-            color: var(--accent) !important;
-            margin-bottom: 1.5rem;
-        }
-
-        .intro-text-bottom .intro-wish {
-            margin-top: 1.5rem;
-            font-style: italic;
-            color: var(--text-dark);
-        }
-
-        .intro-text-bottom .intro-signature {
-            font-family: 'Secular One', sans-serif;
-            font-size: 1.1rem !important;
-            color: var(--accent) !important;
-            margin-top: 1.5rem;
-            margin-bottom: 0 !important;
-        }
-
-        body.dark-mode .who-am-i-bottom {
-            background: #252525;
-        }
-
-        @media (max-width: 768px) {
-            .intro-text-bottom {
-                padding: 0 1.5rem 2rem;
-            }
-        }
-
-        /* About Section */
-        .about {
-            padding: 5rem 2rem;
+        /* About Slider Section */
+        .about-slider-section {
+            padding: 4rem 2rem;
             background: var(--bg-cream);
         }
 
-        .about .container {
-            max-width: 680px;
+        .about-slider-section .container {
+            max-width: 700px;
             margin: 0 auto;
-            text-align: center;
         }
 
-        .about-text p {
+        .about-slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 2rem;
+        }
+
+        .about-nav-btn {
+            background: transparent;
+            border: 2px solid var(--accent);
+            padding: 0.8rem 2rem;
+            font-family: 'Secular One', sans-serif;
             font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .about-nav-btn:first-child {
+            border-radius: 0 25px 25px 0;
+            border-left: 1px solid var(--accent);
+        }
+
+        .about-nav-btn:last-child {
+            border-radius: 25px 0 0 25px;
+            border-right: 1px solid var(--accent);
+        }
+
+        .about-nav-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .about-nav-btn:hover:not(.active) {
+            background: rgba(139, 115, 85, 0.1);
+        }
+
+        .about-slider {
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        .about-slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .about-slide {
+            min-width: 100%;
+            padding: 2.5rem;
+            background: white;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .about-slide p {
+            font-size: 1.1rem;
             color: var(--text-secondary);
-            line-height: 2;
+            line-height: 1.9;
             font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .about-slide .intro-greeting {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .about-slide .intro-signature {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-top: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        body.dark-mode .about-slide {
+            background: #2d2d2d;
         }
 
         /* Quotes Section - Handwritten Notes */
@@ -1508,12 +1481,26 @@
         </div>
     </div>
 
-    <!-- About Section -->
-    <section class="about" id="about">
+    <!-- About Slider Section -->
+    <section class="about-slider-section" id="about">
         <div class="container">
-            <h2 class="section-title">על הספר</h2>
-            <div class="about-text">
-                <p>רגע אחד הוא היה שם, בטיול הגדול, נושם אוויר פסגות ומתכנן את החזרה הקרובה לניו-יורק. רגע לאחר מכן - השמיים נפלו. ב-7 באוקטובר נגמרו התירוצים, נשברו הכלים, והמציאות הישראלית התפצלה לשניים. במקום המטוס לתפוח הגדול, מצא עצמו טל עולה על מדים ירוקים אל הלא נודע.</p>
+            <div class="about-slider-nav">
+                <button class="about-nav-btn active" onclick="showAboutSlide(0)">על הספר</button>
+                <button class="about-nav-btn" onclick="showAboutSlide(1)">מי אני?</button>
+            </div>
+            <div class="about-slider">
+                <div class="about-slides" id="aboutSlides">
+                    <div class="about-slide">
+                        <p>רגע אחד הוא היה שם, בטיול הגדול, נושם אוויר פסגות ומתכנן את החזרה הקרובה לניו-יורק. רגע לאחר מכן - השמיים נפלו. ב-7 באוקטובר נגמרו התירוצים, נשברו הכלים, והמציאות הישראלית התפצלה לשניים. במקום המטוס לתפוח הגדול, מצא עצמו טל עולה על מדים ירוקים אל הלא נודע.</p>
+                    </div>
+                    <div class="about-slide">
+                        <p class="intro-greeting">אהלן אני טל,</p>
+                        <p>אחד כמו כולם, צנחן, איש פשוט, חייל קטן.</p>
+                        <p>החלטתי לשתף את הסיפורים שמאחורי הקלעים, את החוויות האישיות של הלוחם שבקצה, זה שלובש מדים ירוקים. את נקודת המבט שלי – מי יודע, אולי חלקכם תתחברו ותדהו.</p>
+                        <p>בין לחימה להפוגה, מצאתי פיסת נחמה בכתיבה. מתוך רצון להנציח, כדי שנזכור את רגעי האור בחשיכה.</p>
+                        <p class="intro-signature">— טל</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1770,13 +1757,17 @@
         setInterval(() => changeQuote(1), 4000);
     </script>
 
-    <!-- Who Am I Expand Script -->
+    <!-- About Slider Script -->
     <script>
-        function toggleWhoAmI() {
-            const content = document.getElementById('whoAmIExpand');
-            const header = document.querySelector('.who-am-i-header');
-            content.classList.toggle('open');
-            header.classList.toggle('open');
+        function showAboutSlide(index) {
+            const slides = document.getElementById('aboutSlides');
+            const buttons = document.querySelectorAll('.about-nav-btn');
+
+            slides.style.transform = `translateX(${index * 100}%)`;
+
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
         }
     </script>
 
@@ -1815,36 +1806,6 @@
             }
         }
     </script>
-
-    <!-- Who Am I - Bottom Section -->
-    <section class="who-am-i-bottom" id="who-am-i">
-        <div class="container">
-            <button class="who-am-i-header" onclick="toggleWhoAmI()">
-                <h2>מי אני?</h2>
-                <span class="toggle-arrow">▼</span>
-            </button>
-            <div class="who-am-i-content-expand" id="whoAmIExpand">
-                <div class="intro-text-bottom">
-                    <p class="intro-greeting">אהלן אני טל,</p>
-                    <p>אחד כמו כולם, צנחן, איש פשוט, חייל קטן.</p>
-
-                    <p>החלטתי לשתף את הסיפורים שמאחורי הקלעים, את החוויות האישיות של הלוחם שבקצה, זה שלובש מדים ירוקים.</p>
-
-                    <p>את נקודת המבט שלי – מי יודע, אולי חלקכם תתחברו ותדהו.</p>
-
-                    <p>ספר זה נכתב בהשראתם של גיבורי ישראל, בהשפעת החוויות האישיות שעברתי לאורך מלחמת חרבות ברזל. רק אני והמחברת.</p>
-
-                    <p>בין לחימה להפוגה, מצאתי פיסת נחמה בכתיבה. מתוך רצון להנציח, כדי שנזכור את רגעי האור בחשיכה.</p>
-
-                    <p>שנעריך את זה שאנחנו עם יחיד ומיוחד, שלא נשכח לתת יד, שנדע מהי אהבת אמת ונמשיך לתת ולחבק.</p>
-
-                    <p class="intro-wish">אני מאחל לכולנו ימים טובים יותר, שהחטופים ישובו, שהחיילים ינוחו.</p>
-
-                    <p class="intro-signature">— טל</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer>
