@@ -11,7 +11,7 @@
     <!-- Google Fonts - Beautiful Hebrew fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Rubik:wght@300;400;500;600&family=Frank+Ruhl+Libre:wght@400;500;700&family=Suez+One&family=Karantina:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Rubik:wght@300;400;500;600&family=Frank+Ruhl+Libre:wght@400;500;700&family=Suez+One&family=Karantina:wght@300;400;700&family=Caveat:wght@400;500;600;700&family=Gveret+Levin+AlefAlefAlef&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -261,120 +261,194 @@
             font-weight: 300;
         }
 
-        /* Quotes Section - Creative Diagonal Design */
+        /* Quotes Section - Handwritten Notes */
         .quotes {
             padding: 5rem 2rem;
-            background: linear-gradient(135deg, var(--bg-warm) 0%, var(--bg-cream) 50%, var(--bg-warm) 100%);
+            background: var(--bg-warm);
             position: relative;
             overflow: hidden;
         }
 
-        .quotes::before {
-            content: '"';
-            position: absolute;
-            top: -50px;
-            right: 5%;
-            font-size: 20rem;
-            font-family: Georgia, serif;
-            color: var(--accent);
-            opacity: 0.05;
-            pointer-events: none;
-        }
-
         .quotes .container {
-            max-width: 1000px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        .quotes-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-top: 2.5rem;
-            justify-content: center;
-        }
-
-        .quote-card {
-            background: white;
-            padding: 2rem 2.5rem;
-            border-radius: 0 30px 0 30px;
-            text-align: center;
-            transition: all 0.4s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        .quotes-slider {
             position: relative;
-            flex: 1 1 280px;
-            max-width: 320px;
-            border-right: 4px solid var(--accent);
+            height: 320px;
+            perspective: 1000px;
         }
 
-        .quote-card::before {
-            content: '"';
+        .quote-note {
             position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 3rem;
-            font-family: Georgia, serif;
-            color: var(--accent);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+            width: 90%;
+            max-width: 400px;
+            min-height: 200px;
+            background: linear-gradient(135deg, #FFFEF9 0%, #FBF8F1 100%);
+            padding: 2.5rem 2rem 2rem;
+            box-shadow:
+                0 4px 6px rgba(0,0,0,0.05),
+                0 10px 40px rgba(0,0,0,0.1),
+                inset 0 0 80px rgba(0,0,0,0.02);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        /* Paper texture lines */
+        .quote-note::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 27px,
+                rgba(139, 115, 85, 0.1) 28px
+            );
+            pointer-events: none;
+        }
+
+        /* Tape effect */
+        .quote-note::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 25px;
+            background: rgba(139, 115, 85, 0.25);
+            border-radius: 2px;
+        }
+
+        .quote-note.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        .quote-note.prev {
             opacity: 0.3;
-            line-height: 1;
+            transform: translateX(-120%) rotate(-8deg) scale(0.85);
+            z-index: 5;
         }
 
-        .quote-card:nth-child(2) {
-            border-radius: 30px 0 30px 0;
-            border-right: none;
-            border-left: 4px solid var(--accent);
+        .quote-note.next {
+            opacity: 0.3;
+            transform: translateX(20%) rotate(8deg) scale(0.85);
+            z-index: 5;
         }
 
-        .quote-card:nth-child(2)::before {
-            right: auto;
-            left: 15px;
-        }
-
-        .quote-card:nth-child(3) {
-            border-radius: 8px;
-            border-right: none;
-            border-bottom: 4px solid var(--accent);
-        }
-
-        .quote-card:nth-child(4) {
-            border-radius: 0 30px 0 30px;
-            border-top: 4px solid var(--accent);
-            border-right: none;
-        }
-
-        .quote-card:nth-child(5) {
-            border-radius: 20px;
-            border-right: none;
-            border-left: 4px solid var(--accent);
-            border-bottom: 4px solid var(--accent);
-        }
-
-        .quote-card:nth-child(5)::before {
-            right: auto;
-            left: 15px;
-        }
-
-        .quote-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(139, 115, 85, 0.15);
-        }
-
-        .quote-card p {
-            font-family: 'Frank Ruhl Libre', serif;
-            font-size: 1rem;
+        .quote-note p {
+            font-family: 'Karantina', cursive;
+            font-size: 1.6rem;
             font-weight: 400;
-            line-height: 1.8;
-            color: var(--text-dark);
+            line-height: 1.6;
+            color: #2D2926;
+            text-align: center;
             position: relative;
             z-index: 1;
         }
 
+        .quote-source {
+            font-family: 'Karantina', cursive;
+            font-size: 1rem;
+            color: var(--accent);
+            text-align: left;
+            margin-top: 1.5rem;
+            font-weight: 300;
+        }
+
+        /* Navigation dots */
+        .quotes-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .quote-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .quote-dot:hover {
+            background: var(--accent);
+            opacity: 0.7;
+        }
+
+        .quote-dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
+
+        /* Arrow buttons */
+        .quotes-arrows {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .quote-arrow {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quote-arrow:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        body.dark-mode .quote-note {
+            background: linear-gradient(135deg, #3d3d3d 0%, #2d2d2d 100%);
+        }
+
+        body.dark-mode .quote-note p {
+            color: #f0ebe3;
+        }
+
+        body.dark-mode .quote-note::before {
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 27px,
+                rgba(255, 255, 255, 0.05) 28px
+            );
+        }
+
         @media (max-width: 768px) {
-            .quote-card:nth-child(2) {
-                transform: translateY(0);
+            .quotes-slider {
+                height: 350px;
             }
-            .quote-card:nth-child(2):hover {
-                transform: translateY(-8px) scale(1.02);
+            .quote-note {
+                width: 95%;
+                padding: 2rem 1.5rem 1.5rem;
+            }
+            .quote-note p {
+                font-size: 1.4rem;
+            }
+            .quote-note.prev,
+            .quote-note.next {
+                opacity: 0;
             }
         }
 
@@ -865,27 +939,37 @@
         /* Top Header - Book Title Like Cover */
         .book-header {
             padding-top: 100px;
-            padding-bottom: 2rem;
-            text-align: center;
+            padding-bottom: 1rem;
+            padding-right: 5%;
+            text-align: right;
             background: var(--bg-cream);
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .book-header-title {
             font-family: 'Suez One', serif;
-            font-size: clamp(3rem, 8vw, 5rem);
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 400;
             color: var(--text-dark);
             letter-spacing: 0.02em;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
             line-height: 1.2;
         }
 
         .book-header-author {
             font-family: 'Karantina', cursive;
-            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
             font-weight: 300;
-            color: var(--text-secondary);
+            color: var(--accent);
             letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .book-header {
+                padding-right: 1.5rem;
+                padding-left: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -987,26 +1071,36 @@
         </div>
     </section>
 
-    <!-- Quotes Section -->
+    <!-- Quotes Section - Handwritten Notes -->
     <section class="quotes">
         <div class="container">
             <h2 class="section-title">מתוך הספר</h2>
-            <div class="quotes-grid">
-                <div class="quote-card">
+            <div class="quotes-slider" id="quotesSlider">
+                <div class="quote-note" data-index="0">
                     <p>"זה לא היה בשבילם,<br>זה היה למען כולם"</p>
+                    <div class="quote-source">— מתוך הספר</div>
                 </div>
-                <div class="quote-card">
+                <div class="quote-note" data-index="1">
                     <p>"במדים מאובקים חולם על טיולים,<br>בעיניים עצומות מסתיר את הדמעות"</p>
+                    <div class="quote-source">— לוחם שחולם</div>
                 </div>
-                <div class="quote-card">
+                <div class="quote-note" data-index="2">
                     <p>"פה כולנו חתיכות קטנות מפאזל אחד<br>שעוד מרכיב את עצמו בלילות"</p>
+                    <div class="quote-source">— מתוך הספר</div>
                 </div>
-                <div class="quote-card">
+                <div class="quote-note" data-index="3">
                     <p>"פה מהר מדי שוכחים<br>איזו מציאות זו מלאה בגיבורים"</p>
+                    <div class="quote-source">— מספרים ואנשים</div>
                 </div>
-                <div class="quote-card">
+                <div class="quote-note" data-index="4">
                     <p>"בחיוך בין המילים מסתיר כאבים,<br>ובחיבוקים ארוכים לרגע שקט לי בפנים"</p>
+                    <div class="quote-source">— לוחם שחולם</div>
                 </div>
+            </div>
+            <div class="quotes-nav" id="quotesNav"></div>
+            <div class="quotes-arrows">
+                <button class="quote-arrow" onclick="changeQuote(1)">→</button>
+                <button class="quote-arrow" onclick="changeQuote(-1)">←</button>
             </div>
         </div>
     </section>
@@ -1098,6 +1192,57 @@
 
         // Auto-advance every 5 seconds
         setInterval(() => moveGallery(-1), 5000);
+    </script>
+
+    <!-- Quotes Slider Script -->
+    <script>
+        let currentQuote = 0;
+        const quoteNotes = document.querySelectorAll('.quote-note');
+        const totalQuotes = quoteNotes.length;
+        const quotesNav = document.getElementById('quotesNav');
+
+        // Create navigation dots
+        for (let i = 0; i < totalQuotes; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'quote-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToQuote(i);
+            quotesNav.appendChild(dot);
+        }
+
+        function updateQuotes() {
+            quoteNotes.forEach((note, i) => {
+                note.classList.remove('active', 'prev', 'next');
+                if (i === currentQuote) {
+                    note.classList.add('active');
+                } else if (i === (currentQuote - 1 + totalQuotes) % totalQuotes) {
+                    note.classList.add('prev');
+                } else if (i === (currentQuote + 1) % totalQuotes) {
+                    note.classList.add('next');
+                }
+            });
+
+            document.querySelectorAll('.quote-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentQuote);
+            });
+        }
+
+        function changeQuote(direction) {
+            currentQuote += direction;
+            if (currentQuote < 0) currentQuote = totalQuotes - 1;
+            if (currentQuote >= totalQuotes) currentQuote = 0;
+            updateQuotes();
+        }
+
+        function goToQuote(index) {
+            currentQuote = index;
+            updateQuotes();
+        }
+
+        // Initialize
+        updateQuotes();
+
+        // Auto-advance quotes every 4 seconds
+        setInterval(() => changeQuote(1), 4000);
     </script>
 
     <!-- Footer -->
