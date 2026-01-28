@@ -160,21 +160,52 @@
             box-shadow: 0 8px 25px rgba(139, 115, 85, 0.35);
         }
 
-        .book-cover-wrapper {
+        .book-covers-wrapper {
             display: flex;
             justify-content: center;
+            align-items: flex-start;
+            gap: 1rem;
         }
 
-        .book-cover {
-            max-width: 300px;
+        .book-cover, .book-back {
+            max-width: 260px;
             width: 100%;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
             border-radius: 4px;
             transition: transform 0.5s ease;
         }
 
+        .book-back {
+            max-width: 220px;
+            transform: rotate(2deg);
+        }
+
+        .book-cover {
+            transform: rotate(-1deg);
+            z-index: 2;
+        }
+
         .book-cover:hover {
-            transform: scale(1.03) rotate(-1deg);
+            transform: scale(1.03) rotate(-2deg);
+        }
+
+        .book-back:hover {
+            transform: scale(1.03) rotate(3deg);
+        }
+
+        @media (max-width: 900px) {
+            .book-covers-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .book-back {
+                max-width: 200px;
+                order: 2;
+            }
+            .book-cover {
+                max-width: 240px;
+                order: 1;
+            }
         }
 
         /* Buy + Donation Banner - High visibility */
@@ -450,6 +481,164 @@
             .quote-note.next {
                 opacity: 0;
             }
+        }
+
+        /* Reviews Section */
+        .reviews {
+            padding: 5rem 2rem;
+            background: var(--bg-cream);
+        }
+
+        .reviews .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .review-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .review-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 3rem;
+            font-family: Georgia, serif;
+            color: var(--accent);
+            opacity: 0.2;
+            line-height: 1;
+        }
+
+        .review-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .review-author {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .review-stars {
+            color: #F4C430;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        /* Review Form */
+        .review-form-wrapper {
+            background: var(--bg-warm);
+            padding: 2.5rem;
+            border-radius: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .review-form-wrapper h3 {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .review-form input,
+        .review-form textarea {
+            padding: 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            font-family: 'Rubik', sans-serif;
+            font-size: 1rem;
+            background: white;
+            transition: border-color 0.3s;
+        }
+
+        .review-form input:focus,
+        .review-form textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .review-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            direction: ltr;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 2rem;
+            color: var(--border-light);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label {
+            color: #F4C430;
+        }
+
+        .star-rating:hover label {
+            color: var(--border-light);
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #F4C430;
+        }
+
+        .review-form .btn {
+            margin-top: 0.5rem;
+        }
+
+        .review-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        body.dark-mode .review-card,
+        body.dark-mode .review-form input,
+        body.dark-mode .review-form textarea {
+            background: #2d2d2d;
+        }
+
+        body.dark-mode .review-form-wrapper {
+            background: #252525;
         }
 
         /* Gallery Section */
@@ -936,23 +1125,22 @@
             transform: scale(1.1);
         }
 
-        /* Hero Title Styling */
+        /* Hero Title Styling - Original Centered Style */
         .hero-title {
-            font-family: 'Suez One', serif;
-            font-size: clamp(2.8rem, 7vw, 4.5rem);
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(2.8rem, 6vw, 4rem);
             font-weight: 400;
             color: var(--text-dark);
-            letter-spacing: 0.02em;
-            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
             line-height: 1.1;
         }
 
         .hero-author {
-            font-family: 'Karantina', cursive;
-            font-size: clamp(1.4rem, 3.5vw, 2rem);
-            font-weight: 300;
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.25rem;
+            font-weight: 500;
             color: var(--accent);
-            letter-spacing: 0.05em;
             margin-bottom: 1.5rem;
         }
     </style>
@@ -1012,7 +1200,8 @@
                 <p class="tagline">יומן מסע פנימי שנכתב בין לחימה להפוגה, בין הפחד הקיומי בחזית לשקט המתעתע של העורף.</p>
                 <a href="#buy" class="btn btn-primary">לרכישת הספר</a>
             </div>
-            <div class="book-cover-wrapper">
+            <div class="book-covers-wrapper">
+                <img src="assets/book-back.png" alt="גב הספר מציאות כפולה" class="book-back">
                 <img src="assets/book-cover.png" alt="כריכת הספר מציאות כפולה" class="book-cover">
             </div>
         </div>
@@ -1076,6 +1265,18 @@
                     <p>"בחיוך בין המילים מסתיר כאבים,<br>ובחיבוקים ארוכים לרגע שקט לי בפנים"</p>
                     <div class="quote-source">— לוחם שחולם</div>
                 </div>
+                <div class="quote-note" data-index="5">
+                    <p>"בין חלום לחלום, בין תקווה לדמעה,<br>בא לי להאמין שלכל דבר יש סיבה"</p>
+                    <div class="quote-source">— חלום רודף חלום</div>
+                </div>
+                <div class="quote-note" data-index="6">
+                    <p>"שלא נשכח שכולנו אחים,<br>אין דבר יפה מזוג אחים,<br>תהנו מהדרך אנשים"</p>
+                    <div class="quote-source">— חלום רודף חלום</div>
+                </div>
+                <div class="quote-note" data-index="7">
+                    <p>"שמור על עצמך!<br>שומר עליי!<br>שומרים שומרים עליי"</p>
+                    <div class="quote-source">— מתוך הספר</div>
+                </div>
             </div>
             <div class="quotes-nav" id="quotesNav"></div>
             <div class="quotes-arrows">
@@ -1131,6 +1332,57 @@
                 <button class="gallery-btn" onclick="moveGallery(1)">→</button>
                 <div class="gallery-dots" id="galleryDots"></div>
                 <button class="gallery-btn" onclick="moveGallery(-1)">←</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <h2 class="section-title">מה אומרים הקוראים</h2>
+
+            <!-- Approved Reviews -->
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"ספר שנוגע בלב. כל מילה מרגישה אמיתית, כל עמוד מספר סיפור של כולנו."</p>
+                    <div class="review-author">— קורא ראשון</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"נכתב מהלב, ישר אל הלב. חובה לכל מי שרוצה להבין את המציאות שלנו."</p>
+                    <div class="review-author">— קוראת</div>
+                </div>
+            </div>
+
+            <!-- Review Submission Form -->
+            <div class="review-form-wrapper">
+                <h3>שתפו את החוויה שלכם</h3>
+                <form class="review-form" action="https://formsubmit.co/Talbooks12@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="ביקורת חדשה על הספר - ממתינה לאישור">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+
+                    <input type="text" name="name" placeholder="השם שלכם" required>
+
+                    <div class="star-rating">
+                        <input type="radio" name="rating" value="5" id="star5" required>
+                        <label for="star5">★</label>
+                        <input type="radio" name="rating" value="4" id="star4">
+                        <label for="star4">★</label>
+                        <input type="radio" name="rating" value="3" id="star3">
+                        <label for="star3">★</label>
+                        <input type="radio" name="rating" value="2" id="star2">
+                        <label for="star2">★</label>
+                        <input type="radio" name="rating" value="1" id="star1">
+                        <label for="star1">★</label>
+                    </div>
+
+                    <textarea name="review" placeholder="מה חשבתם על הספר?" required></textarea>
+
+                    <button type="submit" class="btn btn-primary">שליחת ביקורת</button>
+                </form>
+                <p class="review-note">* הביקורת תפורסם לאחר אישור</p>
             </div>
         </div>
     </section>
