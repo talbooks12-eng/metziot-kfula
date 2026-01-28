@@ -241,9 +241,9 @@
             letter-spacing: -0.01em;
         }
 
-        /* Who Am I Section */
+        /* Who Am I Section - Collapsible */
         .who-am-i {
-            padding: 5rem 2rem;
+            padding: 2rem 2rem;
             background: var(--bg-cream);
         }
 
@@ -252,12 +252,60 @@
             margin: 0 auto;
         }
 
+        .who-am-i-toggle {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            border: none;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+        }
+
+        .who-am-i-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 115, 85, 0.4);
+        }
+
+        .toggle-title {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+
+        .toggle-icon {
+            font-size: 1.8rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        .who-am-i-toggle.open .toggle-icon {
+            transform: rotate(45deg);
+        }
+
         .intro-text {
             background: linear-gradient(135deg, #FFFEF9 0%, #FBF8F1 100%);
-            padding: 3rem;
-            border-radius: 8px;
+            padding: 2.5rem;
+            border-radius: 0 0 12px 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             position: relative;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.5s ease, margin 0.5s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-top: 0;
+        }
+
+        .intro-text.open {
+            max-height: 1500px;
+            padding: 2.5rem;
+            margin-top: -5px;
         }
 
         .intro-text::before {
@@ -273,36 +321,36 @@
                 rgba(139, 115, 85, 0.08) 31px
             );
             pointer-events: none;
-            border-radius: 8px;
+            border-radius: 0 0 12px 12px;
         }
 
         .intro-text p {
             font-family: 'Gveret Levin AlefAlefAlef', 'Karantina', cursive;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             line-height: 1.9;
             color: var(--text-dark);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             position: relative;
             z-index: 1;
         }
 
         .intro-greeting {
-            font-size: 1.5rem !important;
+            font-size: 1.4rem !important;
             font-weight: 600;
             color: var(--accent) !important;
         }
 
         .intro-wish {
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             font-style: italic;
         }
 
         .intro-signature {
-            font-size: 1.4rem !important;
+            font-size: 1.3rem !important;
             font-weight: 600;
             color: var(--accent) !important;
             text-align: left;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             margin-bottom: 0 !important;
         }
 
@@ -316,6 +364,10 @@
                 transparent 30px,
                 rgba(255, 255, 255, 0.03) 31px
             );
+        }
+
+        body.dark-mode .who-am-i-toggle {
+            background: linear-gradient(135deg, #5a4a3a 0%, #4a3a2a 100%);
         }
 
         /* About Section */
@@ -1266,11 +1318,14 @@
         </div>
     </section>
 
-    <!-- Who Am I Section -->
+    <!-- Who Am I Section - Collapsible -->
     <section class="who-am-i" id="intro">
         <div class="container">
-            <h2 class="section-title">מי אני?</h2>
-            <div class="intro-text">
+            <button class="who-am-i-toggle" onclick="toggleWhoAmI()">
+                <span class="toggle-title">מי אני?</span>
+                <span class="toggle-icon">+</span>
+            </button>
+            <div class="intro-text" id="whoAmIContent">
                 <p class="intro-greeting">אהלן אני טל,</p>
                 <p>אחד כמו כולם,<br>
                 צנחן,<br>
@@ -1563,6 +1618,16 @@
 
         // Auto-advance quotes every 4 seconds
         setInterval(() => changeQuote(1), 4000);
+    </script>
+
+    <!-- Who Am I Toggle Script -->
+    <script>
+        function toggleWhoAmI() {
+            const content = document.getElementById('whoAmIContent');
+            const button = document.querySelector('.who-am-i-toggle');
+            content.classList.toggle('open');
+            button.classList.toggle('open');
+        }
     </script>
 
     <!-- Footer -->
