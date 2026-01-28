@@ -775,12 +775,12 @@
 
         /* About Slider Section */
         .about-slider-section {
-            padding: 3rem 2rem;
+            padding: 2.5rem 2rem;
             background: var(--bg-cream);
         }
 
         .about-slider-section .container {
-            max-width: 700px;
+            max-width: 650px;
             margin: 0 auto;
         }
 
@@ -788,15 +788,15 @@
             display: flex;
             justify-content: center;
             gap: 0;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .about-nav-btn {
             background: transparent;
             border: 2px solid var(--accent);
-            padding: 0.8rem 2rem;
+            padding: 0.6rem 1.5rem;
             font-family: 'Secular One', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--accent);
             cursor: pointer;
             transition: all 0.3s ease;
@@ -823,9 +823,9 @@
 
         .about-slider {
             overflow: hidden;
-            border-radius: 16px;
+            border-radius: 12px;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .about-slides {
@@ -835,30 +835,34 @@
 
         .about-slide {
             min-width: 100%;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
             text-align: center;
         }
 
         .about-slide p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            line-height: 1.9;
+            line-height: 1.7;
             font-weight: 300;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .about-slide p:last-child {
+            margin-bottom: 0;
         }
 
         .about-slide .intro-greeting {
             font-family: 'Secular One', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: var(--accent);
             margin-bottom: 1rem;
         }
 
         .about-slide .intro-signature {
             font-family: 'Secular One', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--accent);
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             margin-bottom: 0;
         }
 
@@ -1429,9 +1433,9 @@
             }
         }
 
-        /* Gallery Section - Auto-scrolling Marquee */
+        /* Gallery Section - Auto-scrolling showing 3 at a time */
         .gallery {
-            padding: 5rem 0;
+            padding: 4rem 0;
             background: var(--bg-cream);
             overflow: hidden;
         }
@@ -1453,13 +1457,15 @@
         .gallery-marquee {
             overflow: hidden;
             width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
             position: relative;
         }
 
         .gallery-track {
             display: flex;
             gap: 1.5rem;
-            animation: marquee 60s linear infinite;
+            animation: marquee 45s linear infinite;
             width: max-content;
         }
 
@@ -1478,48 +1484,56 @@
 
         .gallery-item {
             flex-shrink: 0;
-            width: 280px;
+            width: calc((1000px - 3rem) / 3);
         }
 
         .gallery-item img {
             width: 100%;
-            height: 320px;
+            height: 280px;
             object-fit: contain;
             background: white;
             border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            padding: 1.5rem;
+            padding: 1.25rem;
             transition: transform 0.3s ease;
         }
 
         .gallery-item img:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
-        /* Gallery mobile responsive */
+        /* Gallery mobile responsive - always show 3 */
         @media (max-width: 768px) {
             .gallery {
                 padding: 3rem 0;
             }
+            .gallery-marquee {
+                max-width: 100%;
+            }
             .gallery-item {
-                width: 220px;
+                width: calc((100vw - 3rem) / 3);
             }
             .gallery-item img {
-                height: 260px;
-                padding: 1rem;
+                height: 200px;
+                padding: 0.75rem;
             }
             .gallery-track {
-                gap: 1rem;
-                animation-duration: 30s;
+                gap: 0.75rem;
+                animation-duration: 35s;
             }
         }
 
         @media (max-width: 480px) {
             .gallery-item {
-                width: 180px;
+                width: calc((100vw - 2rem) / 3);
             }
             .gallery-item img {
-                height: 220px;
+                height: 140px;
+                padding: 0.5rem;
+                border-radius: 8px;
+            }
+            .gallery-track {
+                gap: 0.5rem;
             }
         }
 
