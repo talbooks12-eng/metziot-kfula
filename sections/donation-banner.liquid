@@ -1,0 +1,224 @@
+{{ 'book-custom.css' | asset_url | stylesheet_tag }}
+
+<div class="donation-banner color-{{ section.settings.color_scheme }}">
+  <div class="donation-banner__container page-width">
+    <div class="donation-banner__icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+      </svg>
+    </div>
+
+    <div class="donation-banner__content">
+      <h3 class="donation-banner__title">{{ section.settings.title }}</h3>
+      <div class="donation-banner__text">{{ section.settings.text }}</div>
+
+      {% if section.settings.show_logo and section.settings.partner_logo != blank %}
+        <div class="donation-banner__partner">
+          <span class="donation-banner__partner-label">{{ section.settings.partner_label }}</span>
+          <img
+            src="{{ section.settings.partner_logo | image_url: width: 200 }}"
+            alt="{{ section.settings.partner_name }}"
+            class="donation-banner__partner-logo"
+            loading="lazy"
+          >
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}" class="donation-banner__button">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .donation-banner {
+    padding: clamp(2rem, 5vw, 4rem) 0;
+    background: linear-gradient(135deg, #E8E0D5 0%, #C4B7A6 100%);
+    text-align: center;
+  }
+
+  html[dir="rtl"] .donation-banner {
+    direction: rtl;
+  }
+
+  .donation-banner__container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .donation-banner__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    color: #8B4D4D;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .donation-banner__icon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .donation-banner__title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .donation-banner__text {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: 1.8;
+    color: #3D3D32;
+    margin-bottom: 1.5rem;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .donation-banner__partner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+  }
+
+  .donation-banner__partner-label {
+    font-size: 0.875rem;
+    color: #5C5C4D;
+    font-weight: 500;
+  }
+
+  .donation-banner__partner-logo {
+    max-width: 180px;
+    height: auto;
+  }
+
+  .donation-banner__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #3D3D32;
+    color: #FAF8F5;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+
+  .donation-banner__button:hover {
+    background: #5C5C4D;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 768px) {
+    .donation-banner {
+      padding: 2rem 0;
+    }
+
+    .donation-banner__icon {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1rem;
+    }
+
+    .donation-banner__icon svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "באנר תרומה",
+  "tag": "section",
+  "class": "section-donation-banner",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "ערכת צבעים",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "כותרת",
+      "default": "חלק מהרכישה תורם לפרויקט שפת הים"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "תיאור",
+      "default": "<p>שפת הים הינו פרויקט שקם במהלך המלחמה המקיים סדנאות ייעודית לאנשי מילואים ומעגלי שכול. הפרויקט מאפשר חיזוק עוגנים אישיים והקניית כלים לויסות מערכת העצבים לטובת התמודדות עם אתגרי המלחמה דרך עולמות הנשימה, הצלילה החופשית והקרח. עד היום עברו תחת כנפי הפרויקט מעל 2,000 משתתפים, והמלאכה עוד מרובה.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logo",
+      "label": "הצג לוגו שותף",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "partner_logo",
+      "label": "לוגו השותף"
+    },
+    {
+      "type": "text",
+      "id": "partner_name",
+      "label": "שם השותף",
+      "default": "שפת הים"
+    },
+    {
+      "type": "text",
+      "id": "partner_label",
+      "label": "תווית שותף",
+      "default": "בשיתוף עם"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "טקסט כפתור",
+      "default": "למידע נוסף על הפרויקט"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "קישור הכפתור"
+    }
+  ],
+  "presets": [
+    {
+      "name": "באנר תרומה",
+      "settings": {
+        "title": "חלק מהרכישה תורם לפרויקט שפת הים",
+        "text": "<p>שפת הים הינו פרויקט שקם במהלך המלחמה המקיים סדנאות ייעודית לאנשי מילואים ומעגלי שכול. הפרויקט מאפשר חיזוק עוגנים אישיים והקניית כלים לויסות מערכת העצבים לטובת התמודדות עם אתגרי המלחמה דרך עולמות הנשימה, הצלילה החופשית והקרח. עד היום עברו תחת כנפי הפרויקט מעל 2,000 משתתפים, והמלאכה עוד מרובה.</p>",
+        "partner_label": "בשיתוף עם",
+        "partner_name": "שפת הים",
+        "button_label": "למידע נוסף על הפרויקט"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -294,9 +294,9 @@
 
         .quote-card p {
             font-family: 'Frank Ruhl Libre', serif;
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 400;
-            line-height: 1.8;
+            line-height: 1.7;
             color: var(--text-dark);
         }
 
@@ -710,7 +710,57 @@
         }
 
         body.large-text .quote-card p {
-            font-size: 1.6rem;
+            font-size: 1.3rem;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            --bg-cream: #1a1a1a;
+            --bg-warm: #252525;
+            --bg-soft: #2d2d2d;
+            --text-dark: #f0ebe3;
+            --text-secondary: #c4bfb8;
+            --accent: #a08060;
+            --accent-dark: #8b7355;
+            --border-light: #3d3d3d;
+        }
+
+        body.dark-mode nav {
+            background: rgba(26, 26, 26, 0.97);
+        }
+
+        body.dark-mode .quote-card,
+        body.dark-mode .gallery-item img,
+        body.dark-mode .popup-modal {
+            background: #2d2d2d;
+        }
+
+        body.dark-mode .popup-badge {
+            background: #2d3d2d;
+            color: #7cb87c;
+        }
+
+        body.dark-mode footer {
+            background: #111;
+        }
+
+        body.dark-mode .buy-banner {
+            background: var(--accent-dark);
+        }
+
+        /* Dark mode toggle button in nav */
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -737,6 +787,9 @@
         </button>
         <div class="accessibility-menu" id="accessibilityMenu" role="menu">
             <h3>הגדרות נגישות</h3>
+            <div class="accessibility-option" onclick="toggleDarkMode()" role="menuitem">
+                🌙 מצב לילה
+            </div>
             <div class="accessibility-option" onclick="toggleHighContrast()" role="menuitem">
                 🔲 ניגודיות גבוהה
             </div>
@@ -832,19 +885,7 @@
                         <img src="illustrations/kfar-aza.png" alt="כפר עזה">
                     </figure>
                     <figure class="gallery-item">
-                        <img src="illustrations/shabbat.png" alt="שולחן שבת">
-                    </figure>
-                    <figure class="gallery-item">
                         <img src="illustrations/soldiers.png" alt="לוחמים">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/battery.png" alt="סוללה חלשה">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/earphones.png" alt="אוזניות">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/cafe.png" alt="בית קפה">
                     </figure>
                 </div>
             </div>
@@ -934,6 +975,11 @@
             menu.classList.toggle('open');
         }
 
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
         function toggleHighContrast() {
             document.body.classList.toggle('high-contrast');
             localStorage.setItem('highContrast', document.body.classList.contains('high-contrast'));
@@ -945,12 +991,16 @@
         }
 
         function resetAccessibility() {
-            document.body.classList.remove('high-contrast', 'large-text');
+            document.body.classList.remove('high-contrast', 'large-text', 'dark-mode');
             localStorage.removeItem('highContrast');
             localStorage.removeItem('largeText');
+            localStorage.removeItem('darkMode');
         }
 
         // Load saved preferences
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
         if (localStorage.getItem('highContrast') === 'true') {
             document.body.classList.add('high-contrast');
         }

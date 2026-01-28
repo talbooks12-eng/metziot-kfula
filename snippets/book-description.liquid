@@ -1,0 +1,72 @@
+{% comment %}
+  Book Description for "מציאות כפולה" by טל הוך
+  Use this snippet anywhere you want to display the book description
+  Usage: {% render 'book-description' %}
+{% endcomment %}
+
+<div class="book-description">
+  <div class="book-description__intro">
+    <p>רגע אחד הוא היה שם, בטיול הגדול, נושם אוויר פסגות ומתכנן את החזרה הקרובה לניו-יורק. רגע לאחר מכן- השמיים נפלו.</p>
+    <p>ב-7 באוקטובר נגמרו התירוצים, נשברו הכלים, והמציאות הישראלית התפצלה לשניים. במקום המטוס לתפוח הגדול, מצא עצמו טל עולה על מדים ירוקים אל הלא נודע.</p>
+  </div>
+
+  <div class="book-description__about">
+    <p>"מציאות כפולה" הוא יומן מסע פנימי שנכתב בין לחימה להפוגה, בין הפחד הקיומי בחזית לשקט המתעתע של העורף. זהו לא ספר על אסטרטגיה צבאית, אלא אסופה של רגעים, מחשבות ורגשות של "חייל קטן", שמנסה למצוא היגיון בתוך הכאוס ונחמה בתוך החשיכה.</p>
+    <p>בכנות שורפת ובשפה ישירה, הספר לוקח את הקורא אל המקומות שבהם המילים נגמרות והלב מדבר. הוא מעניק קול ללוחמים ששותקים, לאלו שחיים מסופ"ש לסופ"ש, ולדור שלם של מילואימניקים שנאלצים לחיות בין עולמות מתנגשים: בין בתי הקפה והשגרה שחזרה למסלולה, לבין הבוץ והקרבות שלא עוזבים את המחשבות לרגע.</p>
+  </div>
+
+  <div class="book-description__author">
+    <h3>על המחבר:</h3>
+    <p>טל הוך, בן 24, נחת בישראל אחרי הטיול הגדול לביקור מולדת, עם תוכנית ברורה, אלא שאז הגיע ה-7 באוקטובר וטרף את הקלפים.</p>
+    <p>מאז הוא משרת כלוחם במילואים בחטיבת הצנחנים 55 ("חוד החנית"). שנה לאחר פרוץ המלחמה, ובעודה מתקיימת, טל החל את לימודיו לתואר ביזמות ומנהל עסקים באוניברסיטת רייכמן, תוך שהוא ממשיך בשירות מילואים פעיל.</p>
+    <p>בספר ביכוריו הוא חושף את התחושות והרגשות העמוקים ביותר, ומציג את המציאות המורכבת שהלוחמים חיים בה. בכך, הוא מבקש לעזור לאלו שמתקשים להבין מאיפה הם באים, ובו בזמן להעניק חיבוק ונחמה לכל מי שחי את המציאות הכפולה הזו יום-יום.</p>
+  </div>
+</div>
+
+<style>
+  .book-description {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.0625rem;
+    line-height: 1.9;
+    color: var(--book-text-secondary, #4A4A4A);
+  }
+
+  html[dir="rtl"] .book-description {
+    text-align: right;
+  }
+
+  .book-description p {
+    margin-bottom: 1.25rem;
+  }
+
+  .book-description__intro {
+    font-size: 1.125rem;
+    color: var(--book-text-primary, #1A1A1A);
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--book-sand, #D4CBC0);
+  }
+
+  .book-description__about {
+    margin-bottom: 2rem;
+  }
+
+  .book-description__author {
+    background: var(--book-cream, #F5F2ED);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+  }
+
+  .book-description__author h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--book-text-primary, #1A1A1A);
+    margin-bottom: 1rem;
+  }
+
+  .book-description__author p:last-child {
+    margin-bottom: 0;
+  }
+</style>
