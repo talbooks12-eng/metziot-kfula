@@ -45,7 +45,7 @@
 
         /* Urgency Banner */
         .urgency-banner {
-            background: linear-gradient(90deg, #c0392b 0%, #e74c3c 50%, #c0392b 100%);
+            background: linear-gradient(90deg, var(--accent-dark) 0%, var(--accent) 50%, var(--accent-dark) 100%);
             color: white;
             text-align: center;
             padding: 0.75rem 1rem;
@@ -115,11 +115,11 @@
         .hero-price-new {
             font-size: 2.2rem;
             font-family: 'Secular One', sans-serif;
-            color: #c0392b;
+            color: var(--accent-dark);
         }
 
         .hero-price-badge {
-            background: #c0392b;
+            background: var(--accent);
             color: white;
             font-size: 0.8rem;
             padding: 0.3rem 0.7rem;
@@ -1914,7 +1914,7 @@
     <div class="urgency-banner">
         <div class="container">
             <div class="urgency-text">
-                🔥 <strong>מבצע השקה!</strong> מחיר מיוחד לזמן מוגבל
+                <strong>מבצע השקה</strong> · מחיר מיוחד לזמן מוגבל
             </div>
             <div class="countdown" id="countdown">
                 <div class="countdown-item">
