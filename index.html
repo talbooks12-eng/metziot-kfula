@@ -1429,15 +1429,17 @@
             }
         }
 
-        /* Gallery Section */
+        /* Gallery Section - Auto-scrolling Marquee */
         .gallery {
-            padding: 5rem 2rem;
+            padding: 5rem 0;
             background: var(--bg-cream);
+            overflow: hidden;
         }
 
         .gallery .container {
             max-width: 1000px;
             margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .gallery-subtitle {
@@ -1448,106 +1450,77 @@
             font-weight: 300;
         }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        .gallery-marquee {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        .gallery-track {
+            display: flex;
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            animation: marquee 60s linear infinite;
+            width: max-content;
+        }
+
+        .gallery-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
         .gallery-item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-shrink: 0;
+            width: 280px;
         }
 
         .gallery-item img {
-            max-width: 100%;
-            max-height: 350px;
-            width: auto;
-            height: auto;
+            width: 100%;
+            height: 320px;
             object-fit: contain;
             background: white;
             border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.1);
             padding: 1.5rem;
-            transition: transform 0.3s ease, opacity 0.5s ease;
+            transition: transform 0.3s ease;
         }
 
         .gallery-item img:hover {
-            transform: scale(1.03);
+            transform: scale(1.05);
         }
 
-        .gallery-item.rotating {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .gallery-item.rotating img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .gallery-item.rotating img.active {
-            position: relative;
-            top: auto;
-            left: auto;
-            transform: none;
-            opacity: 1;
-        }
-
-        .gallery-nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .gallery-dots {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .gallery-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--border-light);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .gallery-dot.active {
-            background: var(--accent);
-            transform: scale(1.3);
-        }
-
-        @media (max-width: 900px) {
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
+        /* Gallery mobile responsive */
+        @media (max-width: 768px) {
+            .gallery {
+                padding: 3rem 0;
             }
-            .gallery-item.rotating {
-                grid-column: span 2;
+            .gallery-item {
+                width: 220px;
+            }
+            .gallery-item img {
+                height: 260px;
+                padding: 1rem;
+            }
+            .gallery-track {
+                gap: 1rem;
+                animation-duration: 30s;
             }
         }
 
-        @media (max-width: 500px) {
-            .gallery-grid {
-                grid-template-columns: 1fr;
+        @media (max-width: 480px) {
+            .gallery-item {
+                width: 180px;
             }
-            .gallery-item.rotating {
-                grid-column: span 1;
+            .gallery-item img {
+                height: 220px;
             }
-        }
-
-        .gallery-dot.active {
-            background: var(--accent);
-            transform: scale(1.2);
         }
 
         /* Author Section */
@@ -2448,27 +2421,113 @@
         <div class="container">
             <h2 class="section-title">איורים מתוך הספר</h2>
             <p class="gallery-subtitle">כל איור מספר סיפור, כל קו משקף רגע מהמציאות הכפולה</p>
-            <div class="gallery-grid">
+        </div>
+        <div class="gallery-marquee">
+            <div class="gallery-track">
+                <!-- First set of images -->
                 <figure class="gallery-item">
                     <img src="illustrations/01-hug.jpg" alt="חיבוק">
                 </figure>
                 <figure class="gallery-item">
                     <img src="illustrations/02-mask.jpg" alt="מסכה">
                 </figure>
-                <figure class="gallery-item rotating" id="rotatingGallery">
-                    <img src="illustrations/03-cleaning.jpg" alt="מול המראה" class="active">
+                <figure class="gallery-item">
+                    <img src="illustrations/03-cleaning.jpg" alt="מול המראה">
+                </figure>
+                <figure class="gallery-item">
                     <img src="illustrations/04-mirror.jpg" alt="מציאות כפולה">
+                </figure>
+                <figure class="gallery-item">
                     <img src="illustrations/05-mirror2.jpg" alt="השתקפות">
+                </figure>
+                <figure class="gallery-item">
                     <img src="illustrations/06-flag.jpg" alt="דגל">
+                </figure>
+                <figure class="gallery-item">
                     <img src="illustrations/kfar-aza.png" alt="כפר עזה">
+                </figure>
+                <figure class="gallery-item">
                     <img src="illustrations/soldiers.png" alt="לוחמים">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/cafe.png" alt="בית קפה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/shabbat.png" alt="שבת">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/earphones.png" alt="אוזניות">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/battery.png" alt="סוללה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/05-phone.jpg" alt="טלפון">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/10-soldier.jpg" alt="חייל">
+                </figure>
+                <figure class="gallery-item">
                     <img src="illustrations/mirror-clean.png" alt="ניקוי המראה">
+                </figure>
+                <figure class="gallery-item">
                     <img src="illustrations/combat-scene.png" alt="סצנת לחימה">
+                </figure>
+                <figure class="gallery-item">
                     <img src="illustrations/beach-scene.png" alt="חוף הים">
                 </figure>
-            </div>
-            <div class="gallery-nav">
-                <div class="gallery-dots" id="galleryDots"></div>
+                <!-- Duplicate set for seamless loop -->
+                <figure class="gallery-item">
+                    <img src="illustrations/01-hug.jpg" alt="חיבוק">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/02-mask.jpg" alt="מסכה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/03-cleaning.jpg" alt="מול המראה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/04-mirror.jpg" alt="מציאות כפולה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/05-mirror2.jpg" alt="השתקפות">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/06-flag.jpg" alt="דגל">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/kfar-aza.png" alt="כפר עזה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/soldiers.png" alt="לוחמים">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/cafe.png" alt="בית קפה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/shabbat.png" alt="שבת">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/earphones.png" alt="אוזניות">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/battery.png" alt="סוללה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/05-phone.jpg" alt="טלפון">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/10-soldier.jpg" alt="חייל">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/mirror-clean.png" alt="ניקוי המראה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/combat-scene.png" alt="סצנת לחימה">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/beach-scene.png" alt="חוף הים">
+                </figure>
             </div>
         </div>
     </section>
@@ -2530,41 +2589,7 @@
     </section>
 
     <script>
-        // Rotating Gallery - Third image rotates through all
-        const rotatingGallery = document.getElementById('rotatingGallery');
-        const rotatingImages = rotatingGallery.querySelectorAll('img');
-        const totalRotatingImages = rotatingImages.length;
-        const dotsContainer = document.getElementById('galleryDots');
-        let currentRotatingIndex = 0;
-
-        // Create dots for rotating images
-        for (let i = 0; i < totalRotatingImages; i++) {
-            const dot = document.createElement('span');
-            dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
-            dot.onclick = () => goToRotatingImage(i);
-            dotsContainer.appendChild(dot);
-        }
-
-        function updateRotatingDots() {
-            document.querySelectorAll('.gallery-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentRotatingIndex);
-            });
-        }
-
-        function goToRotatingImage(index) {
-            rotatingImages[currentRotatingIndex].classList.remove('active');
-            currentRotatingIndex = index;
-            rotatingImages[currentRotatingIndex].classList.add('active');
-            updateRotatingDots();
-        }
-
-        function nextRotatingImage() {
-            const nextIndex = (currentRotatingIndex + 1) % totalRotatingImages;
-            goToRotatingImage(nextIndex);
-        }
-
-        // Auto-rotate every 3 seconds
-        setInterval(nextRotatingImage, 3000);
+        // Gallery now uses CSS animation - no JS needed
     </script>
 
     <!-- Quotes Slider Script -->
