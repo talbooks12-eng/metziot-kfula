@@ -160,52 +160,21 @@
             box-shadow: 0 8px 25px rgba(139, 115, 85, 0.35);
         }
 
-        .book-covers-wrapper {
+        .book-cover-wrapper {
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            gap: 1rem;
         }
 
-        .book-cover, .book-back {
-            max-width: 260px;
+        .book-cover {
+            max-width: 300px;
             width: 100%;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
             border-radius: 4px;
             transition: transform 0.5s ease;
         }
 
-        .book-back {
-            max-width: 220px;
-            transform: rotate(2deg);
-        }
-
-        .book-cover {
-            transform: rotate(-1deg);
-            z-index: 2;
-        }
-
         .book-cover:hover {
-            transform: scale(1.03) rotate(-2deg);
-        }
-
-        .book-back:hover {
-            transform: scale(1.03) rotate(3deg);
-        }
-
-        @media (max-width: 900px) {
-            .book-covers-wrapper {
-                flex-direction: column;
-                align-items: center;
-            }
-            .book-back {
-                max-width: 200px;
-                order: 2;
-            }
-            .book-cover {
-                max-width: 240px;
-                order: 1;
-            }
+            transform: scale(1.03) rotate(-1deg);
         }
 
         /* Buy + Donation Banner - High visibility */
@@ -1278,8 +1247,7 @@
                 <p class="tagline">יומן מסע פנימי שנכתב בין לחימה להפוגה, בין הפחד הקיומי בחזית לשקט המתעתע של העורף.</p>
                 <a href="#buy" class="btn btn-primary">לרכישת הספר</a>
             </div>
-            <div class="book-covers-wrapper">
-                <img src="assets/book-back.png" alt="גב הספר מציאות כפולה" class="book-back">
+            <div class="book-cover-wrapper">
                 <img src="assets/book-cover.png" alt="כריכת הספר מציאות כפולה" class="book-cover">
             </div>
         </div>
