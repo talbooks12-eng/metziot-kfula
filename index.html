@@ -462,6 +462,150 @@
             color: white;
         }
 
+        .checkbox-group {
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .checkbox-label a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .price-note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin: 1rem 0 0.5rem;
+        }
+
+        /* Legal Modals */
+        .legal-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 1rem;
+        }
+
+        .legal-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .legal-modal-content {
+            background: white;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .legal-close {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            line-height: 1;
+        }
+
+        .legal-modal-content h2 {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.6rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .legal-text h3 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .legal-text p, .legal-text ul {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal-text ul {
+            padding-right: 1.5rem;
+        }
+
+        .legal-update {
+            margin-top: 2rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Footer Links */
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .footer-links span {
+            color: var(--border-light);
+        }
+
+        .footer-business {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark-mode .legal-modal-content {
+            background: #2d2d2d;
+        }
+
         body.dark-mode .pricing-popup-content {
             background: #2d2d2d;
         }
@@ -1618,6 +1762,22 @@
                         <input type="text" name="הערות" placeholder="הערות מיוחדות להזמנה">
                     </div>
 
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="תנאים" required>
+                            <span>קראתי ואני מסכים/ה ל<a href="#" onclick="openTerms(); return false;">תקנון האתר</a> ול<a href="#" onclick="openPrivacy(); return false;">מדיניות הפרטיות</a> *</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="דיוור">
+                            <span>אני מעוניין/ת לקבל עדכונים על ספרים חדשים ומבצעים (ניתן להסיר בכל עת)</span>
+                        </label>
+                    </div>
+
+                    <p class="price-note">* המחירים כוללים מע"מ. משלוח: ₪15 לכל הארץ (חינם מעל ₪150)</p>
+
                     <button type="submit" class="submit-order-btn">שליחת הזמנה</button>
                 </form>
             </div>
@@ -1639,8 +1799,11 @@
                     <div class="about-slide">
                         <p class="intro-greeting">אהלן אני טל,</p>
                         <p>אחד כמו כולם, צנחן, איש פשוט, חייל קטן.</p>
-                        <p>החלטתי לשתף את הסיפורים שמאחורי הקלעים, את החוויות האישיות של הלוחם שבקצה, זה שלובש מדים ירוקים. את נקודת המבט שלי – מי יודע, אולי חלקכם תתחברו ותדהו.</p>
+                        <p>החלטתי לשתף את הסיפורים שמאחורי הקלעים, את החוויות האישיות של הלוחם שבקצה, זה שלובש מדים ירוקים. את נקודת המבט שלי - מי יודע, אולי חלקכם תתחברו ותזדהו.</p>
+                        <p>ספר זה נכתב בהשראתם של גיבורי ישראל, בהשפעת החוויות האישיות שעברתי לאורך מלחמת חרבות ברזל. רק אני והמחברת.</p>
                         <p>בין לחימה להפוגה, מצאתי פיסת נחמה בכתיבה. מתוך רצון להנציח, כדי שנזכור את רגעי האור בחשיכה.</p>
+                        <p>שנעריך את זה שאנחנו עם יחיד ומיוחד, שלא נשכח לתת יד. שנדע מהי אהבת אמת ונמשיך לתת ולחבק.</p>
+                        <p>אני מאחל לכולנו ימים טובים יותר, שהחטופים ישובו, שהחיילים ינוחו.</p>
                         <p class="intro-signature">— טל</p>
                     </div>
                 </div>
@@ -1952,6 +2115,35 @@
             document.getElementById('pricingStep1').style.display = 'block';
             document.getElementById('pricingStep2').style.display = 'none';
         }
+
+        // Legal modals
+        function openTerms() {
+            document.getElementById('termsModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTerms() {
+            document.getElementById('termsModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function openPrivacy() {
+            document.getElementById('privacyModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePrivacy() {
+            document.getElementById('privacyModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('termsModal').addEventListener('click', function(e) {
+            if (e.target === this) closeTerms();
+        });
+
+        document.getElementById('privacyModal').addEventListener('click', function(e) {
+            if (e.target === this) closePrivacy();
+        });
     </script>
 
     <script>
@@ -1971,8 +2163,96 @@
         }
     </script>
 
+    <!-- Terms Modal -->
+    <div class="legal-modal" id="termsModal">
+        <div class="legal-modal-content">
+            <button class="legal-close" onclick="closeTerms()">&times;</button>
+            <h2>תקנון האתר - תנאי שימוש</h2>
+            <div class="legal-text">
+                <h3>1. פרטי העסק</h3>
+                <p>שם: טל הוך<br>
+                סוג עסק: עוסק פטור<br>
+                אימייל: Talbooks12@gmail.com<br>
+                האתר עוסק במכירת הספר "מציאות כפולה" מאת טל הוך.</p>
+
+                <h3>2. מדיניות ביטולים והחזרות</h3>
+                <p>בהתאם לחוק הגנת הצרכן (מכר מרחוק), הלקוח רשאי לבטל את העסקה תוך 14 ימים מיום קבלת הספר או מיום קבלת מסמך הגילוי, לפי המאוחר מביניהם.</p>
+                <p>ביטול העסקה יתבצע באמצעות פנייה במייל לכתובת Talbooks12@gmail.com. החזר כספי יינתן תוך 14 ימי עסקים מקבלת הספר בחזרה במצב תקין.</p>
+                <p>דמי ביטול: בהתאם לחוק, עד 5% מערך העסקה או 100 ש"ח, הנמוך מביניהם.</p>
+
+                <h3>3. מדיניות אספקה ומשלוחים</h3>
+                <p>אזורי חלוקה: כל רחבי ישראל<br>
+                זמן אספקה: עד 14 ימי עסקים<br>
+                עלות משלוח: ₪15 (חינם בהזמנה מעל ₪150)</p>
+
+                <h3>4. מחירים</h3>
+                <p>כל המחירים באתר כוללים מע"מ כחוק. דמי המשלוח מוצגים בבירור לפני ביצוע ההזמנה.</p>
+                <p>מחיר קטלוגי של הספר: ₪69. מבצעים והנחות מוצגים בשקיפות מלאה.</p>
+
+                <h3>5. הגבלת אחריות</h3>
+                <p>העסק לא יישא באחריות לנזקים עקיפים הנובעים משימוש באתר או בספר. האחריות מוגבלת לערך העסקה בלבד.</p>
+
+                <h3>6. קניין רוחני</h3>
+                <p>כל התכנים באתר, לרבות טקסטים, תמונות ואיורים, הם קניינו הבלעדי של טל הוך ואין להעתיקם ללא אישור בכתב.</p>
+
+                <p class="legal-update">עדכון אחרון: ינואר 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div class="legal-modal" id="privacyModal">
+        <div class="legal-modal-content">
+            <button class="legal-close" onclick="closePrivacy()">&times;</button>
+            <h2>מדיניות פרטיות</h2>
+            <div class="legal-text">
+                <h3>1. איסוף מידע</h3>
+                <p>אנו אוספים את המידע הבא לצורך ביצוע הזמנות ומשלוחים:</p>
+                <ul>
+                    <li>שם מלא</li>
+                    <li>כתובת אימייל</li>
+                    <li>מספר טלפון</li>
+                    <li>כתובת למשלוח</li>
+                </ul>
+
+                <h3>2. שימוש במידע</h3>
+                <p>המידע משמש אך ורק לצורך:</p>
+                <ul>
+                    <li>עיבוד והשלמת הזמנות</li>
+                    <li>יצירת קשר בנוגע להזמנה</li>
+                    <li>שליחת עדכונים שיווקיים (רק אם ניתנה הסכמה מפורשת)</li>
+                </ul>
+
+                <h3>3. העברת מידע לצד שלישי</h3>
+                <p>המידע לא יימסר לצד שלישי, למעט לצורך ביצוע המשלוח (חברת שליחויות).</p>
+
+                <h3>4. אבטחת מידע</h3>
+                <p>האתר מאובטח בתקן SSL/TLS. איננו שומרים פרטי תשלום - התשלום מתבצע ישירות מול הלקוח.</p>
+
+                <h3>5. זכות עיון ומחיקה</h3>
+                <p>בהתאם לחוק הגנת הפרטיות, הנך רשאי/ת לבקש לעיין במידע השמור עליך או לבקש את מחיקתו. לבקשות יש לפנות למייל: Talbooks12@gmail.com</p>
+
+                <h3>6. עוגיות (Cookies)</h3>
+                <p>האתר משתמש בעוגיות בסיסיות לשיפור חווית הגלישה. ניתן לחסום עוגיות דרך הגדרות הדפדפן.</p>
+
+                <h3>7. דיוור שיווקי</h3>
+                <p>דיוור שיווקי יישלח רק למי שנתן הסכמה מפורשת. ניתן להסיר את עצמך מרשימת הדיוור בכל עת באמצעות לחיצה על "הסר" בתחתית כל מייל או בפנייה ישירה אלינו.</p>
+
+                <p class="legal-update">עדכון אחרון: ינואר 2026</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
+        <div class="footer-links">
+            <a href="#" onclick="openTerms(); return false;">תקנון האתר</a>
+            <span>|</span>
+            <a href="#" onclick="openPrivacy(); return false;">מדיניות פרטיות</a>
+            <span>|</span>
+            <a href="mailto:Talbooks12@gmail.com">צור קשר</a>
+        </div>
+        <p class="footer-business">טל הוך | עוסק פטור</p>
         <p>© 2026 כל הזכויות שמורות לטל הוך</p>
         <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">הטקסט נכתב על־ידי: טל הוך | איורים, עיצוב וכריכה: שחר יצחקי</p>
         <p style="margin-top: 0.75rem; font-size: 0.75rem; opacity: 0.7; max-width: 500px; margin-left: auto; margin-right: auto;">אין להעתיק, לשכפל, להפיץ, לתרגם, לעבד, להקליט, לצלם או לעשות כל שימוש אחר בתוכן הספר ללא רשות בכתב מבעלי הזכויות.</p>
