@@ -232,30 +232,42 @@
             letter-spacing: -0.01em;
         }
 
-        /* Who Am I - Floating Button */
-        .who-am-i-btn {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            color: white;
-            border: none;
-            padding: 1rem 0.75rem;
-            border-radius: 8px;
-            cursor: pointer;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            font-family: 'Secular One', sans-serif;
-            font-size: 1rem;
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.4);
-            transition: all 0.3s ease;
+        /* Who Am I - Inline Section */
+        .who-am-i-inline {
+            padding: 2.5rem 2rem;
+            background: var(--bg-cream);
+            text-align: center;
         }
 
-        .who-am-i-btn:hover {
-            transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 6px 20px rgba(139, 115, 85, 0.5);
+        .who-am-i-inline-btn {
+            background: transparent;
+            border: 2px dashed var(--accent);
+            padding: 1.5rem 3rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .who-am-i-inline-btn:hover {
+            background: var(--bg-warm);
+            border-style: solid;
+            transform: translateY(-2px);
+        }
+
+        .who-am-i-text {
+            display: block;
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .who-am-i-subtitle {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 300;
         }
 
         /* Who Am I Modal */
@@ -360,13 +372,11 @@
         }
 
         @media (max-width: 768px) {
-            .who-am-i-btn {
-                right: 10px;
-                padding: 0.8rem 0.6rem;
-                font-size: 0.9rem;
-            }
             .who-am-i-content {
                 padding: 2rem 1.5rem;
+            }
+            .who-am-i-inline-btn {
+                padding: 1.25rem 2rem;
             }
         }
 
@@ -1333,11 +1343,15 @@
         </div>
     </section>
 
-    <!-- Who Am I - Floating Button + Modal -->
-    <button class="who-am-i-btn" onclick="openWhoAmI()" title="מי אני?">
-        <span>מי אני?</span>
-    </button>
+    <!-- Who Am I - Inline Section -->
+    <section class="who-am-i-inline">
+        <button class="who-am-i-inline-btn" onclick="openWhoAmI()">
+            <span class="who-am-i-text">מי אני?</span>
+            <span class="who-am-i-subtitle">לחצו להכיר את הסיפור מאחורי הספר</span>
+        </button>
+    </section>
 
+    <!-- Who Am I Modal (hidden) -->
     <div class="who-am-i-modal" id="whoAmIModal">
         <div class="who-am-i-content">
             <button class="who-am-i-close" onclick="closeWhoAmI()">&times;</button>
