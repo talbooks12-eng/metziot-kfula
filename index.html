@@ -92,11 +92,11 @@
 
         /* Hero Section */
         .hero {
-            min-height: auto;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 3rem 2rem 5rem;
+            padding: 7rem 2rem 5rem;
             background: linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-warm) 100%);
         }
 
@@ -936,40 +936,24 @@
             transform: scale(1.1);
         }
 
-        /* Top Header - Book Title Like Cover */
-        .book-header {
-            padding-top: 100px;
-            padding-bottom: 1rem;
-            padding-right: 5%;
-            text-align: right;
-            background: var(--bg-cream);
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .book-header-title {
+        /* Hero Title Styling */
+        .hero-title {
             font-family: 'Suez One', serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: clamp(2.8rem, 7vw, 4.5rem);
             font-weight: 400;
             color: var(--text-dark);
             letter-spacing: 0.02em;
-            margin-bottom: 0.25rem;
-            line-height: 1.2;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
         }
 
-        .book-header-author {
+        .hero-author {
             font-family: 'Karantina', cursive;
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-size: clamp(1.4rem, 3.5vw, 2rem);
             font-weight: 300;
             color: var(--accent);
             letter-spacing: 0.05em;
-        }
-
-        @media (max-width: 768px) {
-            .book-header {
-                padding-right: 1.5rem;
-                padding-left: 1.5rem;
-            }
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
@@ -1019,16 +1003,12 @@
         </div>
     </nav>
 
-    <!-- Book Header - Title Like Cover -->
-    <header class="book-header">
-        <h1 class="book-header-title">מציאות כפולה</h1>
-        <p class="book-header-author">טל הוך</p>
-    </header>
-
     <!-- Hero Section -->
     <section class="hero" id="main-content">
         <div class="container">
             <div class="hero-content">
+                <h1 class="hero-title">מציאות כפולה</h1>
+                <p class="hero-author">טל הוך</p>
                 <p class="tagline">יומן מסע פנימי שנכתב בין לחימה להפוגה, בין הפחד הקיומי בחזית לשקט המתעתע של העורף.</p>
                 <a href="#buy" class="btn btn-primary">לרכישת הספר</a>
             </div>
