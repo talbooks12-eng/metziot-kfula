@@ -232,151 +232,104 @@
             letter-spacing: -0.01em;
         }
 
-        /* Who Am I - Inline Section */
-        .who-am-i-inline {
-            padding: 2.5rem 2rem;
-            background: var(--bg-cream);
-            text-align: center;
-        }
-
-        .who-am-i-inline-btn {
-            background: transparent;
-            border: 2px dashed var(--accent);
-            padding: 1.5rem 3rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .who-am-i-inline-btn:hover {
+        /* Who Am I - Bottom Expandable Section */
+        .who-am-i-bottom {
             background: var(--bg-warm);
-            border-style: solid;
-            transform: translateY(-2px);
+            padding: 0;
         }
 
-        .who-am-i-text {
-            display: block;
+        .who-am-i-bottom .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .who-am-i-header {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .who-am-i-header:hover {
+            background: rgba(139, 115, 85, 0.05);
+        }
+
+        .who-am-i-header h2 {
             font-family: 'Secular One', sans-serif;
             font-size: 1.5rem;
             color: var(--accent);
-            margin-bottom: 0.25rem;
+            margin: 0;
         }
 
-        .who-am-i-subtitle {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 300;
-        }
-
-        /* Who Am I Modal */
-        .who-am-i-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 10001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            padding: 2rem;
-        }
-
-        .who-am-i-modal.open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .who-am-i-content {
-            background: linear-gradient(135deg, #FFFEF9 0%, #FBF8F1 100%);
-            max-width: 550px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            border-radius: 16px;
-            padding: 2.5rem;
-            position: relative;
-            transform: scale(0.9);
+        .toggle-arrow {
+            font-size: 0.8rem;
+            color: var(--accent);
             transition: transform 0.3s ease;
         }
 
-        .who-am-i-modal.open .who-am-i-content {
-            transform: scale(1);
+        .who-am-i-header.open .toggle-arrow {
+            transform: rotate(180deg);
         }
 
-        .who-am-i-close {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: none;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: color 0.2s;
-            line-height: 1;
+        .who-am-i-content-expand {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
         }
 
-        .who-am-i-close:hover {
-            color: var(--text-dark);
+        .who-am-i-content-expand.open {
+            max-height: 800px;
         }
 
-        .who-am-i-content h2 {
-            font-family: 'Secular One', sans-serif;
-            font-size: 1.8rem;
-            color: var(--text-dark);
-            margin-bottom: 1.5rem;
+        .intro-text-bottom {
+            padding: 0 2rem 2.5rem;
             text-align: center;
         }
 
-        .intro-text-modal p {
-            font-family: 'Gveret Levin AlefAlefAlef', 'Karantina', cursive;
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: var(--text-dark);
+        .intro-text-bottom p {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
             margin-bottom: 1rem;
+            font-weight: 300;
         }
 
-        .intro-text-modal .intro-greeting {
+        .intro-text-bottom .intro-greeting {
+            font-family: 'Secular One', sans-serif;
             font-size: 1.3rem !important;
-            font-weight: 600;
+            font-weight: 400;
             color: var(--accent) !important;
+            margin-bottom: 1.5rem;
         }
 
-        .intro-text-modal .intro-wish {
+        .intro-text-bottom .intro-wish {
             margin-top: 1.5rem;
             font-style: italic;
+            color: var(--text-dark);
         }
 
-        .intro-text-modal .intro-signature {
-            font-size: 1.2rem !important;
-            font-weight: 600;
+        .intro-text-bottom .intro-signature {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.1rem !important;
             color: var(--accent) !important;
-            text-align: left;
             margin-top: 1.5rem;
             margin-bottom: 0 !important;
         }
 
-        body.dark-mode .who-am-i-content {
-            background: linear-gradient(135deg, #3d3d3d 0%, #2d2d2d 100%);
-        }
-
-        body.dark-mode .who-am-i-btn {
-            background: linear-gradient(135deg, #5a4a3a 0%, #4a3a2a 100%);
+        body.dark-mode .who-am-i-bottom {
+            background: #252525;
         }
 
         @media (max-width: 768px) {
-            .who-am-i-content {
-                padding: 2rem 1.5rem;
-            }
-            .who-am-i-inline-btn {
-                padding: 1.25rem 2rem;
+            .intro-text-bottom {
+                padding: 0 1.5rem 2rem;
             }
         }
 
@@ -1343,57 +1296,6 @@
         </div>
     </section>
 
-    <!-- Who Am I - Inline Section -->
-    <section class="who-am-i-inline">
-        <button class="who-am-i-inline-btn" onclick="openWhoAmI()">
-            <span class="who-am-i-text">מי אני?</span>
-            <span class="who-am-i-subtitle">לחצו להכיר את הסיפור מאחורי הספר</span>
-        </button>
-    </section>
-
-    <!-- Who Am I Modal (hidden) -->
-    <div class="who-am-i-modal" id="whoAmIModal">
-        <div class="who-am-i-content">
-            <button class="who-am-i-close" onclick="closeWhoAmI()">&times;</button>
-            <h2>מי אני?</h2>
-            <div class="intro-text-modal">
-                <p class="intro-greeting">אהלן אני טל,</p>
-                <p>אחד כמו כולם,<br>
-                צנחן,<br>
-                איש פשוט,<br>
-                חייל קטן.</p>
-
-                <p>החלטתי לשתף את הסיפורים שמאחורי הקלעים,<br>
-                את החוויות האישיות של הלוחם שבקצה,<br>
-                זה שלובש מדים ירוקים.</p>
-
-                <p>את נקודת המבט שלי –<br>
-                מי יודע,<br>
-                אולי חלקכם תתחברו ותדהו.</p>
-
-                <p>ספר זה נכתב בהשראתם של גיבורי ישראל,<br>
-                בהשפעת החוויות האישיות שעברתי<br>
-                לאורך מלחמת חרבות ברזל.<br>
-                רק אני והמחברת.</p>
-
-                <p>בין לחימה להפוגה,<br>
-                מצאתי פיסת נחמה בכתיבה.</p>
-
-                <p>מתוך רצון להנציח,<br>
-                כדי שנזכור את רגעי האור בחשיכה.</p>
-
-                <p>שנעריך את זה שאנחנו עם יחיד ומיוחד,<br>
-                שלא נשכח לתת יד,<br>
-                שנדע מהי אהבת אמת ונמשיך לתת ולחבק.</p>
-
-                <p class="intro-wish">אני מאחל לכולנו ימים טובים יותר,<br>
-                שהחטופים ישובו, שהחיילים ינוחו.</p>
-
-                <p class="intro-signature">טל הוך</p>
-            </div>
-        </div>
-    </div>
-
     <!-- About Section -->
     <section class="about" id="about">
         <div class="container">
@@ -1656,25 +1558,17 @@
         setInterval(() => changeQuote(1), 4000);
     </script>
 
-    <!-- Who Am I Modal Script -->
+    <!-- Who Am I Expand Script -->
     <script>
-        function openWhoAmI() {
-            document.getElementById('whoAmIModal').classList.add('open');
-            document.body.style.overflow = 'hidden';
+        function toggleWhoAmI() {
+            const content = document.getElementById('whoAmIExpand');
+            const header = document.querySelector('.who-am-i-header');
+            content.classList.toggle('open');
+            header.classList.toggle('open');
         }
+    </script>
 
-        function closeWhoAmI() {
-            document.getElementById('whoAmIModal').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('whoAmIModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeWhoAmI();
-            }
-        });
-
+    <script>
         // Anonymous review toggle
         function toggleAnonymous() {
             const checkbox = document.getElementById('anonymousCheck');
@@ -1690,6 +1584,36 @@
             }
         }
     </script>
+
+    <!-- Who Am I - Bottom Section -->
+    <section class="who-am-i-bottom" id="who-am-i">
+        <div class="container">
+            <button class="who-am-i-header" onclick="toggleWhoAmI()">
+                <h2>מי אני?</h2>
+                <span class="toggle-arrow">▼</span>
+            </button>
+            <div class="who-am-i-content-expand" id="whoAmIExpand">
+                <div class="intro-text-bottom">
+                    <p class="intro-greeting">אהלן אני טל,</p>
+                    <p>אחד כמו כולם, צנחן, איש פשוט, חייל קטן.</p>
+
+                    <p>החלטתי לשתף את הסיפורים שמאחורי הקלעים, את החוויות האישיות של הלוחם שבקצה, זה שלובש מדים ירוקים.</p>
+
+                    <p>את נקודת המבט שלי – מי יודע, אולי חלקכם תתחברו ותדהו.</p>
+
+                    <p>ספר זה נכתב בהשראתם של גיבורי ישראל, בהשפעת החוויות האישיות שעברתי לאורך מלחמת חרבות ברזל. רק אני והמחברת.</p>
+
+                    <p>בין לחימה להפוגה, מצאתי פיסת נחמה בכתיבה. מתוך רצון להנציח, כדי שנזכור את רגעי האור בחשיכה.</p>
+
+                    <p>שנעריך את זה שאנחנו עם יחיד ומיוחד, שלא נשכח לתת יד, שנדע מהי אהבת אמת ונמשיך לתת ולחבק.</p>
+
+                    <p class="intro-wish">אני מאחל לכולנו ימים טובים יותר, שהחטופים ישובו, שהחיילים ינוחו.</p>
+
+                    <p class="intro-signature">— טל</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
