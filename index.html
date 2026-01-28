@@ -131,13 +131,6 @@
             font-size: 0.9rem;
             color: var(--text-secondary);
             margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .hero-delivery span {
-            font-size: 1.1rem;
         }
 
         /* Trust Badges */
@@ -151,13 +144,14 @@
         .trust-badge {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.5rem;
             font-size: 0.85rem;
             color: var(--text-secondary);
         }
 
-        .trust-badge span {
-            font-size: 1.2rem;
+        .trust-icon {
+            color: var(--accent);
+            font-size: 0.5rem;
         }
 
         /* Copies Sold Counter - Hidden for now */
@@ -1988,7 +1982,7 @@
 
                 <!-- Copies Sold - Hidden for now -->
                 <div class="copies-sold">
-                    📚 כבר נמכרו <span>150+</span> עותקים!
+                    כבר נמכרו <span>150+</span> עותקים
                 </div>
 
                 <!-- Price Display -->
@@ -2000,7 +1994,7 @@
 
                 <!-- Delivery Promise -->
                 <div class="hero-delivery">
-                    <span>🚚</span> משלוח עד 14 ימי עסקים לכל הארץ
+                    משלוח עד 14 ימי עסקים לכל הארץ
                 </div>
 
                 <button class="btn btn-primary" onclick="openPricing()">לרכישת הספר</button>
@@ -2008,13 +2002,13 @@
                 <!-- Trust Badges -->
                 <div class="trust-badges">
                     <div class="trust-badge">
-                        <span>🔒</span> תשלום מאובטח
+                        <span class="trust-icon">●</span> תשלום מאובטח
                     </div>
                     <div class="trust-badge">
-                        <span>📦</span> משלוח מאובטח
+                        <span class="trust-icon">●</span> משלוח לכל הארץ
                     </div>
                     <div class="trust-badge">
-                        <span>✅</span> 100% שביעות רצון
+                        <span class="trust-icon">●</span> שביעות רצון מובטחת
                     </div>
                 </div>
             </div>
@@ -2208,10 +2202,6 @@
                 <div class="quote-note" data-index="6">
                     <p>"שלא נשכח שכולנו אחים,<br>אין דבר יפה מזוג אחים,<br>תהנו מהדרך אנשים"</p>
                     <div class="quote-source">— חלום רודף חלום</div>
-                </div>
-                <div class="quote-note" data-index="7">
-                    <p>"שמור על עצמך!<br>שומר עליי!<br>שומרים שומרים עליי"</p>
-                    <div class="quote-source">— מתוך הספר</div>
                 </div>
             </div>
             <div class="quotes-nav" id="quotesNav"></div>
