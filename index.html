@@ -261,43 +261,107 @@
             font-weight: 300;
         }
 
-        /* Quotes Section */
+        /* Quotes Section - Creative Diagonal Design */
         .quotes {
             padding: 5rem 2rem;
-            background: var(--bg-warm);
+            background: linear-gradient(135deg, var(--bg-warm) 0%, var(--bg-cream) 50%, var(--bg-warm) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quotes::before {
+            content: '"';
+            position: absolute;
+            top: -50px;
+            right: 5%;
+            font-size: 20rem;
+            font-family: Georgia, serif;
+            color: var(--accent);
+            opacity: 0.05;
+            pointer-events: none;
         }
 
         .quotes .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         .quotes-grid {
-            display: grid;
+            display: flex;
+            flex-wrap: wrap;
             gap: 1.5rem;
             margin-top: 2.5rem;
+            justify-content: center;
         }
 
         .quote-card {
             background: white;
-            padding: 2.5rem 3rem;
-            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            border-radius: 0 30px 0 30px;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            position: relative;
+            flex: 1 1 280px;
+            max-width: 320px;
+            border-right: 4px solid var(--accent);
+        }
+
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 3rem;
+            font-family: Georgia, serif;
+            color: var(--accent);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .quote-card:nth-child(2) {
+            border-radius: 30px 0 30px 0;
+            border-right: none;
+            border-left: 4px solid var(--accent);
+            transform: translateY(20px);
+        }
+
+        .quote-card:nth-child(2)::before {
+            right: auto;
+            left: 15px;
+        }
+
+        .quote-card:nth-child(3) {
+            border-radius: 50% 0 50% 0;
+            border-right: 4px solid var(--accent);
         }
 
         .quote-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(139, 115, 85, 0.15);
+        }
+
+        .quote-card:nth-child(2):hover {
+            transform: translateY(12px) scale(1.02);
         }
 
         .quote-card p {
             font-family: 'Frank Ruhl Libre', serif;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 400;
-            line-height: 1.6;
+            line-height: 1.8;
             color: var(--text-dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .quote-card:nth-child(2) {
+                transform: translateY(0);
+            }
+            .quote-card:nth-child(2):hover {
+                transform: translateY(-8px) scale(1.02);
+            }
         }
 
         /* Gallery Section */
@@ -400,12 +464,29 @@
         .author-section {
             padding: 5rem 2rem;
             background: var(--bg-warm);
+            position: relative;
         }
 
         .author-section .container {
-            max-width: 650px;
+            max-width: 700px;
             margin: 0 auto;
             text-align: center;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .author-section .container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: 30px;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
         }
 
         .author-content p {
@@ -414,6 +495,10 @@
             color: var(--text-secondary);
             line-height: 2;
             font-weight: 300;
+        }
+
+        body.dark-mode .author-section .container {
+            background: #2d2d2d;
         }
 
         /* Footer */
@@ -906,6 +991,15 @@
                     </figure>
                     <figure class="gallery-item">
                         <img src="illustrations/soldiers.png" alt="לוחמים">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/mirror-clean.png" alt="ניקוי המראה">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/combat-scene.png" alt="סצנת לחימה">
+                    </figure>
+                    <figure class="gallery-item">
+                        <img src="illustrations/beach-scene.png" alt="חוף הים">
                     </figure>
                 </div>
             </div>
