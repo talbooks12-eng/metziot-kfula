@@ -1412,62 +1412,64 @@
             font-weight: 300;
         }
 
-        .gallery-slider {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .gallery-track {
-            display: flex;
-            transition: transform 0.5s ease;
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .gallery-item {
-            min-width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
         }
 
         .gallery-item img {
-            max-width: 400px;
-            max-height: 500px;
+            max-width: 100%;
+            max-height: 350px;
             width: auto;
             height: auto;
             object-fit: contain;
             background: white;
             border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            padding: 2rem;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, opacity 0.5s ease;
+        }
+
+        .gallery-item img:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item.rotating {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item.rotating img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .gallery-item.rotating img.active {
+            position: relative;
+            top: auto;
+            left: auto;
+            transform: none;
+            opacity: 1;
         }
 
         .gallery-nav {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .gallery-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            background: white;
-            color: var(--accent);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .gallery-btn:hover {
-            background: var(--accent);
-            color: white;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .gallery-dots {
@@ -1476,12 +1478,35 @@
         }
 
         .gallery-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: var(--border-light);
             cursor: pointer;
             transition: all 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
+
+        @media (max-width: 900px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery-item.rotating {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery-item.rotating {
+                grid-column: span 1;
+            }
         }
 
         .gallery-dot.active {
@@ -2217,47 +2242,27 @@
         <div class="container">
             <h2 class="section-title">איורים מתוך הספר</h2>
             <p class="gallery-subtitle">כל איור מספר סיפור, כל קו משקף רגע מהמציאות הכפולה</p>
-            <div class="gallery-slider">
-                <div class="gallery-track" id="galleryTrack">
-                    <figure class="gallery-item">
-                        <img src="illustrations/01-hug.jpg" alt="חיבוק">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/02-mask.jpg" alt="מסכה">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/03-cleaning.jpg" alt="מול המראה">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/04-mirror.jpg" alt="מציאות כפולה">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/05-mirror2.jpg" alt="השתקפות">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/06-flag.jpg" alt="דגל">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/kfar-aza.png" alt="כפר עזה">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/soldiers.png" alt="לוחמים">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/mirror-clean.png" alt="ניקוי המראה">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/combat-scene.png" alt="סצנת לחימה">
-                    </figure>
-                    <figure class="gallery-item">
-                        <img src="illustrations/beach-scene.png" alt="חוף הים">
-                    </figure>
-                </div>
+            <div class="gallery-grid">
+                <figure class="gallery-item">
+                    <img src="illustrations/01-hug.jpg" alt="חיבוק">
+                </figure>
+                <figure class="gallery-item">
+                    <img src="illustrations/02-mask.jpg" alt="מסכה">
+                </figure>
+                <figure class="gallery-item rotating" id="rotatingGallery">
+                    <img src="illustrations/03-cleaning.jpg" alt="מול המראה" class="active">
+                    <img src="illustrations/04-mirror.jpg" alt="מציאות כפולה">
+                    <img src="illustrations/05-mirror2.jpg" alt="השתקפות">
+                    <img src="illustrations/06-flag.jpg" alt="דגל">
+                    <img src="illustrations/kfar-aza.png" alt="כפר עזה">
+                    <img src="illustrations/soldiers.png" alt="לוחמים">
+                    <img src="illustrations/mirror-clean.png" alt="ניקוי המראה">
+                    <img src="illustrations/combat-scene.png" alt="סצנת לחימה">
+                    <img src="illustrations/beach-scene.png" alt="חוף הים">
+                </figure>
             </div>
             <div class="gallery-nav">
-                <button class="gallery-btn" onclick="moveGallery(1)">→</button>
                 <div class="gallery-dots" id="galleryDots"></div>
-                <button class="gallery-btn" onclick="moveGallery(-1)">←</button>
             </div>
         </div>
     </section>
@@ -2319,42 +2324,41 @@
     </section>
 
     <script>
-        let currentSlide = 0;
-        const track = document.getElementById('galleryTrack');
-        const items = track.querySelectorAll('.gallery-item');
-        const totalSlides = items.length;
+        // Rotating Gallery - Third image rotates through all
+        const rotatingGallery = document.getElementById('rotatingGallery');
+        const rotatingImages = rotatingGallery.querySelectorAll('img');
+        const totalRotatingImages = rotatingImages.length;
         const dotsContainer = document.getElementById('galleryDots');
+        let currentRotatingIndex = 0;
 
-        // Create dots
-        for (let i = 0; i < totalSlides; i++) {
+        // Create dots for rotating images
+        for (let i = 0; i < totalRotatingImages; i++) {
             const dot = document.createElement('span');
             dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
-            dot.onclick = () => goToSlide(i);
+            dot.onclick = () => goToRotatingImage(i);
             dotsContainer.appendChild(dot);
         }
 
-        function updateDots() {
+        function updateRotatingDots() {
             document.querySelectorAll('.gallery-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
+                dot.classList.toggle('active', i === currentRotatingIndex);
             });
         }
 
-        function moveGallery(direction) {
-            currentSlide += direction;
-            if (currentSlide < 0) currentSlide = totalSlides - 1;
-            if (currentSlide >= totalSlides) currentSlide = 0;
-            track.style.transform = `translateX(${currentSlide * 100}%)`;
-            updateDots();
+        function goToRotatingImage(index) {
+            rotatingImages[currentRotatingIndex].classList.remove('active');
+            currentRotatingIndex = index;
+            rotatingImages[currentRotatingIndex].classList.add('active');
+            updateRotatingDots();
         }
 
-        function goToSlide(index) {
-            currentSlide = index;
-            track.style.transform = `translateX(${currentSlide * 100}%)`;
-            updateDots();
+        function nextRotatingImage() {
+            const nextIndex = (currentRotatingIndex + 1) % totalRotatingImages;
+            goToRotatingImage(nextIndex);
         }
 
-        // Auto-advance every 5 seconds
-        setInterval(() => moveGallery(-1), 5000);
+        // Auto-rotate every 3 seconds
+        setInterval(nextRotatingImage, 3000);
     </script>
 
     <!-- Quotes Slider Script -->
