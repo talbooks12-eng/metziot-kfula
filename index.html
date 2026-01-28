@@ -338,6 +338,13 @@
             margin-bottom: 0.75rem;
         }
 
+        .price-old {
+            font-size: 1rem;
+            color: #999;
+            text-decoration: line-through;
+            margin-bottom: 0.25rem;
+        }
+
         .price-current {
             font-family: 'Secular One', sans-serif;
             font-size: 2rem;
@@ -1542,9 +1549,11 @@
                 <p class="pricing-subtitle">חסכו בקנייה של מספר עותקים!</p>
 
                 <div class="pricing-grid">
-                    <div class="price-card" onclick="selectPackage('עותק בודד', '69')">
+                    <div class="price-card" onclick="selectPackage('עותק בודד', '59')">
+                        <div class="price-badge">חיסכון ₪10</div>
                         <div class="price-label">עותק בודד</div>
-                        <div class="price-current">₪69</div>
+                        <div class="price-old">₪69</div>
+                        <div class="price-current">₪59</div>
                         <span class="price-btn">בחירה</span>
                     </div>
                     <div class="price-card featured" onclick="selectPackage('3 עותקים', '179')">
