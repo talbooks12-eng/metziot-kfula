@@ -8,6 +8,15 @@
     <meta name="keywords" content="מציאות כפולה, טל הוך, ספר, מילואים, 7 באוקטובר, חיילים">
     <meta name="author" content="טל הוך">
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
     <!-- Google Fonts - Beautiful Hebrew fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -587,6 +596,79 @@
             background: #3d3d3d;
             border-color: #555;
             color: white;
+        }
+
+        /* Delivery Method Selection */
+        .delivery-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .delivery-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-option:hover {
+            border-color: var(--accent);
+        }
+
+        .delivery-option.selected {
+            border-color: var(--accent);
+            background: rgba(139, 115, 85, 0.05);
+        }
+
+        .delivery-option input[type="radio"] {
+            margin-top: 0.2rem;
+            accent-color: var(--accent);
+            width: 18px;
+            height: 18px;
+        }
+
+        .delivery-option-content {
+            flex: 1;
+        }
+
+        .delivery-option-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .delivery-option-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .delivery-option-price {
+            font-weight: 600;
+            color: var(--accent-dark);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .pickup-note {
+            background: #FFF9E6;
+            border: 1px solid #F5D77F;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+            color: #8B6914;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .pickup-note.visible {
+            display: block;
         }
 
         .checkbox-group {
@@ -2323,8 +2405,33 @@
                     </div>
 
                     <div class="form-group">
+                        <label>אופן קבלת ההזמנה *</label>
+                        <div class="delivery-options">
+                            <label class="delivery-option selected" onclick="selectDeliveryMethod('shipping')">
+                                <input type="radio" name="אופן_קבלה" value="משלוח" checked>
+                                <div class="delivery-option-content">
+                                    <div class="delivery-option-title">משלוח עד הבית</div>
+                                    <div class="delivery-option-desc">המשלוח יגיע אליכם תוך 14 ימי עסקים</div>
+                                    <div class="delivery-option-price">₪29.90</div>
+                                </div>
+                            </label>
+                            <label class="delivery-option" onclick="selectDeliveryMethod('pickup')">
+                                <input type="radio" name="אופן_קבלה" value="איסוף עצמי">
+                                <div class="delivery-option-content">
+                                    <div class="delivery-option-title">איסוף עצמי</div>
+                                    <div class="delivery-option-desc">בתיאום מראש באזור המרכז</div>
+                                    <div class="delivery-option-price">חינם</div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="pickup-note" id="pickupNote">
+                            לאחר ביצוע ההזמנה ניצור איתכם קשר לתיאום מועד ומיקום האיסוף. האיסוף מתאפשר באזור המרכז בלבד.
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="addressGroup">
                         <label>כתובת למשלוח *</label>
-                        <textarea name="כתובת" required placeholder="רחוב, מספר בית, עיר, מיקוד"></textarea>
+                        <textarea name="כתובת" id="addressInput" required placeholder="רחוב, מספר בית, עיר, מיקוד"></textarea>
                     </div>
 
                     <div class="form-group">
@@ -2351,7 +2458,7 @@
                         </label>
                     </div>
 
-                    <p class="price-note">* המחירים כוללים מע"מ. משלוח: ₪29.90 לכל הארץ</p>
+                    <p class="price-note">* המחירים כוללים מע"מ. משלוח: ₪29.90 | איסוף עצמי: חינם</p>
 
                     <button type="submit" class="submit-order-btn">שליחת הזמנה</button>
                 </form>
@@ -2791,7 +2898,7 @@
                     </div>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            עלות המשלוח היא ₪29.90 לכל הזמנה, ללא קשר לכמות העותקים. המשלוח מתבצע לכל כתובת בישראל.
+                            עלות המשלוח היא ₪29.90 לכל הזמנה, ללא קשר לכמות העותקים. המשלוח מתבצע לכל כתובת בישראל.<br><br><strong>איסוף עצמי:</strong> ניתן גם לאסוף את הספר באופן עצמאי ללא עלות, בתיאום מראש באזור המרכז. פשוט בחרו "איסוף עצמי" בטופס ההזמנה וניצור איתכם קשר לתיאום.
                         </div>
                     </div>
                 </div>
@@ -2874,30 +2981,73 @@
             <h2>תקנון האתר - תנאי שימוש</h2>
             <div class="legal-text">
                 <h3>1. פרטי העסק</h3>
-                <p>שם: טל הוך<br>
-                סוג עסק: עוסק פטור<br>
-                אימייל: Talbooks12@gmail.com<br>
-                האתר עוסק במכירת הספר "מציאות כפולה" מאת טל הוך.</p>
+                <p><strong>שם העסק:</strong> טל הוך<br>
+                <strong>סוג עסק:</strong> עוסק פטור<br>
+                <strong>אימייל:</strong> Talbooks12@gmail.com<br>
+                <strong>תחום פעילות:</strong> מכירת הספר "מציאות כפולה" מאת טל הוך<br>
+                <strong>מדינה:</strong> ישראל</p>
 
-                <h3>2. מדיניות ביטולים והחזרות</h3>
-                <p>בהתאם לחוק הגנת הצרכן (מכר מרחוק), הלקוח רשאי לבטל את העסקה תוך 14 ימים מיום קבלת הספר או מיום קבלת מסמך הגילוי, לפי המאוחר מביניהם.</p>
-                <p>ביטול העסקה יתבצע באמצעות פנייה במייל לכתובת Talbooks12@gmail.com. החזר כספי יינתן תוך 14 ימי עסקים מקבלת הספר בחזרה במצב תקין.</p>
-                <p>דמי ביטול: בהתאם לחוק, עד 5% מערך העסקה או 100 ש"ח, הנמוך מביניהם.</p>
+                <h3>2. הגדרות</h3>
+                <p>"האתר" - אתר האינטרנט הזה על כל דפיו ותכניו.<br>
+                "העסק" / "המוכר" - טל הוך, כמפורט לעיל.<br>
+                "הלקוח" / "הצרכן" - כל אדם הרוכש מוצר מהאתר.<br>
+                "המוצר" - הספר "מציאות כפולה" על כל חבילותיו.</p>
 
-                <h3>3. מדיניות אספקה ומשלוחים</h3>
-                <p>אזורי חלוקה: כל רחבי ישראל<br>
-                זמן אספקה: עד 14 ימי עסקים<br>
-                עלות משלוח: ₪29.90 לכל הזמנה</p>
+                <h3>3. תנאי רכישה</h3>
+                <p>הרכישה באתר מהווה הסכמה לתנאי תקנון זה. הזמנה תיחשב כמחייבת רק לאחר קבלת אישור במייל מהעסק. העסק שומר לעצמו את הזכות לסרב להזמנות במקרים חריגים.</p>
 
-                <h3>4. מחירים</h3>
-                <p>כל המחירים באתר כוללים מע"מ כחוק. דמי המשלוח מוצגים בבירור לפני ביצוע ההזמנה.</p>
-                <p>מחיר קטלוגי של הספר: ₪69. מבצעים והנחות מוצגים בשקיפות מלאה.</p>
+                <h3>4. מדיניות ביטולים והחזרות</h3>
+                <p><strong>בהתאם לחוק הגנת הצרכן, התשמ"א-1981 (תיקון 2026 - מכר מרחוק):</strong></p>
+                <p>הלקוח רשאי לבטל את העסקה <strong>תוך 14 ימים</strong> מיום קבלת המוצר או מיום קבלת מסמך הגילוי, לפי המאוחר מביניהם.</p>
+                <p><strong>אופן הביטול:</strong> באמצעות פנייה במייל לכתובת Talbooks12@gmail.com או בטלפון. יש לציין את שם המזמין, מספר ההזמנה וסיבת הביטול.</p>
+                <p><strong>החזר כספי:</strong> יינתן תוך 14 ימי עסקים מקבלת הספר בחזרה במצב תקין (לא נפתח/נקרא).</p>
+                <p><strong>דמי ביטול:</strong> בהתאם לחוק - עד 5% מערך העסקה או 100 ש"ח, הנמוך מביניהם. בביטול עקב פגם או אי התאמה - ללא דמי ביטול.</p>
+                <p><strong>החזרת המוצר:</strong> באחריות הלקוח להחזיר את המוצר בדואר רשום או בתיאום איסוף.</p>
 
-                <h3>5. הגבלת אחריות</h3>
-                <p>העסק לא יישא באחריות לנזקים עקיפים הנובעים משימוש באתר או בספר. האחריות מוגבלת לערך העסקה בלבד.</p>
+                <h3>5. מדיניות אספקה ומשלוחים</h3>
+                <p><strong>אזורי חלוקה:</strong> כל רחבי ישראל</p>
+                <p><strong>אפשרויות אספקה:</strong></p>
+                <ul>
+                    <li><strong>משלוח עד הבית:</strong> עלות ₪29.90, עד 14 ימי עסקים</li>
+                    <li><strong>איסוף עצמי:</strong> חינם, בתיאום מראש באזור המרכז</li>
+                </ul>
+                <p>מניין ימי העסקים מתחיל מיום אישור ההזמנה. ימי שישי, שבת וחגים אינם נחשבים ימי עסקים.</p>
 
-                <h3>6. קניין רוחני</h3>
-                <p>כל התכנים באתר, לרבות טקסטים, תמונות ואיורים, הם קניינו הבלעדי של טל הוך ואין להעתיקם ללא אישור בכתב.</p>
+                <h3>6. מחירים ותשלום</h3>
+                <p>כל המחירים באתר <strong>כוללים מע"מ</strong> כחוק. דמי המשלוח מוצגים בבירור לפני ביצוע ההזמנה.</p>
+                <p>מחיר קטלוגי: ₪69 | מחיר מבצע: ₪59</p>
+                <p>התשלום מתבצע בתיאום עם הלקוח לאחר אישור ההזמנה (העברה בנקאית, ביט, או תשלום במזומן באיסוף).</p>
+
+                <h3>7. אחריות על המוצר</h3>
+                <p>המוצר נמכר כמות שהוא (As Is). העסק אחראי למוצר ללא פגמי דפוס או כריכה. בכל מקרה של פגם - יינתן החלפה או החזר כספי מלא.</p>
+
+                <h3>8. הגבלת אחריות</h3>
+                <p>העסק לא יישא באחריות לנזקים עקיפים או תוצאתיים הנובעים משימוש באתר או במוצר. האחריות המרבית מוגבלת לערך העסקה בלבד.</p>
+
+                <h3>9. קניין רוחני</h3>
+                <p>כל התכנים באתר, לרבות טקסטים, תמונות, איורים ועיצובים, הם קניינו הבלעדי של טל הוך או בעלי זכויות יוצרים אחרים (שחר יצחקי - איורים ועיצוב). אין להעתיק, לשכפל, להפיץ או לעשות שימוש מסחרי ללא אישור מראש ובכתב.</p>
+
+                <h3>10. מסמך גילוי לעסקת מכר מרחוק</h3>
+                <p>בהתאם לסעיף 14ג לחוק הגנת הצרכן, להלן פרטי עסקת המכר מרחוק:</p>
+                <ul>
+                    <li>שם העוסק: טל הוך</li>
+                    <li>מען: יימסר בתיאום טלפוני</li>
+                    <li>טלפון ודוא"ל: Talbooks12@gmail.com</li>
+                    <li>תיאור המוצר: ספר "מציאות כפולה" בכריכה רכה</li>
+                    <li>מחיר: ₪59 (כולל מע"מ), דמי משלוח: ₪29.90 או איסוף עצמי חינם</li>
+                    <li>תנאי תשלום: העברה/ביט/מזומן</li>
+                    <li>מועד אספקה: עד 14 ימי עסקים</li>
+                    <li>זכות ביטול: 14 ימים מקבלת המוצר</li>
+                </ul>
+
+                <h3>11. שינויים בתקנון</h3>
+                <p>העסק רשאי לעדכן תקנון זה מעת לעת. הנוסח המחייב הוא הנוסח המפורסם באתר בעת ביצוע ההזמנה.</p>
+
+                <h3>12. סמכות שיפוט</h3>
+                <p>על תקנון זה יחולו דיני מדינת ישראל. סמכות השיפוט הבלעדית נתונה לבתי המשפט המוסמכים במחוז תל אביב.</p>
+
+                <h3>13. יצירת קשר</h3>
+                <p>לכל שאלה או בירור: Talbooks12@gmail.com</p>
 
                 <p class="legal-update">עדכון אחרון: ינואר 2026</p>
             </div>
@@ -2910,37 +3060,97 @@
             <button class="legal-close" onclick="closePrivacy()">&times;</button>
             <h2>מדיניות פרטיות</h2>
             <div class="legal-text">
-                <h3>1. איסוף מידע</h3>
+                <p><strong>מדיניות פרטיות זו מסבירה כיצד אנו אוספים, משתמשים ושומרים על המידע האישי שלכם, בהתאם לחוק הגנת הפרטיות, התשמ"א-1981 ותקנות הגנת הפרטיות (אבטחת מידע), התשע"ז-2017.</strong></p>
+
+                <h3>1. מי אנחנו</h3>
+                <p><strong>בעל המאגר:</strong> טל הוך<br>
+                <strong>דוא"ל:</strong> Talbooks12@gmail.com<br>
+                <strong>תחום פעילות:</strong> מכירת ספרות</p>
+
+                <h3>2. איזה מידע אנו אוספים</h3>
                 <p>אנו אוספים את המידע הבא לצורך ביצוע הזמנות ומשלוחים:</p>
                 <ul>
-                    <li>שם מלא</li>
-                    <li>כתובת אימייל</li>
-                    <li>מספר טלפון</li>
-                    <li>כתובת למשלוח</li>
+                    <li><strong>פרטי זיהוי:</strong> שם מלא</li>
+                    <li><strong>פרטי התקשרות:</strong> כתובת אימייל, מספר טלפון</li>
+                    <li><strong>פרטי משלוח:</strong> כתובת מגורים מלאה</li>
+                    <li><strong>העדפות:</strong> בקשות להקדשה אישית, העדפת אופן קבלה</li>
+                    <li><strong>נתוני גלישה:</strong> מידע טכני אנונימי (סוג דפדפן, זמני ביקור) באמצעות Google Analytics</li>
                 </ul>
 
-                <h3>2. שימוש במידע</h3>
+                <h3>3. מטרות השימוש במידע</h3>
                 <p>המידע משמש אך ורק לצורך:</p>
                 <ul>
-                    <li>עיבוד והשלמת הזמנות</li>
-                    <li>יצירת קשר בנוגע להזמנה</li>
-                    <li>שליחת עדכונים שיווקיים (רק אם ניתנה הסכמה מפורשת)</li>
+                    <li>עיבוד, אישור והשלמת הזמנות</li>
+                    <li>יצירת קשר בנוגע להזמנה (אישור, עדכון סטטוס, בירורים)</li>
+                    <li>משלוח המוצר לכתובת שנמסרה</li>
+                    <li>שליחת עדכונים שיווקיים - רק אם ניתנה הסכמה מפורשת (Opt-in)</li>
+                    <li>ניתוח סטטיסטי אנונימי לשיפור האתר</li>
                 </ul>
 
-                <h3>3. העברת מידע לצד שלישי</h3>
-                <p>המידע לא יימסר לצד שלישי, למעט לצורך ביצוע המשלוח (חברת שליחויות).</p>
+                <h3>4. הבסיס החוקי לעיבוד</h3>
+                <p>עיבוד המידע מתבצע על בסיס:</p>
+                <ul>
+                    <li><strong>ביצוע חוזה:</strong> מידע הכרחי לביצוע ההזמנה</li>
+                    <li><strong>הסכמה:</strong> לדיוור שיווקי ושימוש בעוגיות</li>
+                    <li><strong>אינטרס לגיטימי:</strong> שיפור השירות ואבטחת האתר</li>
+                </ul>
 
-                <h3>4. אבטחת מידע</h3>
-                <p>האתר מאובטח בתקן SSL/TLS. איננו שומרים פרטי תשלום - התשלום מתבצע ישירות מול הלקוח.</p>
+                <h3>5. העברת מידע לצדדים שלישיים</h3>
+                <p>המידע <strong>לא יימכר או יועבר</strong> לצדדים שלישיים למטרות שיווק.</p>
+                <p>המידע עשוי להיות מועבר רק ל:</p>
+                <ul>
+                    <li><strong>שירותי משלוחים:</strong> שם וכתובת בלבד, לצורך אספקת ההזמנה</li>
+                    <li><strong>Google Analytics:</strong> נתונים אנונימיים בלבד (ללא מידע מזהה אישית)</li>
+                    <li><strong>FormSubmit.co:</strong> שירות קבלת טפסים מאובטח</li>
+                    <li><strong>רשויות החוק:</strong> במקרה של צו בית משפט או דרישה חוקית</li>
+                </ul>
 
-                <h3>5. זכות עיון ומחיקה</h3>
-                <p>בהתאם לחוק הגנת הפרטיות, הנך רשאי/ת לבקש לעיין במידע השמור עליך או לבקש את מחיקתו. לבקשות יש לפנות למייל: Talbooks12@gmail.com</p>
+                <h3>6. אבטחת מידע</h3>
+                <p>אנו נוקטים באמצעי אבטחה סבירים להגנה על המידע:</p>
+                <ul>
+                    <li>האתר מאובטח בפרוטוקול SSL/TLS (HTTPS)</li>
+                    <li>איננו שומרים פרטי תשלום (כרטיסי אשראי) - התשלום מתבצע ישירות</li>
+                    <li>המידע נשמר במערכות מאובטחות עם גישה מוגבלת</li>
+                </ul>
 
-                <h3>6. עוגיות (Cookies)</h3>
-                <p>האתר משתמש בעוגיות בסיסיות לשיפור חווית הגלישה. ניתן לחסום עוגיות דרך הגדרות הדפדפן.</p>
+                <h3>7. תקופת שמירת המידע</h3>
+                <p>מידע הזמנות יישמר למשך 7 שנים בהתאם לדרישות חוק (שמירת מסמכים לצרכי מס). לאחר מכן המידע יימחק או יהפוך לאנונימי.</p>
+                <p>נתוני דיוור יישמרו עד לבקשת הסרה מהרשימה.</p>
 
-                <h3>7. דיוור שיווקי</h3>
-                <p>דיוור שיווקי יישלח רק למי שנתן הסכמה מפורשת. ניתן להסיר את עצמך מרשימת הדיוור בכל עת באמצעות לחיצה על "הסר" בתחתית כל מייל או בפנייה ישירה אלינו.</p>
+                <h3>8. זכויותיכם לפי חוק הגנת הפרטיות</h3>
+                <p>בהתאם לסעיף 13 לחוק הגנת הפרטיות, עומדות לכם הזכויות הבאות:</p>
+                <ul>
+                    <li><strong>זכות עיון:</strong> לעיין במידע השמור אודותיכם</li>
+                    <li><strong>זכות תיקון:</strong> לבקש תיקון מידע שגוי</li>
+                    <li><strong>זכות מחיקה:</strong> לבקש מחיקת המידע (בכפוף לדרישות חוק)</li>
+                    <li><strong>זכות התנגדות:</strong> להתנגד לדיוור שיווקי בכל עת</li>
+                </ul>
+                <p>לבקשות יש לפנות: Talbooks12@gmail.com. נשיב תוך 30 יום.</p>
+
+                <h3>9. עוגיות (Cookies)</h3>
+                <p>האתר משתמש בעוגיות לצורך:</p>
+                <ul>
+                    <li><strong>עוגיות הכרחיות:</strong> שמירת העדפות משתמש (נגישות, מצב תצוגה)</li>
+                    <li><strong>עוגיות אנליטיות:</strong> Google Analytics - מידע סטטיסטי אנונימי</li>
+                </ul>
+                <p>ניתן לחסום עוגיות דרך הגדרות הדפדפן. חסימת עוגיות הכרחיות עלולה לפגוע בחווית הגלישה.</p>
+
+                <h3>10. דיוור שיווקי</h3>
+                <p>בהתאם לחוק התקשורת (בזק ושידורים), תיקון 40:</p>
+                <ul>
+                    <li>דיוור שיווקי יישלח <strong>רק למי שנתן הסכמה מפורשת</strong></li>
+                    <li>כל הודעה תכלול אפשרות הסרה ברורה</li>
+                    <li>ניתן להסיר את עצמכם בכל עת באמצעות לחיצה על "הסר" או בפנייה אלינו</li>
+                </ul>
+
+                <h3>11. העברת מידע לחו"ל</h3>
+                <p>חלק מהשירותים (Google Analytics, FormSubmit) מאחסנים מידע בשרתים בחו"ל. שירותים אלה עומדים בתקני אבטחה בינלאומיים ומחויבים להגנת הפרטיות.</p>
+
+                <h3>12. שינויים במדיניות</h3>
+                <p>אנו רשאים לעדכן מדיניות זו מעת לעת. שינויים מהותיים יפורסמו באתר. המשך השימוש באתר לאחר העדכון מהווה הסכמה למדיניות המעודכנת.</p>
+
+                <h3>13. יצירת קשר</h3>
+                <p>לכל שאלה בנושא פרטיות: Talbooks12@gmail.com</p>
 
                 <p class="legal-update">עדכון אחרון: ינואר 2026</p>
             </div>
@@ -3034,6 +3244,31 @@
                 closePopup();
             }
         });
+
+        // Delivery method selection
+        function selectDeliveryMethod(method) {
+            const options = document.querySelectorAll('.delivery-option');
+            const pickupNote = document.getElementById('pickupNote');
+            const addressGroup = document.getElementById('addressGroup');
+            const addressInput = document.getElementById('addressInput');
+
+            options.forEach(opt => opt.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+
+            if (method === 'pickup') {
+                pickupNote.classList.add('visible');
+                addressGroup.style.display = 'none';
+                addressInput.removeAttribute('required');
+                addressInput.value = 'איסוף עצמי - יתואם בטלפון';
+            } else {
+                pickupNote.classList.remove('visible');
+                addressGroup.style.display = 'flex';
+                addressInput.setAttribute('required', 'required');
+                if (addressInput.value === 'איסוף עצמי - יתואם בטלפון') {
+                    addressInput.value = '';
+                }
+            }
+        }
 
         // Floating buy button - show after scrolling past hero
         const floatingBuy = document.getElementById('floatingBuy');
