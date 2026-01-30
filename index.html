@@ -2199,24 +2199,38 @@
         }
 
         .accessibility-btn {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
-            background: var(--accent);
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
             color: white;
-            border: none;
+            border: 3px solid white;
             cursor: pointer;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 1.6rem;
+            box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            animation: pulse-accessibility 2s infinite;
+        }
+
+        @keyframes pulse-accessibility {
+            0% {
+                box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 30px rgba(33, 150, 243, 0.6);
+            }
+            100% {
+                box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
+            }
         }
 
         .accessibility-btn:hover {
             transform: scale(1.1);
-            background: var(--accent-dark);
+            background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+            animation: none;
         }
 
         .accessibility-menu {
@@ -2407,7 +2421,9 @@
     <!-- Accessibility Widget -->
     <div class="accessibility-widget">
         <button class="accessibility-btn" onclick="toggleAccessibilityMenu()" aria-label="תפריט נגישות" title="נגישות">
-            ♿
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z"/>
+            </svg>
         </button>
         <div class="accessibility-menu" id="accessibilityMenu" role="menu">
             <h3>הגדרות נגישות</h3>
