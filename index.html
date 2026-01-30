@@ -1392,6 +1392,7 @@
         }
 
         .write-review-btn {
+            display: inline-block;
             background: var(--accent);
             color: white;
             border: none;
@@ -1402,11 +1403,13 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            text-decoration: none;
         }
 
         .write-review-btn:hover {
             background: var(--accent-dark);
             transform: translateY(-2px);
+            color: white;
         }
 
         /* Review Form */
@@ -3085,14 +3088,11 @@
                 </div>
             </div>
 
-            <!-- Fera.ai Reviews Widget - New reviews will appear here -->
-            <div data-fera-widget="reviews" data-product-id="metziot-kfula"></div>
-
             <!-- Write a Review Button -->
             <div style="text-align: center; margin-top: 2rem;">
-                <button onclick="if(window.fera && window.fera.push) window.fera.push('show_review_form'); else alert('טוען...');" class="write-review-btn">
-                    ✍️ כתבו ביקורת
-                </button>
+                <a href="mailto:Talbooks12@gmail.com?subject=ביקורת על הספר מציאות כפולה&body=שם:%0A%0Aדירוג (1-5 כוכבים):%0A%0Aהביקורת שלי:%0A%0A" class="write-review-btn">
+                    ✍️ קראתם? שתפו אותנו
+                </a>
             </div>
 
         </div>
@@ -3852,22 +3852,6 @@
         }
 
         initCountdown();
-    </script>
-
-    <!-- Fera.ai Reviews Integration -->
-    <script type="application/javascript">
-        window.fera = window.fera || [];
-        (function(){
-            const apiKey = "pk_c2e7ecfe9f66d8a03119cf691bdf3ce224a95bfeedc23862be28fc61e0541b6b";
-            const baseCdnUrl = `https://cdn.fera.ai/js/v3/`;
-            window.fera.push("configure", { api_key: apiKey });
-            if (!document.querySelector('#fera_css')) {
-                const element = document.createElement('link');element.href = `${ baseCdnUrl }fera.css`;element.id = "fera_css";element.rel = 'stylesheet';document.head.prepend(element);
-            }
-            if (!(window.fera && !Array.isArray(window.fera)) && !document.querySelector('#fera_js')) {
-                const element = document.createElement('script');element.src = `${ baseCdnUrl }fera.js`;element.id = "fera_js";element.async = true; document.body.append(element);
-            }
-        })();
     </script>
 </body>
 </html>
