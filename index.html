@@ -2825,10 +2825,7 @@
                 <h2>פרטי הזמנה</h2>
                 <p class="pricing-subtitle">החבילה שנבחרה: <strong id="selectedPackageDisplay"></strong></p>
 
-                <form class="order-form" action="https://formsubmit.co/Talbooks12@gmail.com" method="POST">
-                    <input type="hidden" name="_subject" value="הזמנה חדשה - מציאות כפולה">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_template" value="table">
+                <form class="order-form" id="orderForm" onsubmit="submitOrder(event)">
                     <input type="hidden" name="חבילה" id="packageInput">
                     <input type="hidden" name="מחיר" id="priceInput">
 
@@ -3275,6 +3272,83 @@
         function backToPackages() {
             document.getElementById('pricingStep1').style.display = 'block';
             document.getElementById('pricingStep2').style.display = 'none';
+        }
+
+        // Submit order to Google Sheets and send email notification
+        async function submitOrder(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('orderForm');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'שולח...';
+
+            // Get form values
+            const name = form.querySelector('input[name="שם"]').value;
+            const email = form.querySelector('input[name="אימייל"]').value;
+            const phone = form.querySelector('input[name="טלפון"]').value;
+            const package_ = document.getElementById('packageInput').value;
+            const price = document.getElementById('priceInput').value;
+            const address = document.getElementById('addressInput').value;
+            const deliveryMethod = form.querySelector('input[name="אופן_קבלה"]:checked').value;
+            const dedication = form.querySelector('textarea[name="הקדשה"]')?.value || '';
+            const notes = form.querySelector('input[name="הערות"]')?.value || '';
+
+            // Submit to Google Forms (for spreadsheet tracking)
+            const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfzkGSK5IEAqswyzyuqa37ReV0bEZow_5DuuHlWOglTc08eqA/formResponse';
+            const googleFormData = new FormData();
+            googleFormData.append('entry.558958194', name);
+            googleFormData.append('entry.760949935', email);
+            googleFormData.append('entry.25500744', phone);
+            googleFormData.append('entry.929296802', package_);
+            googleFormData.append('entry.667716366', price);
+            googleFormData.append('entry.2012880841', address + (dedication ? '\nהקדשה: ' + dedication : '') + (notes ? '\nהערות: ' + notes : ''));
+            googleFormData.append('entry.1586531686', deliveryMethod);
+
+            try {
+                // Submit to Google Forms
+                fetch(googleFormUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: googleFormData
+                });
+
+                // Also submit to FormSubmit for email notification
+                const emailFormData = new FormData();
+                emailFormData.append('_subject', 'הזמנה חדשה - מציאות כפולה - ' + package_);
+                emailFormData.append('שם', name);
+                emailFormData.append('אימייל', email);
+                emailFormData.append('טלפון', phone);
+                emailFormData.append('חבילה', package_);
+                emailFormData.append('מחיר', price);
+                emailFormData.append('כתובת', address);
+                emailFormData.append('אופן_קבלה', deliveryMethod);
+                emailFormData.append('הקדשה', dedication);
+                emailFormData.append('הערות', notes);
+                emailFormData.append('_captcha', 'false');
+                emailFormData.append('_template', 'table');
+
+                fetch('https://formsubmit.co/ajax/Talbooks12@gmail.com', {
+                    method: 'POST',
+                    body: emailFormData
+                });
+
+                // Show success message
+                form.innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+                        <h3 style="color: var(--accent); margin-bottom: 1rem;">ההזמנה התקבלה בהצלחה!</h3>
+                        <p style="margin-bottom: 0.5rem;"><strong>${name}</strong>, תודה על ההזמנה!</p>
+                        <p style="margin-bottom: 1rem;">פרטי ההזמנה נשלחו למייל ${email}</p>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">ניצור איתך קשר בקרוב לתיאום התשלום והמשלוח.</p>
+                    </div>
+                `;
+
+            } catch (error) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'שליחת הזמנה';
+                alert('אירעה שגיאה, אנא נסו שנית או צרו קשר במייל');
+            }
         }
 
         function closePricing() {
