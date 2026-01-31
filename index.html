@@ -1677,22 +1677,15 @@
             background: #2d2d2d;
         }
 
-        /* Floating Buy Button */
+        /* Floating Buy Button - Always visible on right */
         .floating-buy {
             position: fixed;
-            bottom: 20px;
+            bottom: 90px;
             right: 20px;
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-
-        .floating-buy.visible {
+            z-index: 998;
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            transition: all 0.3s ease;
         }
 
         .floating-buy-btn {
@@ -1725,7 +1718,7 @@
         @media (max-width: 768px) {
             .floating-buy {
                 right: 15px;
-                bottom: 15px;
+                bottom: 80px;
             }
             .floating-buy-btn {
                 padding: 0.85rem 1.25rem;
@@ -1744,15 +1737,12 @@
 
         @media (max-width: 400px) {
             .floating-buy {
-                right: 10px;
-                bottom: 70px;
+                right: 15px;
+                bottom: 75px;
             }
             .floating-buy-btn {
-                padding: 0.75rem 1rem;
-                font-size: 0.85rem;
-            }
-            .floating-buy-btn span {
-                display: none;
+                padding: 0.7rem 1rem;
+                font-size: 0.8rem;
             }
         }
 
@@ -3881,16 +3871,6 @@
                 }
             }
         }
-
-        // Floating buy button - show after scrolling past hero
-        const floatingBuy = document.getElementById('floatingBuy');
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 500) {
-                floatingBuy.classList.add('visible');
-            } else {
-                floatingBuy.classList.remove('visible');
-            }
-        });
 
         // Countdown Timer - Set end date to 14 days from now
         function initCountdown() {
