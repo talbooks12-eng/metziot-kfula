@@ -384,9 +384,22 @@
         /* Buy + Donation Banner - High visibility */
         .buy-banner {
             padding: 4rem 2rem;
-            background: var(--accent);
+            background: linear-gradient(135deg, #1A5F7A 0%, #159895 50%, #1A5F7A 100%);
             color: white;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buy-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='%23ffffff' fill-opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
         }
 
         .buy-banner .container {
@@ -410,13 +423,14 @@
         }
 
         .buy-banner .donation-note {
-            font-size: 0.95rem;
-            opacity: 0.85;
+            font-size: 1.05rem;
             margin-bottom: 2rem;
-            padding: 1rem;
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
+            padding: 1.2rem 2rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
             display: inline-block;
+            border: 2px solid rgba(255,255,255,0.3);
+            font-weight: 500;
         }
 
         .buy-banner .btn {
@@ -542,13 +556,14 @@
         }
 
         .price-donation {
-            font-size: 0.75rem;
-            color: #1976D2;
+            font-size: 0.8rem;
+            color: #0D5C63;
             margin-top: 0.75rem;
             font-weight: 600;
-            background: #E3F2FD;
-            padding: 0.4rem 0.6rem;
+            background: linear-gradient(135deg, #D4F1F4 0%, #B8E6E1 100%);
+            padding: 0.5rem 0.8rem;
             border-radius: 8px;
+            border: 1px solid #159895;
         }
 
         .price-badge {
@@ -1692,7 +1707,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: var(--accent);
+            background: linear-gradient(135deg, #E85A4F 0%, #C44536 100%);
             color: white;
             padding: 1rem 1.5rem;
             border-radius: 50px;
@@ -1700,14 +1715,21 @@
             font-family: 'Secular One', sans-serif;
             font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(139, 115, 85, 0.4);
+            box-shadow: 0 4px 20px rgba(232, 90, 79, 0.5);
             transition: all 0.3s ease;
+            animation: pulse-buy 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-buy {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(232, 90, 79, 0.5); }
+            50% { transform: scale(1.03); box-shadow: 0 6px 30px rgba(232, 90, 79, 0.7); }
         }
 
         .floating-buy-btn:hover {
-            background: var(--accent-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(139, 115, 85, 0.5);
+            background: linear-gradient(135deg, #C44536 0%, #A33327 100%);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(232, 90, 79, 0.6);
+            animation: none;
         }
 
         .floating-buy-btn span {
@@ -2709,7 +2731,7 @@
         <div class="container">
             <div class="hero-content">
                 <p class="tagline hero-headline">הסיפור שכל ישראלי צריך לקרוא</p>
-                <p class="tagline">יומן אמיתי של לוחם מילואים, שנכתב בזמן אמת בין קרבות להפוגות. חוויות, רגשות ומחשבות שלא מספרים בחדשות.</p>
+                <p class="tagline">יומן אמיתי שכתבתי בין קרבות להפוגות - פחדים, געגועים, תקווה וכאב. פתחתי את הלב כדי שתרגישו שאתם לא לבד. הרגשות שלי, הסיפור של כולנו.</p>
 
                 <!-- Copies Sold - Hidden for now -->
                 <div class="copies-sold">
@@ -2725,7 +2747,7 @@
 
                 <!-- Delivery Promise -->
                 <div class="hero-delivery">
-                    🚚 משלוח עד הבית לכל רחבי הארץ
+                    🚚 משלוח לכל הארץ ₪29.90 | 📍 איסוף עצמי חינם בתיאום מראש
                 </div>
 
                 <!-- Reader Satisfaction Badge -->
@@ -2741,7 +2763,7 @@
                         🔒 תשלום מאובטח
                     </div>
                     <div class="trust-badge">
-                        🚚 משלוח מהיר
+                        📍 איסוף חינם בתיאום
                     </div>
                     <div class="trust-badge">
                         ✅ החזר כספי מלא
