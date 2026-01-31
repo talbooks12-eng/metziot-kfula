@@ -1677,11 +1677,11 @@
             background: #2d2d2d;
         }
 
-        /* Floating Buy Button - Always visible on right, same level as accessibility */
+        /* Floating Buy Button - Left side, above accessibility button */
         .floating-buy {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 85px;
+            left: 20px;
             z-index: 998;
             opacity: 1;
             visibility: visible;
@@ -1727,8 +1727,8 @@
         /* Floating buy button mobile */
         @media (max-width: 768px) {
             .floating-buy {
-                right: 15px;
-                bottom: 15px;
+                left: 15px;
+                bottom: 75px;
             }
             .floating-buy-btn {
                 padding: 0.75rem 1rem;
@@ -1751,8 +1751,8 @@
 
         @media (max-width: 400px) {
             .floating-buy {
-                right: 10px;
-                bottom: 15px;
+                left: 10px;
+                bottom: 70px;
             }
             .floating-buy-btn {
                 padding: 0.6rem 0.8rem;
