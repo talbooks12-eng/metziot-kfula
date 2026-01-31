@@ -2836,11 +2836,6 @@
         </div>
     </div>
 
-    <!-- Language Toggle -->
-    <div class="lang-toggle">
-        <button class="lang-btn" onclick="toggleLanguage()" aria-label="Switch language" id="langBtn">EN</button>
-    </div>
-
     <!-- Skip to content link for accessibility -->
     <a href="#main-content" class="skip-link" data-he="דלג לתוכן הראשי" data-en="Skip to main content">דלג לתוכן הראשי</a>
 
@@ -4298,13 +4293,13 @@
         // Countdown Timer - Set end date to 14 days from now
         function initCountdown() {
             // Check if we have a stored end date, otherwise create one
-            let endDate = localStorage.getItem('launchOfferEnd');
+            let endDate = localStorage.getItem('saleEnd3Weeks');
             if (!endDate) {
-                // Set countdown to 14 days from now
+                // Set countdown to 21 days (3 weeks) from now
                 const now = new Date();
-                now.setDate(now.getDate() + 14);
+                now.setDate(now.getDate() + 21);
                 endDate = now.toISOString();
-                localStorage.setItem('launchOfferEnd', endDate);
+                localStorage.setItem('saleEnd3Weeks', endDate);
             }
 
             const countdownEnd = new Date(endDate);
@@ -4316,8 +4311,8 @@
                 if (diff <= 0) {
                     // Reset countdown when it ends
                     const newEnd = new Date();
-                    newEnd.setDate(newEnd.getDate() + 14);
-                    localStorage.setItem('launchOfferEnd', newEnd.toISOString());
+                    newEnd.setDate(newEnd.getDate() + 21);
+                    localStorage.setItem('saleEnd3Weeks', newEnd.toISOString());
                     location.reload();
                     return;
                 }
