@@ -1714,6 +1714,16 @@
             font-size: 1.2rem;
         }
 
+        .floating-trust {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 0.4rem;
+            background: rgba(255,255,255,0.9);
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+        }
+
         /* Floating buy button mobile */
         @media (max-width: 768px) {
             .floating-buy {
@@ -2658,6 +2668,9 @@
         <button class="floating-buy-btn" onclick="openPricing()">
             <span>📖</span> לרכישת הספר
         </button>
+        <div class="floating-trust">
+            🔒 תשלום מאובטח
+        </div>
     </div>
 
     <!-- Accessibility Widget -->
@@ -2718,13 +2731,13 @@
                 <!-- Trust Badges -->
                 <div class="trust-badges">
                     <div class="trust-badge">
-                        <span class="trust-icon">●</span> תשלום מאובטח
+                        🔒 תשלום מאובטח
                     </div>
                     <div class="trust-badge">
-                        <span class="trust-icon">●</span> משלוח עד הבית
+                        🚚 משלוח מהיר
                     </div>
                     <div class="trust-badge">
-                        <span class="trust-icon">●</span> החזר כספי מלא
+                        ✅ החזר כספי מלא
                     </div>
                 </div>
             </div>
