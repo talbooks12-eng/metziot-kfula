@@ -2527,76 +2527,95 @@
         }
 
         /* English (LTR) Layout Adjustments */
-        html[dir="ltr"] {
-            font-family: 'Rubik', sans-serif;
-        }
-
-        html[dir="ltr"] .hero-content,
-        html[dir="ltr"] .tagline,
-        html[dir="ltr"] .section-title,
-        html[dir="ltr"] .review-card,
-        html[dir="ltr"] .about-text,
-        html[dir="ltr"] .faq-question h3,
-        html[dir="ltr"] .faq-answer-content,
-        html[dir="ltr"] .form-group label,
-        html[dir="ltr"] .delivery-option-content,
-        html[dir="ltr"] .price-note {
-            text-align: left;
-        }
-
-        html[dir="ltr"] .hero {
+        body.lang-en {
             direction: ltr;
         }
 
-        html[dir="ltr"] .hero .container {
+        body.lang-en * {
+            text-align: left;
+        }
+
+        body.lang-en .hero-content,
+        body.lang-en .tagline,
+        body.lang-en .section-title,
+        body.lang-en .review-card,
+        body.lang-en .about-text,
+        body.lang-en .faq-question h3,
+        body.lang-en .faq-answer-content,
+        body.lang-en .form-group label,
+        body.lang-en .delivery-option-content,
+        body.lang-en .price-note,
+        body.lang-en .buy-banner,
+        body.lang-en .reviews,
+        body.lang-en .gallery,
+        body.lang-en .about,
+        body.lang-en .faq,
+        body.lang-en footer {
+            text-align: left;
+        }
+
+        body.lang-en .hero .container {
             flex-direction: row-reverse;
         }
 
-        html[dir="ltr"] .trust-badges {
-            justify-content: flex-start;
+        body.lang-en .trust-badges,
+        body.lang-en .reviews-grid,
+        body.lang-en .pricing-grid {
+            direction: ltr;
         }
 
-        html[dir="ltr"] .review-author {
+        body.lang-en .review-text,
+        body.lang-en .review-author {
             text-align: left;
         }
 
-        html[dir="ltr"] .gallery-track {
+        body.lang-en .gallery-track {
             animation-direction: reverse;
         }
 
-        html[dir="ltr"] .floating-buy {
+        body.lang-en .floating-buy {
             left: auto;
             right: 20px;
         }
 
-        html[dir="ltr"] .accessibility-widget {
+        body.lang-en .accessibility-widget {
             left: auto;
             right: 20px;
         }
 
-        html[dir="ltr"] .lang-toggle {
-            left: auto;
-            right: 15px;
-        }
-
-        html[dir="ltr"] .urgency-banner .container {
+        body.lang-en .urgency-banner .container {
             flex-direction: row;
         }
 
-        html[dir="ltr"] input,
-        html[dir="ltr"] textarea,
-        html[dir="ltr"] select {
+        body.lang-en input,
+        body.lang-en textarea,
+        body.lang-en select {
             text-align: left;
             direction: ltr;
         }
 
-        html[dir="ltr"] .pricing-popup-content {
+        body.lang-en .pricing-popup-content {
             direction: ltr;
             text-align: left;
         }
 
-        html[dir="ltr"] .price-card {
+        body.lang-en .price-card,
+        body.lang-en .buy-banner h2,
+        body.lang-en .buy-banner p,
+        body.lang-en .section-title {
             text-align: center;
+        }
+
+        body.lang-en .delivery-options {
+            direction: ltr;
+        }
+
+        body.lang-en .form-group {
+            text-align: left;
+        }
+
+        body.lang-en .countdown {
+            direction: ltr;
         }
 
         /* Accessibility Widget */
@@ -4045,79 +4064,105 @@
             }
         });
 
-        // Language Toggle
+        // Language Toggle System
         let currentLang = 'he';
+        let originalTexts = new Map();
 
-        const translations = {
+        const T = {
+            // Hero
             'הסיפור שכל ישראלי צריך לקרוא': 'The Story Every Israeli Needs to Read',
-            'יומן אמיתי של לוחם מילואים, שנכתב בזמן אמת בין קרבות להפוגות. חוויות, רגשות ומחשבות שלא מספרים בחדשות.': 'A real diary of a reserve soldier, written in real-time between battles. Experiences, emotions and thoughts not told in the news.',
+            'יומן אמיתי של לוחם מילואים, שנכתב בזמן אמת בין קרבות להפוגות. חוויות, רגשות ומחשבות שלא מספרים בחדשות.': 'A real diary of a reserve soldier, written in real-time between battles. Experiences, emotions, and thoughts not shown in the news.',
             'כבר נמכרו': 'Already sold',
             'עותקים': 'copies',
-            'חיסכון ₪30': 'Save ₪30',
-            'חיסכון ₪102!': 'Save ₪102!',
-            'חיסכון ₪157!': 'Save ₪157!',
             'לרכישת הספר': 'Buy the Book',
-            '📖 לרכישת הספר': '📖 Buy the Book',
-            '🔒 תשלום מאובטח': '🔒 Secure Payment',
-            '📍 איסוף חינם בתיאום': '📍 Free Pickup',
-            '✅ החזר כספי מלא': '✅ Full Refund',
             'לחצו לתקציר הספר': 'Click for Summary',
+
+            // Trust badges
+            'תשלום מאובטח': 'Secure Payment',
+            'איסוף חינם בתיאום': 'Free Pickup',
+            'החזר כספי מלא': 'Full Refund',
+
+            // Donation section
             'רכישה עם משמעות': 'A Purchase with Meaning',
-            '🤍 15% מההכנסות נתרמות ל': '🤍 15% of proceeds donated to',
             'פרויקט שפת הים': 'Sfat HaYam Project',
             'סדנאות לאנשי מילואים ומעגלי שכול': 'Workshops for reservists and bereaved families',
             'מה זה פרויקט שפת הים?': 'What is Sfat HaYam?',
+
+            // Reviews
             'מה אומרים הקוראים': 'What Readers Say',
-            '✓ מאומת': '✓ Verified',
+            'מאומת': 'Verified',
+            'ספר שנוגע בלב. כל מילה מרגישה אמיתית, כל עמוד מספר סיפור של כולנו.': 'A book that touches the heart. Every word feels real, every page tells a story of all of us.',
+            'נכתב מהלב, ישר אל הלב. חובה לכל מי שרוצה להבין את המציאות שלנו.': 'Written from the heart, straight to the heart. A must for anyone who wants to understand our reality.',
+            'קניתי לבעלי שחזר ממילואים. הוא קרא בנשימה אחת ואמר שזה בדיוק מה שהוא מרגיש אבל לא מצליח לבטא.': 'I bought it for my husband who returned from reserves. He read it in one breath and said it\'s exactly what he feels but can\'t express.',
+            'כלוחם מילואים בעצמי, הספר הזה גרם לי להרגיש שמישהו סוף סוף מבין. תודה טל.': 'As a reservist myself, this book made me feel like someone finally understands. Thank you Tal.',
+            'ספר מרגש ביותר! האיורים מוסיפים עומק לכל מילה.': 'A very moving book! The illustrations add depth to every word.',
+            'קניתי את הספר לסבא שלי שהיה לוחם בשריון ב-73, הוא התרגש עד דמעות. הספר מחבר בין הדורות.': 'I bought the book for my grandfather who was a tank soldier in \'73. He was moved to tears. The book connects generations.',
+
+            // Gallery
             'איורים מתוך הספר': 'Illustrations from the Book',
             'כל איור מספר סיפור, כל קו משקף רגע מהמציאות הכפולה': 'Each illustration tells a story, each line reflects a moment of the dual reality',
+
+            // About
             'על הסופר': 'About the Author',
             'מאת טל הוך': 'By Tal Hoch',
-            'שאלות נפוצות': 'FAQ',
+
+            // FAQ
+            'שאלות נפוצות': 'Frequently Asked Questions',
+            'מה זה הספר "מציאות כפולה"?': 'What is the book "Dual Reality"?',
+            'כמה זמן לוקח המשלוח?': 'How long does shipping take?',
+            'כמה עולה המשלוח?': 'How much does shipping cost?',
+            'האם אפשר לקבל הקדשה אישית?': 'Can I get a personal dedication?',
+            'לאן נתרמים 15% מההכנסות?': 'Where does 15% of proceeds go?',
+
+            // Pricing
             'בחרו את החבילה שלכם': 'Choose Your Package',
             'חסכו בקנייה של מספר עותקים!': 'Save when buying multiple copies!',
             'עותק בודד': 'Single Copy',
-            '3 עותקים': '3 Copies',
-            '4 עותקים': '4 Copies',
             'הכי פופולרי': 'Most Popular',
             'לרכישה': 'Buy',
-            '🤍 15% נתרמים לפרויקט שפת הים': '🤍 15% donated to Sfat HaYam',
+            'חיסכון': 'Save',
+
+            // Form
             'פרטי ההזמנה': 'Order Details',
-            'שם מלא *': 'Full Name *',
-            'אימייל *': 'Email *',
-            'טלפון *': 'Phone *',
-            'אופן קבלת ההזמנה *': 'Delivery Method *',
+            'שם מלא': 'Full Name',
+            'אימייל': 'Email',
+            'טלפון': 'Phone',
+            'אופן קבלת ההזמנה': 'Delivery Method',
             'משלוח עד הבית': 'Home Delivery',
             'המשלוח יגיע אליכם תוך 3-5 ימי עסקים': 'Delivery within 3-5 business days',
             'איסוף עצמי': 'Self Pickup',
             'בתיאום מראש באזור המרכז': 'By appointment in central Israel',
             'חינם': 'Free',
-            'כתובת למשלוח *': 'Delivery Address *',
+            'כתובת למשלוח': 'Delivery Address',
             'הקדשה אישית (אופציונלי)': 'Personal Dedication (optional)',
             'הערות להזמנה (אופציונלי)': 'Order Notes (optional)',
             'שליחת הזמנה': 'Submit Order',
-            'יצירת קשר': 'Contact',
-            'תקנון האתר': 'Terms',
-            'מדיניות פרטיות': 'Privacy',
-            'הגדרות נגישות': 'Accessibility',
-            '🌙 מצב לילה': '🌙 Night Mode',
-            '🔲 ניגודיות גבוהה': '🔲 High Contrast',
-            '🔤 טקסט גדול': '🔤 Large Text',
-            '↺ איפוס': '↺ Reset',
-            '⏰ המבצע מסתיים בקרוב': '⏰ Sale ends soon',
-            'ימים': 'days',
-            'שעות': 'hours',
-            'דקות': 'minutes',
-            '₪30 הנחה': '₪30 OFF',
-            'המבצע נגמר בעוד:': 'Sale ends in:',
-            '⭐⭐⭐⭐⭐ 98% מהקוראים ממליצים': '⭐⭐⭐⭐⭐ 98% of readers recommend',
-            '🚚 משלוח לכל הארץ ₪29.99 | 📍 איסוף עצמי חינם בתיאום מראש': '🚚 Nationwide shipping ₪29.99 | 📍 Free pickup by appointment',
-            '* המחירים כוללים מע"מ. משלוח: ₪29.99 | איסוף עצמי: חינם': '* Prices include VAT. Shipping: ₪29.99 | Pickup: Free',
             'סיכום:': 'Summary:',
             'חבילה:': 'Package:',
             'מחיר:': 'Price:',
-            '© 2026 כל הזכויות שמורות לטל הוך': '© 2026 All rights reserved to Tal Hoch',
-            'לרכישה עכשיו': 'Buy Now'
+
+            // Footer & Misc
+            'יצירת קשר': 'Contact',
+            'תקנון האתר': 'Terms',
+            'מדיניות פרטיות': 'Privacy',
+            'הגדרות נגישות': 'Accessibility Settings',
+            'מצב לילה': 'Night Mode',
+            'ניגודיות גבוהה': 'High Contrast',
+            'טקסט גדול': 'Large Text',
+            'איפוס': 'Reset',
+            'המבצע מסתיים בקרוב': 'Sale ends soon',
+            'ימים': 'days',
+            'שעות': 'hours',
+            'דקות': 'minutes',
+            'הנחה': 'OFF',
+            'המבצע נגמר בעוד:': 'Sale ends in:',
+            'מהקוראים ממליצים': 'of readers recommend',
+            'כל הזכויות שמורות לטל הוך': 'All rights reserved to Tal Hoch',
+            'לרכישה עכשיו': 'Buy Now',
+            'משלוח לכל הארץ': 'Nationwide shipping',
+            'איסוף עצמי חינם בתיאום מראש': 'Free pickup by appointment',
+            'נתרמים לפרויקט שפת הים': 'donated to Sfat HaYam',
+            'מההכנסות נתרמות ל': 'of proceeds donated to'
         };
 
         function toggleLanguage() {
@@ -4125,88 +4170,85 @@
             const langBtn = document.getElementById('langBtn');
 
             if (currentLang === 'he') {
+                // Switch to English
                 currentLang = 'en';
                 html.setAttribute('dir', 'ltr');
                 html.setAttribute('lang', 'en');
-                langBtn.textContent = 'HE';
-                applyTranslations();
+                langBtn.textContent = 'עב';
+                document.body.classList.add('lang-en');
+                translateToEnglish();
             } else {
+                // Switch to Hebrew
                 currentLang = 'he';
                 html.setAttribute('dir', 'rtl');
                 html.setAttribute('lang', 'he');
                 langBtn.textContent = 'EN';
+                document.body.classList.remove('lang-en');
                 restoreHebrew();
             }
             localStorage.setItem('siteLang', currentLang);
         }
 
-        function applyTranslations() {
-            // Get all text nodes
-            const walker = document.createTreeWalker(
-                document.body,
-                NodeFilter.SHOW_TEXT,
-                null,
-                false
-            );
+        function translateToEnglish() {
+            // Find all elements with text
+            const selector = 'h1, h2, h3, h4, p, span, button, label, a, div.tagline, div.trust-badge, div.hero-delivery, div.reader-satisfaction, div.review-text, div.review-author, div.copies-sold, div.urgency-text, div.countdown-item small, div.donation-note, div.click-hint, div.floating-trust, div.delivery-option-title, div.delivery-option-desc, div.delivery-option-price, div.price-savings, div.price-donation, div.price-badge, div.price-note, div.faq-question h3, div.faq-answer-content, div.gallery-subtitle, div.ticker-toggle, div.popup-urgency, span.price-btn, footer p';
 
-            const textNodes = [];
-            while (walker.nextNode()) {
-                if (walker.currentNode.textContent.trim()) {
-                    textNodes.push(walker.currentNode);
+            document.querySelectorAll(selector).forEach(el => {
+                // Skip if has children elements (except specific inline elements)
+                if (el.children.length > 0 && !['A', 'SPAN', 'STRONG', 'EM', 'B'].includes(el.children[0]?.tagName)) {
+                    return;
                 }
-            }
 
-            textNodes.forEach(node => {
-                const text = node.textContent;
-                if (!node.parentElement.dataset.origText) {
-                    node.parentElement.dataset.origText = text;
+                const origHTML = el.innerHTML;
+                if (!el.dataset.he) {
+                    el.dataset.he = origHTML;
                 }
-                let newText = text;
-                for (const [he, en] of Object.entries(translations)) {
-                    if (newText.includes(he)) {
-                        newText = newText.replace(he, en);
+
+                let newHTML = origHTML;
+                for (const [he, en] of Object.entries(T)) {
+                    if (newHTML.includes(he)) {
+                        newHTML = newHTML.split(he).join(en);
                     }
                 }
-                if (newText !== text) {
-                    node.textContent = newText;
+
+                if (newHTML !== origHTML) {
+                    el.innerHTML = newHTML;
                 }
             });
 
             // Update placeholders
-            document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
-                if (!el.dataset.origPlaceholder) {
-                    el.dataset.origPlaceholder = el.placeholder;
-                }
-                if (el.placeholder.includes('רחוב')) {
-                    el.placeholder = 'Street, number, city, zip code';
-                }
-                if (el.placeholder.includes('למי')) {
-                    el.placeholder = 'To whom? What message?';
-                }
-                if (el.placeholder.includes('בקשות')) {
-                    el.placeholder = 'Special requests';
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.placeholder && !el.dataset.hePlaceholder) {
+                    el.dataset.hePlaceholder = el.placeholder;
                 }
             });
+
+            const addressInput = document.querySelector('textarea[name="כתובת"]');
+            if (addressInput) addressInput.placeholder = 'Street, number, city, zip code';
+
+            const dedicationInput = document.querySelector('textarea[name="הקדשה"]');
+            if (dedicationInput) dedicationInput.placeholder = 'To whom? What message would you like to write?';
+
+            const notesInput = document.querySelector('input[name="הערות"]');
+            if (notesInput) notesInput.placeholder = 'Special requests';
         }
 
         function restoreHebrew() {
-            document.querySelectorAll('[data-orig-text]').forEach(el => {
-                const textNode = el.firstChild;
-                if (textNode && textNode.nodeType === 3) {
-                    textNode.textContent = el.dataset.origText;
-                }
+            document.querySelectorAll('[data-he]').forEach(el => {
+                el.innerHTML = el.dataset.he;
             });
 
-            document.querySelectorAll('[data-orig-placeholder]').forEach(el => {
-                el.placeholder = el.dataset.origPlaceholder;
+            document.querySelectorAll('[data-he-placeholder]').forEach(el => {
+                el.placeholder = el.dataset.hePlaceholder;
             });
         }
 
-        // Load saved language preference
-        if (localStorage.getItem('siteLang') === 'en') {
-            currentLang = 'he'; // Set to he so toggle switches to en
-            setTimeout(toggleLanguage, 100);
-        }
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('siteLang') === 'en') {
+                setTimeout(toggleLanguage, 200);
+            }
+        });
 
         // Popup functions
         function closePopup() {
