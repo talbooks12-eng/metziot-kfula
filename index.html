@@ -2487,6 +2487,64 @@
             transform: translateY(-2px);
         }
 
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+        }
+
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1rem;
+            background: white;
+            color: var(--text-dark);
+            border: 2px solid var(--border-light);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: var(--bg-warm);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .lang-btn .flag {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .lang-toggle {
+                top: 15px;
+                left: 15px;
+            }
+            .lang-btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* RTL/LTR adjustments */
+        html[dir="ltr"] {
+            font-family: 'Rubik', sans-serif;
+        }
+
+        html[dir="ltr"] .hero-content,
+        html[dir="ltr"] .tagline,
+        html[dir="ltr"] .section-title,
+        html[dir="ltr"] .review-card {
+            text-align: left;
+        }
+
         /* Accessibility Widget */
         .accessibility-widget {
             position: fixed;
@@ -2705,8 +2763,16 @@
         </div>
     </div>
 
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn" onclick="toggleLanguage()" aria-label="Switch language">
+            <span class="flag" id="langFlag">🇺🇸</span>
+            <span id="langText">English</span>
+        </button>
+    </div>
+
     <!-- Skip to content link for accessibility -->
-    <a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+    <a href="#main-content" class="skip-link" data-he="דלג לתוכן הראשי" data-en="Skip to main content">דלג לתוכן הראשי</a>
 
     <!-- Floating Buy Button -->
     <div class="floating-buy" id="floatingBuy">
@@ -3927,6 +3993,146 @@
                 menu.classList.remove('open');
             }
         });
+
+        // Language Toggle
+        const translations = {
+            // Hero section
+            'הסיפור שכל ישראלי צריך לקרוא': 'The Story Every Israeli Needs to Read',
+            'יומן אמיתי של לוחם מילואים, שנכתב בזמן אמת בין קרבות להפוגות. חוויות, רגשות ומחשבות שלא מספרים בחדשות.': 'A real diary of a reserve soldier, written in real-time between battles and breaks. Experiences, emotions and thoughts not told in the news.',
+            'כבר נמכרו': 'Already sold',
+            'עותקים': 'copies',
+            'חיסכון': 'Save',
+            'לרכישת הספר': 'Buy the Book',
+            'תשלום מאובטח': 'Secure Payment',
+            'איסוף חינם בתיאום': 'Free Pickup',
+            'החזר כספי מלא': 'Full Refund',
+            'לחצו לתקציר הספר': 'Click for Book Summary',
+
+            // Donation section
+            'רכישה עם משמעות': 'A Purchase with Meaning',
+            '15% מההכנסות נתרמות ל': '15% of proceeds donated to',
+            'פרויקט שפת הים': 'Sfat HaYam Project',
+            'סדנאות לאנשי מילואים ומעגלי שכול': 'Workshops for reservists and bereaved families',
+            'מה זה פרויקט שפת הים?': 'What is Sfat HaYam Project?',
+
+            // Reviews
+            'מה אומרים הקוראים': 'What Readers Say',
+            'מאומת': 'Verified',
+
+            // Gallery
+            'איורים מתוך הספר': 'Illustrations from the Book',
+            'כל איור מספר סיפור, כל קו משקף רגע מהמציאות הכפולה': 'Each illustration tells a story, each line reflects a moment of the dual reality',
+
+            // About
+            'על הסופר': 'About the Author',
+            'מאת טל הוך': 'By Tal Hoch',
+
+            // FAQ
+            'שאלות נפוצות': 'FAQ',
+
+            // Pricing
+            'בחרו את החבילה שלכם': 'Choose Your Package',
+            'עותק בודד': 'Single Copy',
+            '3 עותקים': '3 Copies',
+            '4 עותקים': '4 Copies',
+            'הכי פופולרי': 'Most Popular',
+            'לרכישה': 'Buy',
+            '15% נתרמים לפרויקט שפת הים': '15% donated to Sfat HaYam',
+
+            // Form
+            'פרטי ההזמנה': 'Order Details',
+            'שם מלא': 'Full Name',
+            'אימייל': 'Email',
+            'טלפון': 'Phone',
+            'אופן קבלת ההזמנה': 'Delivery Method',
+            'משלוח עד הבית': 'Home Delivery',
+            'איסוף עצמי': 'Self Pickup',
+            'בתיאום מראש באזור המרכז': 'By appointment in central Israel',
+            'חינם': 'Free',
+            'כתובת למשלוח': 'Delivery Address',
+            'הקדשה אישית': 'Personal Dedication',
+            'הערות להזמנה': 'Order Notes',
+            'שליחת הזמנה': 'Submit Order',
+
+            // Footer
+            'יצירת קשר': 'Contact',
+            'תקנון האתר': 'Terms of Service',
+            'מדיניות פרטיות': 'Privacy Policy',
+
+            // Misc
+            'דלג לתוכן הראשי': 'Skip to main content',
+            'הגדרות נגישות': 'Accessibility Settings',
+            'מצב לילה': 'Night Mode',
+            'ניגודיות גבוהה': 'High Contrast',
+            'טקסט גדול': 'Large Text',
+            'איפוס': 'Reset',
+            'המבצע מסתיים בקרוב': 'Sale ends soon',
+            'ימים': 'days',
+            'שעות': 'hours',
+            'דקות': 'minutes',
+            'הנחה': 'discount',
+            'המבצע נגמר בעוד:': 'Sale ends in:',
+            '98% מהקוראים ממליצים': '98% of readers recommend'
+        };
+
+        let currentLang = 'he';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'he' ? 'en' : 'he';
+            const html = document.documentElement;
+            const langFlag = document.getElementById('langFlag');
+            const langText = document.getElementById('langText');
+
+            if (currentLang === 'en') {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'en');
+                langFlag.textContent = '🇮🇱';
+                langText.textContent = 'עברית';
+                translatePage('en');
+            } else {
+                html.setAttribute('dir', 'rtl');
+                html.setAttribute('lang', 'he');
+                langFlag.textContent = '🇺🇸';
+                langText.textContent = 'English';
+                translatePage('he');
+            }
+
+            localStorage.setItem('siteLang', currentLang);
+        }
+
+        function translatePage(lang) {
+            const elements = document.querySelectorAll('h1, h2, h3, p, span, button, label, a, div, small');
+
+            elements.forEach(el => {
+                if (el.children.length === 0 || el.tagName === 'BUTTON') {
+                    const text = el.textContent.trim();
+
+                    if (lang === 'en') {
+                        // Store original Hebrew text
+                        if (!el.dataset.heText && text) {
+                            el.dataset.heText = text;
+                        }
+                        // Find translation
+                        for (const [he, en] of Object.entries(translations)) {
+                            if (text.includes(he)) {
+                                el.textContent = el.textContent.replace(he, en);
+                            }
+                        }
+                    } else {
+                        // Restore Hebrew text
+                        if (el.dataset.heText) {
+                            el.textContent = el.dataset.heText;
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load saved language preference
+        const savedLang = localStorage.getItem('siteLang');
+        if (savedLang === 'en') {
+            toggleLanguage();
+        }
 
         // Popup functions
         function closePopup() {
