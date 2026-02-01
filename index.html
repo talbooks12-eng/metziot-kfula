@@ -684,7 +684,7 @@
         }
 
         .project-info-ticker.expanded .ticker-content {
-            max-height: 300px;
+            max-height: 600px;
             padding-top: 1rem;
         }
 
@@ -721,6 +721,34 @@
 
         .banner-ticker .ticker-content p strong {
             color: white;
+        }
+
+        /* Mobile styles for ticker */
+        @media (max-width: 768px) {
+            .project-info-ticker {
+                padding: 0.75rem;
+            }
+            .project-info-ticker.expanded .ticker-content {
+                max-height: 800px;
+            }
+            .ticker-content p {
+                font-size: 0.8rem;
+                line-height: 1.8;
+            }
+            .banner-ticker {
+                max-width: 100%;
+                margin: 0.75rem auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .project-info-ticker.expanded .ticker-content {
+                max-height: 1000px;
+            }
+            .ticker-content p {
+                font-size: 0.75rem;
+                line-height: 1.9;
+            }
         }
 
         .price-card {
