@@ -827,6 +827,127 @@
             transform: translateY(-2px);
         }
 
+        /* Payment Step Styles */
+        .payment-summary {
+            background: var(--bg-warm);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .payment-summary p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .order-id-display {
+            font-size: 0.9rem !important;
+            color: var(--text-secondary);
+        }
+
+        .payment-secure-badge {
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .tranzila-iframe-container {
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 400px;
+            background: white;
+            position: relative;
+        }
+
+        .tranzila-iframe-container iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+        }
+
+        .payment-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .payment-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-light);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .payment-info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-soft);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .payment-info p {
+            margin: 0.3rem 0;
+        }
+
+        /* Payment Success */
+        .payment-success {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .payment-success .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-success h2 {
+            color: #2E7D32;
+            margin-bottom: 1rem;
+        }
+
+        .payment-success .success-name {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-success .success-order {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-success .success-email {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-success .success-details {
+            background: var(--bg-warm);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-success .success-details p {
+            margin: 0.5rem 0;
+        }
+
         body.dark-mode .order-form input,
         body.dark-mode .order-form textarea {
             background: #3d3d3d;
@@ -3104,8 +3225,49 @@
 
                     <p class="price-note">* המחירים כוללים מע"מ. משלוח: ₪29.99 | איסוף עצמי: חינם</p>
 
-                    <button type="submit" class="submit-order-btn">שליחת הזמנה</button>
+                    <button type="submit" class="submit-order-btn">המשך לתשלום מאובטח</button>
                 </form>
+            </div>
+
+            <!-- Step 3: Payment -->
+            <div id="pricingStep3" style="display: none;">
+                <button class="back-btn" onclick="backToDetails()">← חזרה לפרטים</button>
+                <h2>תשלום מאובטח</h2>
+                <div class="payment-summary">
+                    <p>סיכום הזמנה: <strong id="paymentPackageDisplay"></strong></p>
+                    <p>סה"כ לתשלום: <strong id="paymentTotalDisplay"></strong></p>
+                    <p class="order-id-display">מספר הזמנה: <strong id="orderIdDisplay"></strong></p>
+                </div>
+                <div class="payment-secure-badge">
+                    🔒 תשלום מאובטח באמצעות Tranzila
+                </div>
+                <div class="tranzila-iframe-container" id="tranzilaContainer">
+                    <div class="payment-loading" id="paymentLoading">
+                        <div class="spinner"></div>
+                        <p>טוען טופס תשלום מאובטח...</p>
+                    </div>
+                    <iframe id="tranzilaIframe" name="tranzilaIframe" style="display:none;"></iframe>
+                </div>
+                <div class="payment-info">
+                    <p>🔐 כל פרטי האשראי מוצפנים ומאובטחים</p>
+                    <p>💳 אנו מקבלים: ויזה, מאסטרקארד, ישראכרט, אמריקן אקספרס</p>
+                </div>
+            </div>
+
+            <!-- Step 4: Success -->
+            <div id="pricingStep4" style="display: none;">
+                <div class="payment-success">
+                    <div class="success-icon">✅</div>
+                    <h2>התשלום בוצע בהצלחה!</h2>
+                    <p class="success-name"></p>
+                    <p class="success-order">מספר הזמנה: <strong id="successOrderId"></strong></p>
+                    <p class="success-email">אישור נשלח לכתובת: <strong id="successEmail"></strong></p>
+                    <div class="success-details">
+                        <p>📦 ניצור איתך קשר בקרוב לתיאום המשלוח</p>
+                        <p>🤍 תודה שתמכת בפרויקט שפת הים</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="closePricing()">סגירה</button>
+                </div>
             </div>
         </div>
     </div>
@@ -3428,8 +3590,33 @@
         }
     </script>
 
-    <!-- Pricing Popup Script -->
+    <!-- Pricing Popup Script with Tranzila Integration -->
     <script>
+        // ============================================
+        // TRANZILA CONFIGURATION
+        // ============================================
+        // TODO: Replace 'YOUR_TERMINAL_NAME' with your actual Tranzila terminal name
+        // You can find this in your Tranzila dashboard at https://www.tranzila.com/
+        // Your supplier number is: 0067660
+        const TRANZILA_TERMINAL = 'YOUR_TERMINAL_NAME'; // <-- UPDATE THIS
+
+        // Current order data storage
+        let currentOrderData = null;
+
+        // Generate unique order ID
+        function generateOrderId() {
+            const timestamp = Date.now().toString(36);
+            const random = Math.random().toString(36).substr(2, 5);
+            return `MK-${timestamp}-${random}`.toUpperCase();
+        }
+
+        // Calculate total price including shipping
+        function calculateTotal(basePrice, deliveryMethod) {
+            const price = parseInt(basePrice.replace('₪', ''));
+            const shipping = deliveryMethod === 'משלוח' ? 29.99 : 0;
+            return (price + shipping).toFixed(2);
+        }
+
         function openPricing() {
             document.getElementById('pricingPopup').classList.add('open');
             document.body.style.overflow = 'hidden';
@@ -3438,6 +3625,19 @@
         function closePricing() {
             document.getElementById('pricingPopup').classList.remove('open');
             document.body.style.overflow = '';
+            // Reset all steps
+            resetPricingSteps();
+        }
+
+        function resetPricingSteps() {
+            document.getElementById('pricingStep1').style.display = 'block';
+            document.getElementById('pricingStep2').style.display = 'none';
+            document.getElementById('pricingStep3').style.display = 'none';
+            document.getElementById('pricingStep4').style.display = 'none';
+            // Reset form if needed
+            const form = document.getElementById('orderForm');
+            if (form) form.reset();
+            currentOrderData = null;
         }
 
         document.getElementById('pricingPopup').addEventListener('click', function(e) {
@@ -3459,14 +3659,19 @@
             document.getElementById('pricingStep2').style.display = 'none';
         }
 
-        // Submit order to Google Sheets and send email notification
+        function backToDetails() {
+            document.getElementById('pricingStep2').style.display = 'block';
+            document.getElementById('pricingStep3').style.display = 'none';
+        }
+
+        // Step 2: Collect details and proceed to payment
         async function submitOrder(event) {
             event.preventDefault();
 
             const form = document.getElementById('orderForm');
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-            submitBtn.textContent = 'שולח...';
+            submitBtn.textContent = 'מעבר לתשלום...';
 
             // Get form values
             const name = form.querySelector('input[name="שם"]').value;
@@ -3479,37 +3684,147 @@
             const dedication = form.querySelector('textarea[name="הקדשה"]')?.value || '';
             const notes = form.querySelector('input[name="הערות"]')?.value || '';
 
-            // Submit to Google Forms (for spreadsheet tracking)
+            // Generate order ID
+            const orderId = generateOrderId();
+            const totalAmount = calculateTotal(price, deliveryMethod);
+
+            // Store order data for later
+            currentOrderData = {
+                orderId,
+                name,
+                email,
+                phone,
+                package: package_,
+                price,
+                totalAmount,
+                address,
+                deliveryMethod,
+                dedication,
+                notes,
+                timestamp: new Date().toISOString(),
+                paymentStatus: 'pending'
+            };
+
+            // Save to localStorage as backup
+            localStorage.setItem('pendingOrder_' + orderId, JSON.stringify(currentOrderData));
+
+            // Show payment step
+            showPaymentStep(currentOrderData);
+
+            // Reset submit button
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'המשך לתשלום מאובטח';
+        }
+
+        function showPaymentStep(orderData) {
+            // Update payment summary
+            document.getElementById('paymentPackageDisplay').textContent = orderData.package;
+            document.getElementById('paymentTotalDisplay').textContent = '₪' + orderData.totalAmount;
+            document.getElementById('orderIdDisplay').textContent = orderData.orderId;
+
+            // Hide step 2, show step 3
+            document.getElementById('pricingStep2').style.display = 'none';
+            document.getElementById('pricingStep3').style.display = 'block';
+
+            // Load Tranzila iframe
+            loadTranzilaPayment(orderData);
+        }
+
+        function loadTranzilaPayment(orderData) {
+            const iframe = document.getElementById('tranzilaIframe');
+            const loading = document.getElementById('paymentLoading');
+
+            // Build Tranzila URL with parameters
+            const params = new URLSearchParams({
+                sum: orderData.totalAmount,
+                currency: '1', // ILS
+                cred_type: '1', // Regular payment
+                lang: 'he',
+                tranmode: 'A', // Authorization
+                contact: orderData.name,
+                email: orderData.email,
+                phone: orderData.phone,
+                orderId: orderData.orderId,
+                pdesc: 'מציאות כפולה - ' + orderData.package,
+                // Success/Fail redirect URLs (update these to your actual URLs)
+                success_url_address: encodeURIComponent(window.location.origin + '?payment=success&order=' + orderData.orderId),
+                fail_url_address: encodeURIComponent(window.location.origin + '?payment=failed&order=' + orderData.orderId),
+                notify_url_address: encodeURIComponent(window.location.origin + '/tranzila-notify')
+            });
+
+            const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/iframenew.php?${params.toString()}`;
+
+            // Set iframe source
+            iframe.src = tranzilaUrl;
+
+            // Show iframe when loaded
+            iframe.onload = function() {
+                loading.style.display = 'none';
+                iframe.style.display = 'block';
+            };
+        }
+
+        // Listen for payment completion (from URL params or postMessage)
+        function checkPaymentStatus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const paymentStatus = urlParams.get('payment');
+            const orderId = urlParams.get('order');
+
+            if (paymentStatus && orderId) {
+                // Get order data from localStorage
+                const orderData = JSON.parse(localStorage.getItem('pendingOrder_' + orderId));
+
+                if (paymentStatus === 'success' && orderData) {
+                    handlePaymentSuccess(orderData);
+                } else if (paymentStatus === 'failed') {
+                    handlePaymentFailed(orderId);
+                }
+
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        // Handle successful payment
+        async function handlePaymentSuccess(orderData) {
+            // Update order status
+            orderData.paymentStatus = 'paid';
+            orderData.paidAt = new Date().toISOString();
+
+            // Submit to Google Forms with payment confirmation
             const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfzkGSK5IEAqswyzyuqa37ReV0bEZow_5DuuHlWOglTc08eqA/formResponse';
             const googleFormData = new FormData();
-            googleFormData.append('entry.558958194', name);
-            googleFormData.append('entry.760949935', email);
-            googleFormData.append('entry.25500744', phone);
-            googleFormData.append('entry.929296802', package_);
-            googleFormData.append('entry.667716366', price);
-            googleFormData.append('entry.2012880841', address + (dedication ? '\nהקדשה: ' + dedication : '') + (notes ? '\nהערות: ' + notes : ''));
-            googleFormData.append('entry.1586531686', deliveryMethod);
+            googleFormData.append('entry.558958194', orderData.name);
+            googleFormData.append('entry.760949935', orderData.email);
+            googleFormData.append('entry.25500744', orderData.phone);
+            googleFormData.append('entry.929296802', orderData.package);
+            googleFormData.append('entry.667716366', '₪' + orderData.totalAmount + ' (שולם - ' + orderData.orderId + ')');
+            googleFormData.append('entry.2012880841', orderData.address +
+                (orderData.dedication ? '\nהקדשה: ' + orderData.dedication : '') +
+                (orderData.notes ? '\nהערות: ' + orderData.notes : ''));
+            googleFormData.append('entry.1586531686', orderData.deliveryMethod);
 
             try {
-                // Submit to Google Forms
                 fetch(googleFormUrl, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: googleFormData
                 });
 
-                // Also submit to FormSubmit for email notification
+                // Send email notification
                 const emailFormData = new FormData();
-                emailFormData.append('_subject', 'הזמנה חדשה - מציאות כפולה - ' + package_);
-                emailFormData.append('שם', name);
-                emailFormData.append('אימייל', email);
-                emailFormData.append('טלפון', phone);
-                emailFormData.append('חבילה', package_);
-                emailFormData.append('מחיר', price);
-                emailFormData.append('כתובת', address);
-                emailFormData.append('אופן_קבלה', deliveryMethod);
-                emailFormData.append('הקדשה', dedication);
-                emailFormData.append('הערות', notes);
+                emailFormData.append('_subject', '✅ תשלום התקבל! הזמנה ' + orderData.orderId + ' - ' + orderData.package);
+                emailFormData.append('מספר_הזמנה', orderData.orderId);
+                emailFormData.append('שם', orderData.name);
+                emailFormData.append('אימייל', orderData.email);
+                emailFormData.append('טלפון', orderData.phone);
+                emailFormData.append('חבילה', orderData.package);
+                emailFormData.append('סהכ_שולם', '₪' + orderData.totalAmount);
+                emailFormData.append('כתובת', orderData.address);
+                emailFormData.append('אופן_קבלה', orderData.deliveryMethod);
+                emailFormData.append('הקדשה', orderData.dedication);
+                emailFormData.append('הערות', orderData.notes);
+                emailFormData.append('סטטוס', '✅ שולם');
                 emailFormData.append('_captcha', 'false');
                 emailFormData.append('_template', 'table');
 
@@ -3517,32 +3832,80 @@
                     method: 'POST',
                     body: emailFormData
                 });
-
-                // Show success message
-                form.innerHTML = `
-                    <div style="text-align: center; padding: 2rem;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
-                        <h3 style="color: var(--accent); margin-bottom: 1rem;">ההזמנה התקבלה בהצלחה!</h3>
-                        <p style="margin-bottom: 0.5rem;"><strong>${name}</strong>, תודה על ההזמנה!</p>
-                        <p style="margin-bottom: 1rem;">פרטי ההזמנה נשלחו למייל ${email}</p>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary);">ניצור איתך קשר בקרוב לתיאום התשלום והמשלוח.</p>
-                    </div>
-                `;
-
             } catch (error) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'שליחת הזמנה';
-                alert('אירעה שגיאה, אנא נסו שנית או צרו קשר במייל');
+                console.error('Error logging order:', error);
+            }
+
+            // Show success step
+            showSuccessStep(orderData);
+
+            // Remove from pending orders
+            localStorage.removeItem('pendingOrder_' + orderData.orderId);
+
+            // Store in completed orders
+            const completedOrders = JSON.parse(localStorage.getItem('completedOrders') || '[]');
+            completedOrders.push(orderData);
+            localStorage.setItem('completedOrders', JSON.stringify(completedOrders));
+
+            // Track in Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'purchase', {
+                    transaction_id: orderData.orderId,
+                    value: parseFloat(orderData.totalAmount),
+                    currency: 'ILS',
+                    items: [{
+                        item_name: orderData.package,
+                        price: parseFloat(orderData.totalAmount)
+                    }]
+                });
             }
         }
 
-        function closePricing() {
-            document.getElementById('pricingPopup').classList.remove('open');
-            document.body.style.overflow = '';
-            // Reset to step 1
-            document.getElementById('pricingStep1').style.display = 'block';
+        function showSuccessStep(orderData) {
+            // Open popup if not open
+            document.getElementById('pricingPopup').classList.add('open');
+            document.body.style.overflow = 'hidden';
+
+            // Hide other steps
+            document.getElementById('pricingStep1').style.display = 'none';
             document.getElementById('pricingStep2').style.display = 'none';
+            document.getElementById('pricingStep3').style.display = 'none';
+            document.getElementById('pricingStep4').style.display = 'block';
+
+            // Update success message
+            document.querySelector('.payment-success .success-name').textContent = orderData.name + ', תודה על ההזמנה!';
+            document.getElementById('successOrderId').textContent = orderData.orderId;
+            document.getElementById('successEmail').textContent = orderData.email;
         }
+
+        function handlePaymentFailed(orderId) {
+            alert('התשלום נכשל. אנא נסו שנית או צרו קשר בטלפון 073-2224400');
+            // Reopen payment step
+            const orderData = JSON.parse(localStorage.getItem('pendingOrder_' + orderId));
+            if (orderData) {
+                currentOrderData = orderData;
+                openPricing();
+                showPaymentStep(orderData);
+            }
+        }
+
+        // Check payment status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkPaymentStatus();
+        });
+
+        // Listen for messages from Tranzila iframe
+        window.addEventListener('message', function(event) {
+            // Verify origin is Tranzila
+            if (event.origin.includes('tranzila.com')) {
+                const data = event.data;
+                if (data && data.status === 'success' && currentOrderData) {
+                    handlePaymentSuccess(currentOrderData);
+                } else if (data && data.status === 'failed') {
+                    handlePaymentFailed(currentOrderData?.orderId);
+                }
+            }
+        });
 
         // Legal modals
         function openTerms() {
