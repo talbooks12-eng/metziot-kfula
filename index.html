@@ -4686,16 +4686,16 @@
             }
         }
 
-        // Countdown Timer - Set end date to 14 days from now
+        // Countdown Timer - Set end date to 6 weeks from now
         function initCountdown() {
             // Check if we have a stored end date, otherwise create one
-            let endDate = localStorage.getItem('saleEnd3Weeks');
+            let endDate = localStorage.getItem('saleEnd6Weeks');
             if (!endDate) {
-                // Set countdown to 21 days (3 weeks) from now
+                // Set countdown to 42 days (6 weeks) from now
                 const now = new Date();
-                now.setDate(now.getDate() + 21);
+                now.setDate(now.getDate() + 42);
                 endDate = now.toISOString();
-                localStorage.setItem('saleEnd3Weeks', endDate);
+                localStorage.setItem('saleEnd6Weeks', endDate);
             }
 
             const countdownEnd = new Date(endDate);
@@ -4707,8 +4707,8 @@
                 if (diff <= 0) {
                     // Reset countdown when it ends
                     const newEnd = new Date();
-                    newEnd.setDate(newEnd.getDate() + 21);
-                    localStorage.setItem('saleEnd3Weeks', newEnd.toISOString());
+                    newEnd.setDate(newEnd.getDate() + 42);
+                    localStorage.setItem('saleEnd6Weeks', newEnd.toISOString());
                     location.reload();
                     return;
                 }
