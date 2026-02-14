@@ -3190,7 +3190,8 @@
                             </label>
                         </div>
                         <div class="pickup-note" id="pickupNote">
-                            לאחר ביצוע ההזמנה ניצור איתכם קשר לתיאום מועד ומיקום האיסוף. האיסוף מתאפשר באזור המרכז בלבד.
+                            📍 איסוף באזור המרכז | 🕐 ימים א׳-ה׳ 18:00-20:00 | 📱 054-325-7663<br>
+                            <small>לאחר ההזמנה תקבלו מייל עם פרטי התיאום</small>
                         </div>
                     </div>
 
@@ -3803,6 +3804,53 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             }
         }
 
+        // Send pickup confirmation email to customer
+        async function sendPickupConfirmationToCustomer(orderData) {
+            try {
+                const emailFormData = new FormData();
+                emailFormData.append('_subject', 'אישור הזמנה - מציאות כפולה | פרטי איסוף עצמי');
+                emailFormData.append('_replyto', 'Talbooks12@gmail.com');
+                emailFormData.append('_template', 'box');
+                emailFormData.append('_captcha', 'false');
+                emailFormData.append('message', `
+שלום ${orderData.name},
+
+תודה על הזמנתך מאתר מציאות כפולה! 📚
+
+פרטי ההזמנה:
+━━━━━━━━━━━━━━━━━━
+מספר הזמנה: ${orderData.orderId}
+חבילה: ${orderData.package}
+סכום: ₪${orderData.totalAmount}
+━━━━━━━━━━━━━━━━━━
+
+בחרת באיסוף עצמי - הנה הפרטים:
+━━━━━━━━━━━━━━━━━━
+📍 אזור: המרכז (המיקום המדויק יתואם)
+🕐 שעות איסוף: ימים א׳-ה׳ 18:00-20:00
+📱 טלפון לתיאום: 054-325-7663
+📧 אימייל: Talbooks12@gmail.com
+━━━━━━━━━━━━━━━━━━
+
+צרו קשר בטלפון או באימייל לתיאום מועד ומיקום האיסוף.
+
+תודה שבחרת לתמוך בפרויקט! 🤍
+15% מההכנסות נתרמות לפרויקט שפת הים.
+
+בברכה,
+טל הוך
+מציאות כפולה
+                `);
+
+                await fetch('https://formsubmit.co/ajax/' + orderData.email, {
+                    method: 'POST',
+                    body: emailFormData
+                });
+            } catch (error) {
+                console.error('Error sending pickup confirmation to customer:', error);
+            }
+        }
+
         // Log order to Google Forms
         async function logOrderToGoogleForms(orderData, status) {
             try {
@@ -3946,6 +3994,11 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
 
                 // Send Telegram notification for paid order
                 sendTelegramNotification(orderData, 'paid');
+
+                // Send pickup confirmation email to customer if they chose pickup (only after payment)
+                if (orderData.deliveryMethod === 'איסוף עצמי') {
+                    sendPickupConfirmationToCustomer(orderData);
+                }
             } catch (error) {
                 console.error('Error logging order:', error);
             }
