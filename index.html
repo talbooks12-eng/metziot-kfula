@@ -3708,6 +3708,12 @@
             // Save to localStorage as backup
             localStorage.setItem('pendingOrder_' + orderId, JSON.stringify(currentOrderData));
 
+            // Send email notification about new order (before payment)
+            sendOrderNotification(currentOrderData);
+
+            // Also log to Google Forms immediately (status: pending payment)
+            logOrderToGoogleForms(currentOrderData, 'ממתין לתשלום');
+
             // Show payment step
             showPaymentStep(currentOrderData);
 
@@ -3715,6 +3721,58 @@
             submitBtn.disabled = false;
             submitBtn.textContent = 'המשך לתשלום מאובטח';
         }
+
+        // Send email notification when order is submitted
+        async function sendOrderNotification(orderData) {
+            try {
+                const emailFormData = new FormData();
+                emailFormData.append('_subject', '🛒 הזמנה חדשה! ' + orderData.orderId + ' - ' + orderData.package + ' (ממתין לתשלום)');
+                emailFormData.append('מספר_הזמנה', orderData.orderId);
+                emailFormData.append('סטטוס', '⏳ ממתין לתשלום');
+                emailFormData.append('שם', orderData.name);
+                emailFormData.append('אימייל', orderData.email);
+                emailFormData.append('טלפון', orderData.phone);
+                emailFormData.append('חבילה', orderData.package);
+                emailFormData.append('סהכ_לתשלום', '₪' + orderData.totalAmount);
+                emailFormData.append('כתובת', orderData.address);
+                emailFormData.append('אופן_קבלה', orderData.deliveryMethod);
+                emailFormData.append('הקדשה', orderData.dedication || '-');
+                emailFormData.append('הערות', orderData.notes || '-');
+                emailFormData.append('_captcha', 'false');
+                emailFormData.append('_template', 'table');
+
+                await fetch('https://formsubmit.co/ajax/Talbooks12@gmail.com', {
+                    method: 'POST',
+                    body: emailFormData
+                });
+            } catch (error) {
+                console.error('Error sending order notification:', error);
+            }
+        }
+
+        // Log order to Google Forms
+        async function logOrderToGoogleForms(orderData, status) {
+            try {
+                const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfzkGSK5IEAqswyzyuqa37ReV0bEZow_5DuuHlWOglTc08eqA/formResponse';
+                const googleFormData = new FormData();
+                googleFormData.append('entry.558958194', orderData.name);
+                googleFormData.append('entry.760949935', orderData.email);
+                googleFormData.append('entry.25500744', orderData.phone);
+                googleFormData.append('entry.929296802', orderData.package);
+                googleFormData.append('entry.667716366', '₪' + orderData.totalAmount + ' (' + status + ' - ' + orderData.orderId + ')');
+                googleFormData.append('entry.2012880841', orderData.address +
+                    (orderData.dedication ? '\nהקדשה: ' + orderData.dedication : '') +
+                    (orderData.notes ? '\nהערות: ' + orderData.notes : ''));
+                googleFormData.append('entry.1586531686', orderData.deliveryMethod);
+
+                await fetch(googleFormUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: googleFormData
+                });
+            } catch (error) {
+                console.error('Error logging to Google Forms:', error);
+            }
 
         function showPaymentStep(orderData) {
             // Update payment summary
@@ -4727,6 +4785,98 @@
         }
 
         initCountdown();
+    </script>
+
+    <!-- Enhanced Analytics Tracking -->
+    <script>
+        // Track CTA button clicks
+        document.querySelectorAll('.btn-primary, .nav-btn, .price-card').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const buttonText = this.textContent.trim().substring(0, 50);
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'button_click', {
+                        event_category: 'engagement',
+                        event_label: buttonText
+                    });
+                }
+            });
+        });
+
+        // Track package selection
+        const originalSelectPackage = window.selectPackage;
+        window.selectPackage = function(packageName, price) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'select_package', {
+                    event_category: 'ecommerce',
+                    event_label: packageName,
+                    value: parseInt(price)
+                });
+            }
+            originalSelectPackage(packageName, price);
+        };
+
+        // Track form start (when user focuses on first field)
+        const orderForm = document.getElementById('orderForm');
+        if (orderForm) {
+            let formStarted = false;
+            orderForm.addEventListener('focusin', function() {
+                if (!formStarted) {
+                    formStarted = true;
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'form_start', {
+                            event_category: 'engagement',
+                            event_label: 'order_form'
+                        });
+                    }
+                }
+            });
+        }
+
+        // Track scroll depth
+        let scrollMarks = { 25: false, 50: false, 75: false, 100: false };
+        window.addEventListener('scroll', function() {
+            const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+
+            [25, 50, 75, 100].forEach(mark => {
+                if (scrollPercent >= mark && !scrollMarks[mark]) {
+                    scrollMarks[mark] = true;
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'scroll_depth', {
+                            event_category: 'engagement',
+                            event_label: mark + '%',
+                            value: mark
+                        });
+                    }
+                }
+            });
+        });
+
+        // Track outbound links
+        document.querySelectorAll('a[target="_blank"]').forEach(link => {
+            link.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'outbound_click', {
+                        event_category: 'engagement',
+                        event_label: this.href
+                    });
+                }
+            });
+        });
+
+        // Track time on page
+        let timeOnPage = 0;
+        setInterval(() => {
+            timeOnPage += 30;
+            if (timeOnPage === 30 || timeOnPage === 60 || timeOnPage === 180 || timeOnPage === 300) {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'time_on_page', {
+                        event_category: 'engagement',
+                        event_label: timeOnPage + ' seconds',
+                        value: timeOnPage
+                    });
+                }
+            }
+        }, 30000);
     </script>
 </body>
 </html>
