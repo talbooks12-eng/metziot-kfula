@@ -3711,6 +3711,9 @@
             // Send email notification about new order (before payment)
             sendOrderNotification(currentOrderData);
 
+            // Send Telegram notification (only to your private chat)
+            sendTelegramNotification(currentOrderData, 'new');
+
             // Also log to Google Forms immediately (status: pending payment)
             logOrderToGoogleForms(currentOrderData, 'ממתין לתשלום');
 
@@ -3747,6 +3750,56 @@
                 });
             } catch (error) {
                 console.error('Error sending order notification:', error);
+            }
+        }
+
+        // Send Telegram notification (private - only to your chat)
+        async function sendTelegramNotification(orderData, type) {
+            const TELEGRAM_BOT_TOKEN = '8587921062:AAEnQXzItjfBeFzExi9QCqQM5GoWH2ll-2I';
+            const TELEGRAM_CHAT_ID = '6573456373'; // Your private chat ID
+
+            let message = '';
+            if (type === 'new') {
+                message = `🛒 *הזמנה חדשה!*
+
+📦 *${orderData.orderId}*
+👤 ${orderData.name}
+📧 ${orderData.email}
+📱 ${orderData.phone}
+
+📚 חבילה: ${orderData.package}
+💰 סכום: ₪${orderData.totalAmount}
+🚚 משלוח: ${orderData.deliveryMethod}
+
+📍 כתובת: ${orderData.address}
+${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
+
+⏳ סטטוס: ממתין לתשלום`;
+            } else if (type === 'paid') {
+                message = `✅ *תשלום התקבל!*
+
+📦 *${orderData.orderId}*
+👤 ${orderData.name}
+📱 ${orderData.phone}
+
+📚 חבילה: ${orderData.package}
+💰 שולם: ₪${orderData.totalAmount}
+
+🎉 ההזמנה מוכנה למשלוח!`;
+            }
+
+            try {
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+            } catch (error) {
+                console.error('Error sending Telegram notification:', error);
             }
         }
 
@@ -3890,6 +3943,9 @@
                     method: 'POST',
                     body: emailFormData
                 });
+
+                // Send Telegram notification for paid order
+                sendTelegramNotification(orderData, 'paid');
             } catch (error) {
                 console.error('Error logging order:', error);
             }
