@@ -3253,6 +3253,11 @@
                     <p>🔐 כל פרטי האשראי מוצפנים ומאובטחים</p>
                     <p>💳 אנו מקבלים: ויזה, מאסטרקארד, ישראכרט, אמריקן אקספרס</p>
                 </div>
+                <!-- TEST MODE - Remove after Tranzila is connected -->
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border: 2px dashed #ffc107; border-radius: 8px; text-align: center;">
+                    <p style="color: #856404; margin-bottom: 0.5rem; font-size: 0.85rem;">🧪 מצב בדיקה - כפתור זה יוסר לאחר חיבור Tranzila</p>
+                    <button onclick="simulatePaymentSuccess()" style="background: #28a745; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; cursor: pointer; font-family: inherit;">✅ סימולציית תשלום מוצלח (לבדיקה)</button>
+                </div>
             </div>
 
             <!-- Step 4: Success -->
@@ -4053,6 +4058,15 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
                 currentOrderData = orderData;
                 openPricing();
                 showPaymentStep(orderData);
+            }
+        }
+
+        // TEST MODE - Simulate successful payment (REMOVE AFTER TRANZILA IS CONNECTED)
+        function simulatePaymentSuccess() {
+            if (currentOrderData) {
+                handlePaymentSuccess(currentOrderData);
+            } else {
+                alert('אין הזמנה פעילה לסימולציה');
             }
         }
 
