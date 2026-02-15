@@ -827,6 +827,60 @@
             transform: translateY(-2px);
         }
 
+        /* Coupon Styles */
+        .coupon-group {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border-light);
+        }
+
+        .coupon-input-wrapper {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .coupon-input-wrapper input {
+            flex: 1;
+        }
+
+        .coupon-apply-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .coupon-apply-btn:hover {
+            background: var(--accent-dark);
+        }
+
+        .coupon-message {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .coupon-message.success {
+            display: block;
+            color: #2E7D32;
+            background: #E8F5E9;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .coupon-message.error {
+            display: block;
+            color: #C62828;
+            background: #FFEBEE;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
         /* Payment Step Styles */
         .payment-summary {
             background: var(--bg-warm);
@@ -3224,6 +3278,16 @@
                         </label>
                     </div>
 
+                    <!-- Coupon Code -->
+                    <div class="form-group coupon-group">
+                        <label>קוד קופון (אופציונלי)</label>
+                        <div class="coupon-input-wrapper">
+                            <input type="text" id="couponInput" placeholder="הזן קוד קופון">
+                            <button type="button" class="coupon-apply-btn" onclick="applyCoupon()">החל</button>
+                        </div>
+                        <div id="couponMessage" class="coupon-message"></div>
+                    </div>
+
                     <p class="price-note">* המחירים כוללים מע"מ. משלוח: ₪29.99 | איסוף עצמי: חינם</p>
 
                     <button type="submit" class="submit-order-btn">המשך לתשלום מאובטח</button>
@@ -3603,8 +3667,18 @@
         // ============================================
         const TRANZILA_TERMINAL = 'fxptbooks3601';
 
+        // ============================================
+        // COUPON CODES (manage from admin or here)
+        // ============================================
+        const COUPONS = {
+            'TEST95': { discount: 95, description: 'קופון בדיקה 95%' },
+            'FRIENDS20': { discount: 20, description: 'הנחת חברים 20%' },
+            'LAUNCH10': { discount: 10, description: 'הנחת השקה 10%' }
+        };
+
         // Current order data storage
         let currentOrderData = null;
+        let appliedCoupon = null;
 
         // Generate unique order ID
         function generateOrderId() {
@@ -3613,10 +3687,42 @@
             return `MK-${timestamp}-${random}`.toUpperCase();
         }
 
-        // Calculate total price including shipping
+        // Apply coupon code
+        function applyCoupon() {
+            const couponInput = document.getElementById('couponInput');
+            const couponMessage = document.getElementById('couponMessage');
+            const code = couponInput.value.trim().toUpperCase();
+
+            if (!code) {
+                couponMessage.textContent = 'אנא הזן קוד קופון';
+                couponMessage.className = 'coupon-message error';
+                return;
+            }
+
+            if (COUPONS[code]) {
+                appliedCoupon = { code, ...COUPONS[code] };
+                couponMessage.textContent = `✅ ${appliedCoupon.description} - הופעל בהצלחה!`;
+                couponMessage.className = 'coupon-message success';
+                couponInput.disabled = true;
+                document.querySelector('.coupon-apply-btn').textContent = '✓';
+                document.querySelector('.coupon-apply-btn').disabled = true;
+            } else {
+                appliedCoupon = null;
+                couponMessage.textContent = '❌ קוד קופון לא תקין';
+                couponMessage.className = 'coupon-message error';
+            }
+        }
+
+        // Calculate total price including shipping and coupon
         function calculateTotal(basePrice, deliveryMethod) {
-            const price = parseInt(basePrice.replace('₪', ''));
+            let price = parseInt(basePrice.replace('₪', ''));
             const shipping = deliveryMethod === 'משלוח' ? 29.99 : 0;
+
+            // Apply coupon discount to product price (not shipping)
+            if (appliedCoupon) {
+                price = price * (1 - appliedCoupon.discount / 100);
+            }
+
             return (price + shipping).toFixed(2);
         }
 
@@ -3641,6 +3747,23 @@
             const form = document.getElementById('orderForm');
             if (form) form.reset();
             currentOrderData = null;
+            // Reset coupon
+            appliedCoupon = null;
+            const couponInput = document.getElementById('couponInput');
+            const couponMessage = document.getElementById('couponMessage');
+            const couponBtn = document.querySelector('.coupon-apply-btn');
+            if (couponInput) {
+                couponInput.value = '';
+                couponInput.disabled = false;
+            }
+            if (couponMessage) {
+                couponMessage.className = 'coupon-message';
+                couponMessage.textContent = '';
+            }
+            if (couponBtn) {
+                couponBtn.textContent = 'החל';
+                couponBtn.disabled = false;
+            }
         }
 
         document.getElementById('pricingPopup').addEventListener('click', function(e) {
@@ -3698,8 +3821,10 @@
                 email,
                 phone,
                 package: package_,
-                price,
+                originalPrice: price,
                 totalAmount,
+                coupon: appliedCoupon ? appliedCoupon.code : null,
+                couponDiscount: appliedCoupon ? appliedCoupon.discount + '%' : null,
                 address,
                 deliveryMethod,
                 dedication,
