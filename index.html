@@ -4264,13 +4264,20 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             document.body.style.overflow = '';
         }
 
-        document.getElementById('termsModal').addEventListener('click', function(e) {
-            if (e.target === this) closeTerms();
-        });
+        // Add event listeners only if elements exist
+        const termsModal = document.getElementById('termsModal');
+        if (termsModal) {
+            termsModal.addEventListener('click', function(e) {
+                if (e.target === this) closeTerms();
+            });
+        }
 
-        document.getElementById('privacyModal').addEventListener('click', function(e) {
-            if (e.target === this) closePrivacy();
-        });
+        const privacyModal = document.getElementById('privacyModal');
+        if (privacyModal) {
+            privacyModal.addEventListener('click', function(e) {
+                if (e.target === this) closePrivacy();
+            });
+        }
 
         function openAccessibility() {
             document.getElementById('accessibilityModal').classList.add('open');

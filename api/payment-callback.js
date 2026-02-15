@@ -1,23 +1,43 @@
 // Vercel serverless function to handle Tranzila POST callback
 export default function handler(req, res) {
-    // Get payment status and order ID from query or body
-    const payment = req.query.payment || req.body?.payment || 'unknown';
-    const order = req.query.order || req.body?.order || req.body?.order_id || '';
+    // Log the incoming request for debugging
+    console.log('Payment callback received:', {
+        method: req.method,
+        query: req.query,
+        body: req.body
+    });
 
-    // Get Tranzila response data
-    const Response = req.body?.Response || req.query.Response || '';
-    const ConfirmationCode = req.body?.ConfirmationCode || '';
+    // Get order ID from query params (we set this when creating the URL)
+    const order = req.query.order || req.body?.order_id || '';
 
-    // Determine if payment was successful
-    let paymentStatus = payment;
-    if (Response === '000' || Response === '0') {
+    // Get Tranzila response data from POST body
+    const tranzilaResponse = req.body?.Response || '';
+    const confirmationCode = req.body?.ConfirmationCode || '';
+    const index = req.body?.index || '';
+
+    // Determine payment status
+    // Tranzila Response "000" = success, anything else = failure
+    // Also check the URL path - success_url gets payment=success, fail_url gets payment=failed
+    let paymentStatus = req.query.payment || 'unknown';
+
+    // Override with Tranzila's actual response if available
+    if (tranzilaResponse === '000') {
         paymentStatus = 'success';
-    } else if (Response && Response !== '000') {
+    } else if (tranzilaResponse && tranzilaResponse !== '000' && tranzilaResponse !== '') {
         paymentStatus = 'failed';
     }
 
-    // Redirect to main page with payment status
-    const redirectUrl = `/?payment=${paymentStatus}&order=${order}&confirmed=${ConfirmationCode ? 'true' : 'false'}`;
+    // Build redirect URL
+    const params = new URLSearchParams();
+    params.append('payment', paymentStatus);
+    if (order) params.append('order', order);
+    if (confirmationCode) params.append('confirmation', confirmationCode);
+    if (index) params.append('index', index);
 
+    const redirectUrl = '/?' + params.toString();
+
+    console.log('Redirecting to:', redirectUrl);
+
+    // Redirect to main page with payment status
     res.redirect(302, redirectUrl);
 }
