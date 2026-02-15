@@ -4047,9 +4047,9 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
         let tranzilaPaymentUrl = '';
 
         function prepareTranzilaPayment(orderData) {
-            // Build Tranzila URL with correct parameters
-            const successUrl = window.location.origin + '/?payment=success&order=' + orderData.orderId;
-            const failUrl = window.location.origin + '/?payment=failed&order=' + orderData.orderId;
+            // Build Tranzila URL - use API endpoint to handle POST callback from Tranzila
+            const successUrl = window.location.origin + '/api/payment-callback?payment=success&order=' + orderData.orderId;
+            const failUrl = window.location.origin + '/api/payment-callback?payment=failed&order=' + orderData.orderId;
 
             const params = new URLSearchParams();
             params.append('sum', orderData.totalAmount);
