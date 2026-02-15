@@ -3221,7 +3221,7 @@
                 <h2>פרטי הזמנה</h2>
                 <p class="pricing-subtitle">החבילה שנבחרה: <strong id="selectedPackageDisplay"></strong></p>
 
-                <form class="order-form" id="orderForm" onsubmit="submitOrder(event); return false;">
+                <form class="order-form" id="orderForm" onsubmit="return false;">
                     <input type="hidden" name="חבילה" id="packageInput">
                     <input type="hidden" name="מחיר" id="priceInput">
 
@@ -3307,7 +3307,7 @@
 
                     <p class="price-note">* המחירים כוללים מע"מ. משלוח: ₪29.99 | איסוף עצמי: חינם</p>
 
-                    <button type="submit" class="submit-order-btn">המשך לתשלום מאובטח</button>
+                    <button type="button" class="submit-order-btn" onclick="submitOrder(event)">המשך לתשלום מאובטח</button>
                 </form>
             </div>
 
@@ -3809,13 +3809,22 @@
 
         // Step 2: Collect details and proceed to payment
         async function submitOrder(event) {
-            event.preventDefault();
-            event.stopPropagation();
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             console.log('submitOrder called'); // Debug
 
             try {
                 const form = document.getElementById('orderForm');
-                const submitBtn = form.querySelector('button[type="submit"]');
+
+                // Manual form validation
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return false;
+                }
+
+                const submitBtn = form.querySelector('.submit-order-btn');
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'מעבר לתשלום...';
 
@@ -3873,7 +3882,13 @@
             submitBtn.textContent = 'המשך לתשלום מאובטח';
             } catch (error) {
                 console.error('Error in submitOrder:', error);
-                alert('שגיאה בשליחת ההזמנה. אנא נסו שנית.');
+                alert('שגיאה בשליחת ההזמנה: ' + error.message);
+                // Reset button on error
+                const submitBtn = document.querySelector('.submit-order-btn');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'המשך לתשלום מאובטח';
+                }
             }
             return false;
         }
