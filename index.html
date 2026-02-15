@@ -3793,6 +3793,7 @@
         // Step 2: Collect details and proceed to payment
         async function submitOrder(event) {
             event.preventDefault();
+            console.log('submitOrder called'); // Debug
 
             const form = document.getElementById('orderForm');
             const submitBtn = form.querySelector('button[type="submit"]');
@@ -4020,25 +4021,26 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             const iframe = document.getElementById('tranzilaIframe');
             const loading = document.getElementById('paymentLoading');
 
-            // Build Tranzila URL with parameters
-            const params = new URLSearchParams({
-                sum: orderData.totalAmount,
-                currency: '1', // ILS
-                cred_type: '1', // Regular payment
-                lang: 'he',
-                tranmode: 'A', // Authorization
-                contact: orderData.name,
-                email: orderData.email,
-                phone: orderData.phone,
-                orderId: orderData.orderId,
-                pdesc: 'מציאות כפולה - ' + orderData.package,
-                // Success/Fail redirect URLs (update these to your actual URLs)
-                success_url_address: encodeURIComponent(window.location.origin + '?payment=success&order=' + orderData.orderId),
-                fail_url_address: encodeURIComponent(window.location.origin + '?payment=failed&order=' + orderData.orderId),
-                notify_url_address: encodeURIComponent(window.location.origin + '/tranzila-notify')
-            });
+            // Build Tranzila URL with correct parameters
+            const successUrl = window.location.origin + '/?payment=success&order=' + orderData.orderId;
+            const failUrl = window.location.origin + '/?payment=failed&order=' + orderData.orderId;
+
+            const params = new URLSearchParams();
+            params.append('sum', orderData.totalAmount);
+            params.append('currency', '1'); // ILS
+            params.append('cred_type', '1'); // Regular credit
+            params.append('tranmode', 'VK'); // Verify and Capture
+            params.append('contact', orderData.name);
+            params.append('email', orderData.email);
+            params.append('phone', orderData.phone);
+            params.append('order_id', orderData.orderId);
+            params.append('pdesc', 'מציאות כפולה - ' + orderData.package);
+            params.append('success_url_address', successUrl);
+            params.append('fail_url_address', failUrl);
 
             const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/iframenew.php?${params.toString()}`;
+
+            console.log('Loading Tranzila:', tranzilaUrl); // Debug
 
             // Set iframe source
             iframe.src = tranzilaUrl;
@@ -4048,6 +4050,12 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
                 loading.style.display = 'none';
                 iframe.style.display = 'block';
             };
+
+            // Fallback - show iframe after 3 seconds even if onload doesn't fire
+            setTimeout(function() {
+                loading.style.display = 'none';
+                iframe.style.display = 'block';
+            }, 3000);
         }
 
         // Listen for payment completion (from URL params or postMessage)
