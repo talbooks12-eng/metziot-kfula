@@ -1410,7 +1410,7 @@
                 font-size: 0.8rem;
             }
             .price-donation {
-                font-size: 0.6rem;
+                font-size: 0.7rem;
                 margin-top: 0.3rem;
             }
             .pricing-note {
@@ -2054,7 +2054,7 @@
         @media (max-width: 768px) {
             .floating-buy {
                 right: 15px;
-                bottom: 25px;
+                bottom: calc(25px + env(safe-area-inset-bottom, 0px));
             }
             .floating-buy-btn {
                 padding: 0.75rem 1rem;
@@ -2081,8 +2081,10 @@
                 bottom: 20px;
             }
             .floating-buy-btn {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.75rem;
+                padding: 0.75rem 1rem;
+                font-size: 0.8rem;
+                min-width: 44px;
+                min-height: 44px;
             }
             .floating-trust {
                 display: none;
@@ -2118,7 +2120,7 @@
                 font-size: 0.9rem;
             }
             .countdown-item small {
-                font-size: 0.55rem;
+                font-size: 0.7rem;
             }
             nav {
                 top: 38px;
@@ -2210,10 +2212,10 @@
                 padding: 3rem 0;
             }
             .gallery-item {
-                width: 280px;
+                width: 240px;
             }
             .gallery-item img {
-                height: 280px;
+                height: 240px;
                 padding: 0.75rem;
             }
             .gallery-track {
@@ -2224,10 +2226,10 @@
 
         @media (max-width: 480px) {
             .gallery-item {
-                width: 220px;
+                width: 200px;
             }
             .gallery-item img {
-                height: 220px;
+                height: 200px;
                 padding: 0.5rem;
                 border-radius: 10px;
             }
@@ -2553,6 +2555,7 @@
             /* Pricing Popup */
             .pricing-popup-content {
                 padding: 1.25rem;
+                padding-bottom: calc(2rem + env(safe-area-inset-bottom, 20px));
                 max-height: 95vh;
             }
 
@@ -2614,6 +2617,10 @@
             .about-nav-btn {
                 padding: 0.5rem 1rem;
                 font-size: 0.85rem;
+            }
+
+            .pricing-popup-content {
+                padding-bottom: calc(3rem + env(safe-area-inset-bottom, 30px));
             }
         }
 
@@ -2828,7 +2835,7 @@
             }
             .lang-btn {
                 padding: 0.3rem 0.6rem;
-                font-size: 0.65rem;
+                font-size: 0.75rem;
             }
         }
 
