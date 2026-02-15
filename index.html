@@ -3323,21 +3323,16 @@
                 <div class="payment-secure-badge">
                     🔒 תשלום מאובטח באמצעות Tranzila
                 </div>
-                <div class="tranzila-iframe-container" id="tranzilaContainer">
-                    <div class="payment-loading" id="paymentLoading">
-                        <div class="spinner"></div>
-                        <p>טוען טופס תשלום מאובטח...</p>
-                    </div>
-                    <iframe id="tranzilaIframe" name="tranzilaIframe" style="display:none;"></iframe>
+                <div class="payment-redirect-container" style="text-align: center; padding: 2rem;">
+                    <p style="margin-bottom: 1.5rem; color: #5C5652;">לחצו על הכפתור למעבר לדף התשלום המאובטח</p>
+                    <button id="payTranzilaBtn" onclick="openTranzilaPayment()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; border: none; padding: 1.2rem 3rem; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; font-family: inherit; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); transition: all 0.3s ease;">
+                        💳 לתשלום מאובטח
+                    </button>
+                    <p style="margin-top: 1rem; font-size: 0.85rem; color: #888;">ייפתח דף תשלום מאובטח של Tranzila</p>
                 </div>
                 <div class="payment-info">
                     <p>🔐 כל פרטי האשראי מוצפנים ומאובטחים</p>
                     <p>💳 אנו מקבלים: ויזה, מאסטרקארד, ישראכרט, אמריקן אקספרס</p>
-                </div>
-                <!-- TEST MODE - Remove after Tranzila is connected -->
-                <div style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border: 2px dashed #ffc107; border-radius: 8px; text-align: center;">
-                    <p style="color: #856404; margin-bottom: 0.5rem; font-size: 0.85rem;">🧪 מצב בדיקה - כפתור זה יוסר לאחר חיבור Tranzila</p>
-                    <button onclick="simulatePaymentSuccess()" style="background: #28a745; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; cursor: pointer; font-family: inherit;">✅ סימולציית תשלום מוצלח (לבדיקה)</button>
                 </div>
             </div>
 
@@ -4044,14 +4039,14 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             document.getElementById('pricingStep2').style.display = 'none';
             document.getElementById('pricingStep3').style.display = 'block';
 
-            // Load Tranzila iframe
-            loadTranzilaPayment(orderData);
+            // Prepare Tranzila payment URL
+            prepareTranzilaPayment(orderData);
         }
 
-        function loadTranzilaPayment(orderData) {
-            const iframe = document.getElementById('tranzilaIframe');
-            const loading = document.getElementById('paymentLoading');
+        // Store Tranzila URL for redirect
+        let tranzilaPaymentUrl = '';
 
+        function prepareTranzilaPayment(orderData) {
             // Build Tranzila URL with correct parameters
             const successUrl = window.location.origin + '/?payment=success&order=' + orderData.orderId;
             const failUrl = window.location.origin + '/?payment=failed&order=' + orderData.orderId;
@@ -4069,24 +4064,23 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             params.append('success_url_address', successUrl);
             params.append('fail_url_address', failUrl);
 
-            const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/iframenew.php?${params.toString()}`;
+            // Use regular page instead of iframenew for redirect
+            tranzilaPaymentUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/newiframe.php?${params.toString()}`;
 
-            console.log('Loading Tranzila:', tranzilaUrl); // Debug
+            console.log('Tranzila URL ready:', tranzilaPaymentUrl); // Debug
+        }
 
-            // Set iframe source
-            iframe.src = tranzilaUrl;
-
-            // Show iframe when loaded
-            iframe.onload = function() {
-                loading.style.display = 'none';
-                iframe.style.display = 'block';
-            };
-
-            // Fallback - show iframe after 3 seconds even if onload doesn't fire
-            setTimeout(function() {
-                loading.style.display = 'none';
-                iframe.style.display = 'block';
-            }, 3000);
+        // Open Tranzila payment page in new window/tab
+        function openTranzilaPayment() {
+            if (tranzilaPaymentUrl) {
+                // Open in same window for better mobile experience
+                window.location.href = tranzilaPaymentUrl;
+            } else if (currentOrderData) {
+                prepareTranzilaPayment(currentOrderData);
+                window.location.href = tranzilaPaymentUrl;
+            } else {
+                alert('שגיאה: אנא מלאו את הטופס מחדש');
+            }
         }
 
         // Listen for payment completion (from URL params or postMessage)
