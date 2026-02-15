@@ -3862,19 +3862,10 @@
                 paymentStatus: 'pending'
             };
 
-            // Save to localStorage as backup
+            // Save to localStorage as backup (notifications sent only after payment)
             localStorage.setItem('pendingOrder_' + orderId, JSON.stringify(currentOrderData));
 
-            // Send email notification about new order (before payment)
-            sendOrderNotification(currentOrderData);
-
-            // Send Telegram notification (only to your private chat)
-            sendTelegramNotification(currentOrderData, 'new');
-
-            // Also log to Google Forms immediately (status: pending payment)
-            logOrderToGoogleForms(currentOrderData, 'ממתין לתשלום');
-
-            // Show payment step
+            // Show payment step - notifications will be sent after successful payment
             showPaymentStep(currentOrderData);
 
             // Reset submit button
