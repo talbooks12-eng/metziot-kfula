@@ -3221,7 +3221,7 @@
                 <h2>פרטי הזמנה</h2>
                 <p class="pricing-subtitle">החבילה שנבחרה: <strong id="selectedPackageDisplay"></strong></p>
 
-                <form class="order-form" id="orderForm" onsubmit="submitOrder(event)">
+                <form class="order-form" id="orderForm" onsubmit="submitOrder(event); return false;">
                     <input type="hidden" name="חבילה" id="packageInput">
                     <input type="hidden" name="מחיר" id="priceInput">
 
@@ -3810,12 +3810,14 @@
         // Step 2: Collect details and proceed to payment
         async function submitOrder(event) {
             event.preventDefault();
+            event.stopPropagation();
             console.log('submitOrder called'); // Debug
 
-            const form = document.getElementById('orderForm');
-            const submitBtn = form.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'מעבר לתשלום...';
+            try {
+                const form = document.getElementById('orderForm');
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'מעבר לתשלום...';
 
             // Get form values
             const name = form.querySelector('input[name="שם"]').value;
@@ -3869,6 +3871,11 @@
             // Reset submit button
             submitBtn.disabled = false;
             submitBtn.textContent = 'המשך לתשלום מאובטח';
+            } catch (error) {
+                console.error('Error in submitOrder:', error);
+                alert('שגיאה בשליחת ההזמנה. אנא נסו שנית.');
+            }
+            return false;
         }
 
         // Send email notification when order is submitted
