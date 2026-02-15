@@ -4064,10 +4064,10 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             params.append('success_url_address', successUrl);
             params.append('fail_url_address', failUrl);
 
-            // Use regular page instead of iframenew for redirect
+            // Tranzila hosted payment page (working format)
             tranzilaPaymentUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/newiframe.php?${params.toString()}`;
 
-            console.log('Tranzila URL ready:', tranzilaPaymentUrl); // Debug
+            console.log('Tranzila URL:', tranzilaPaymentUrl); // Debug
         }
 
         // Open Tranzila payment page in new window/tab
