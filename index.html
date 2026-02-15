@@ -4054,13 +4054,12 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             const params = new URLSearchParams();
             params.append('sum', orderData.totalAmount);
             params.append('currency', '1'); // ILS
-            params.append('cred_type', '1'); // Regular credit
-            params.append('tranmode', 'VK'); // Verify and Capture
+            // Removed cred_type and tranmode - let Tranzila use defaults
             params.append('contact', orderData.name);
             params.append('email', orderData.email);
             params.append('phone', orderData.phone);
             params.append('order_id', orderData.orderId);
-            params.append('pdesc', 'מציאות כפולה - ' + orderData.package);
+            params.append('pdesc', orderData.package);
             params.append('success_url_address', successUrl);
             params.append('fail_url_address', failUrl);
 
