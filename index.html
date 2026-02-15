@@ -810,7 +810,7 @@
         }
 
         .submit-order-btn {
-            background: linear-gradient(135deg, #8B7355 0%, #6B5744 100%);
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%) !important;
             color: white !important;
             border: none;
             padding: 1.2rem 2rem;
@@ -821,14 +821,17 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 1rem;
+            margin-bottom: 1rem;
             width: 100%;
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 55px;
+            min-height: 60px;
             line-height: 1.2;
-            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.4);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
+            position: relative;
+            z-index: 10;
         }
 
         .submit-order-btn:hover {
@@ -3312,7 +3315,9 @@
 
                     <p class="price-note">* המחירים כוללים מע"מ. משלוח: ₪29.99 | איסוף עצמי: חינם</p>
 
-                    <button type="button" class="submit-order-btn" onclick="submitOrder(event)">המשך לתשלום מאובטח</button>
+                    <button type="button" class="submit-order-btn" onclick="submitOrder(event)">
+                        <span style="color: white !important; font-size: 1.1rem;">המשך לתשלום מאובטח 💳</span>
+                    </button>
                 </form>
             </div>
 
