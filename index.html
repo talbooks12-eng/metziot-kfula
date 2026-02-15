@@ -2429,6 +2429,11 @@
                 grid-template-columns: 1fr;
             }
 
+            /* Show only 3 reviews on mobile */
+            .reviews-grid .review-card:nth-child(n+4) {
+                display: none;
+            }
+
             .review-form-wrapper {
                 padding: 1.5rem;
             }
