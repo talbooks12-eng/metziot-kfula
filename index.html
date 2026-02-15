@@ -1914,11 +1914,11 @@
             background: #2d2d2d;
         }
 
-        /* Floating Buy Button - Left side, above accessibility button */
+        /* Floating Buy Button - Right side */
         .floating-buy {
             position: fixed;
-            bottom: 85px;
-            left: 20px;
+            bottom: 30px;
+            right: 20px;
             z-index: 998;
             opacity: 1;
             visibility: visible;
@@ -1971,8 +1971,8 @@
         /* Floating buy button mobile */
         @media (max-width: 768px) {
             .floating-buy {
-                left: 15px;
-                bottom: 75px;
+                right: 15px;
+                bottom: 25px;
             }
             .floating-buy-btn {
                 padding: 0.75rem 1rem;
@@ -1995,8 +1995,8 @@
 
         @media (max-width: 400px) {
             .floating-buy {
-                left: 10px;
-                bottom: 70px;
+                right: 10px;
+                bottom: 20px;
             }
             .floating-buy-btn {
                 padding: 0.6rem 0.8rem;
@@ -2128,30 +2128,30 @@
                 padding: 3rem 0;
             }
             .gallery-item {
-                width: 200px;
+                width: 280px;
             }
             .gallery-item img {
-                height: 200px;
+                height: 280px;
                 padding: 0.75rem;
             }
             .gallery-track {
-                gap: 0.75rem;
+                gap: 1rem;
                 animation-duration: 60s;
             }
         }
 
         @media (max-width: 480px) {
             .gallery-item {
-                width: 150px;
+                width: 220px;
             }
             .gallery-item img {
-                height: 150px;
+                height: 220px;
                 padding: 0.5rem;
-                border-radius: 8px;
+                border-radius: 10px;
             }
             .gallery-track {
-                gap: 0.5rem;
-                animation-duration: 45s;
+                gap: 0.75rem;
+                animation-duration: 50s;
             }
         }
 
@@ -2794,7 +2794,6 @@
         }
 
         body.lang-en .floating-buy {
-            left: auto;
             right: 20px;
         }
 
