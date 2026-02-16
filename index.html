@@ -3783,6 +3783,7 @@
         // TRANZILA CONFIGURATION
         // ============================================
         const TRANZILA_TERMINAL = 'fxptbooks3601';
+        // Note: TranzilaPW (HThjvyeO) is only used server-side for API calls
 
         // ============================================
         // COUPON CODES (manage from admin or here)
@@ -4153,25 +4154,34 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
 
         function loadTranzilaIframe(orderData) {
             // Build Tranzila URL for iframe
-            const successUrl = window.location.origin + '/api/payment-callback?payment=success&order=' + orderData.orderId;
-            const failUrl = window.location.origin + '/api/payment-callback?payment=failed&order=' + orderData.orderId;
+            const baseUrl = window.location.origin;
+            const callbackUrl = baseUrl + '/api/payment-callback';
+
+            console.log('=== LOADING TRANZILA IFRAME ===');
+            console.log('Order:', orderData);
+            console.log('Callback URL:', callbackUrl);
 
             const params = new URLSearchParams();
+
+            // Basic transaction params (no password needed for hosted page)
             params.append('sum', orderData.totalAmount);
-            params.append('currency', '1'); // ILS
-            params.append('cred_type', '1'); // 1 = Regular credit card (Visa, Mastercard, Isracard, Amex)
-            params.append('tranmode', 'A'); // A = Auto/Standard transaction mode
+            params.append('currency', '1'); // 1 = ILS
+            params.append('cred_type', '1'); // 1 = Regular credit
+            params.append('tranmode', 'A'); // A = Auto charge
+            params.append('maxpay', '1'); // Single payment
+
+            // Customer info
             params.append('contact', orderData.name);
             params.append('email', orderData.email);
             params.append('phone', orderData.phone);
             params.append('order_id', orderData.orderId);
-            params.append('pdesc', orderData.package);
-            params.append('success_url_address', successUrl);
-            params.append('fail_url_address', failUrl);
-            params.append('nologo', '1'); // Hide Tranzila logo for cleaner look
-            params.append('buttonLabel', 'לתשלום מאובטח'); // Hebrew button text
+            params.append('pdesc', encodeURIComponent(orderData.package));
 
-            // Tranzila hosted payment page for iframe
+            // Callback URLs - Tranzila will redirect here after payment
+            params.append('success_url_address', callbackUrl);
+            params.append('fail_url_address', callbackUrl);
+
+            // Tranzila hosted payment page
             const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/newiframe.php?${params.toString()}`;
 
             console.log('Tranzila iframe URL:', tranzilaUrl); // Debug
