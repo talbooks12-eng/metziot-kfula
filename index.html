@@ -929,12 +929,24 @@
             min-height: 400px;
             background: white;
             position: relative;
+            margin: 1rem 0;
         }
 
         .tranzila-iframe-container iframe {
             width: 100%;
-            height: 450px;
+            height: 480px;
             border: none;
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .tranzila-iframe-container {
+                border-radius: 8px;
+                min-height: 350px;
+            }
+            .tranzila-iframe-container iframe {
+                height: 420px;
+            }
         }
 
         .payment-loading {
@@ -3417,12 +3429,8 @@
                 <div class="payment-secure-badge">
                     🔒 תשלום מאובטח באמצעות Tranzila
                 </div>
-                <div class="payment-redirect-container" style="text-align: center; padding: 2rem;">
-                    <p style="margin-bottom: 1.5rem; color: #5C5652;">לחצו על הכפתור למעבר לדף התשלום המאובטח</p>
-                    <button id="payTranzilaBtn" onclick="openTranzilaPayment()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; border: none; padding: 1.2rem 3rem; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; font-family: inherit; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); transition: all 0.3s ease;">
-                        💳 לתשלום מאובטח
-                    </button>
-                    <p style="margin-top: 1rem; font-size: 0.85rem; color: #888;">ייפתח דף תשלום מאובטח של Tranzila</p>
+                <div class="tranzila-iframe-container" id="tranzilaIframeContainer">
+                    <iframe id="tranzilaIframe" src="" frameborder="0" allowpaymentrequest="true" allow="payment"></iframe>
                 </div>
                 <div class="payment-info">
                     <p>🔐 כל פרטי האשראי מוצפנים ומאובטחים</p>
@@ -3872,11 +3880,14 @@
             }
         }
 
-        document.getElementById('pricingPopup').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePricing();
-            }
-        });
+        const pricingPopupEl = document.getElementById('pricingPopup');
+        if (pricingPopupEl) {
+            pricingPopupEl.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closePricing();
+                }
+            });
+        }
 
         function selectPackage(packageName, price) {
             document.getElementById('selectedPackageDisplay').textContent = packageName + ' - ₪' + price;
@@ -4133,22 +4144,20 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             document.getElementById('pricingStep2').style.display = 'none';
             document.getElementById('pricingStep3').style.display = 'block';
 
-            // Prepare Tranzila payment URL
-            prepareTranzilaPayment(orderData);
+            // Load Tranzila iframe
+            loadTranzilaIframe(orderData);
         }
 
-        // Store Tranzila URL for redirect
-        let tranzilaPaymentUrl = '';
-
-        function prepareTranzilaPayment(orderData) {
-            // Build Tranzila URL - use API endpoint to handle POST callback from Tranzila
+        function loadTranzilaIframe(orderData) {
+            // Build Tranzila URL for iframe
             const successUrl = window.location.origin + '/api/payment-callback?payment=success&order=' + orderData.orderId;
             const failUrl = window.location.origin + '/api/payment-callback?payment=failed&order=' + orderData.orderId;
 
             const params = new URLSearchParams();
             params.append('sum', orderData.totalAmount);
             params.append('currency', '1'); // ILS
-            // Removed cred_type and tranmode - let Tranzila use defaults
+            params.append('cred_type', '1'); // 1 = Regular credit card (Visa, Mastercard, Isracard, Amex)
+            params.append('tranmode', 'A'); // A = Auto/Standard transaction mode
             params.append('contact', orderData.name);
             params.append('email', orderData.email);
             params.append('phone', orderData.phone);
@@ -4156,24 +4165,17 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             params.append('pdesc', orderData.package);
             params.append('success_url_address', successUrl);
             params.append('fail_url_address', failUrl);
+            params.append('nologo', '1'); // Hide Tranzila logo for cleaner look
+            params.append('buttonLabel', 'לתשלום מאובטח'); // Hebrew button text
 
-            // Tranzila hosted payment page (working format)
-            tranzilaPaymentUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/newiframe.php?${params.toString()}`;
+            // Tranzila hosted payment page for iframe
+            const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/newiframe.php?${params.toString()}`;
 
-            console.log('Tranzila URL:', tranzilaPaymentUrl); // Debug
-        }
+            console.log('Tranzila iframe URL:', tranzilaUrl); // Debug
 
-        // Open Tranzila payment page in new window/tab
-        function openTranzilaPayment() {
-            if (tranzilaPaymentUrl) {
-                // Open in same window for better mobile experience
-                window.location.href = tranzilaPaymentUrl;
-            } else if (currentOrderData) {
-                prepareTranzilaPayment(currentOrderData);
-                window.location.href = tranzilaPaymentUrl;
-            } else {
-                alert('שגיאה: אנא מלאו את הטופס מחדש');
-            }
+            // Load into iframe
+            const iframe = document.getElementById('tranzilaIframe');
+            iframe.src = tranzilaUrl;
         }
 
         // Listen for payment completion (from URL params or postMessage)
@@ -4323,11 +4325,23 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             checkPaymentStatus();
         });
 
-        // Listen for messages from Tranzila iframe
+        // Listen for messages from Tranzila iframe and payment callback
         window.addEventListener('message', function(event) {
-            // Verify origin is Tranzila
+            const data = event.data;
+
+            // Handle our payment callback postMessage
+            if (data && data.type === 'tranzila-payment') {
+                const paymentData = data.data;
+                if (paymentData.status === 'success' && currentOrderData) {
+                    handlePaymentSuccess(currentOrderData);
+                } else if (paymentData.status === 'failed') {
+                    handlePaymentFailed(currentOrderData?.orderId);
+                }
+                return;
+            }
+
+            // Handle direct Tranzila messages (if any)
             if (event.origin.includes('tranzila.com')) {
-                const data = event.data;
                 if (data && data.status === 'success' && currentOrderData) {
                     handlePaymentSuccess(currentOrderData);
                 } else if (data && data.status === 'failed') {
@@ -4373,32 +4387,50 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
         }
 
         function openAccessibility() {
-            document.getElementById('accessibilityModal').classList.add('open');
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById('accessibilityModal');
+            if (modal) {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeAccessibility() {
-            document.getElementById('accessibilityModal').classList.remove('open');
-            document.body.style.overflow = '';
+            const modal = document.getElementById('accessibilityModal');
+            if (modal) {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
         }
 
-        document.getElementById('accessibilityModal').addEventListener('click', function(e) {
-            if (e.target === this) closeAccessibility();
-        });
+        const accessibilityModal = document.getElementById('accessibilityModal');
+        if (accessibilityModal) {
+            accessibilityModal.addEventListener('click', function(e) {
+                if (e.target === this) closeAccessibility();
+            });
+        }
 
         function openBookSummary() {
-            document.getElementById('bookSummaryModal').classList.add('open');
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById('bookSummaryModal');
+            if (modal) {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
         }
 
         function closeBookSummary() {
-            document.getElementById('bookSummaryModal').classList.remove('open');
-            document.body.style.overflow = '';
+            const modal = document.getElementById('bookSummaryModal');
+            if (modal) {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
         }
 
-        document.getElementById('bookSummaryModal').addEventListener('click', function(e) {
-            if (e.target === this) closeBookSummary();
-        });
+        const bookSummaryModal = document.getElementById('bookSummaryModal');
+        if (bookSummaryModal) {
+            bookSummaryModal.addEventListener('click', function(e) {
+                if (e.target === this) closeBookSummary();
+            });
+        }
     </script>
 
     <script>
@@ -5084,18 +5116,21 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
         }
 
         // Show popup after 1.5 seconds if not already closed this session
-        if (!sessionStorage.getItem('popupClosed')) {
+        const salesPopupEl = document.getElementById('salesPopup');
+        if (!sessionStorage.getItem('popupClosed') && salesPopupEl) {
             setTimeout(() => {
-                document.getElementById('salesPopup').classList.add('active');
+                salesPopupEl.classList.add('active');
             }, 1500);
         }
 
         // Close popup when clicking outside
-        document.getElementById('salesPopup').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePopup();
-            }
-        });
+        if (salesPopupEl) {
+            salesPopupEl.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closePopup();
+                }
+            });
+        }
 
         // Delivery method selection
         function selectDeliveryMethod(method) {
