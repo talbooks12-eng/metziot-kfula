@@ -4332,10 +4332,19 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             // Handle our payment callback postMessage
             if (data && data.type === 'tranzila-payment') {
                 const paymentData = data.data;
+
+                // Try to restore currentOrderData from localStorage if not set
+                if (!currentOrderData && paymentData.order) {
+                    const storedOrder = localStorage.getItem('pendingOrder_' + paymentData.order);
+                    if (storedOrder) {
+                        currentOrderData = JSON.parse(storedOrder);
+                    }
+                }
+
                 if (paymentData.status === 'success' && currentOrderData) {
                     handlePaymentSuccess(currentOrderData);
                 } else if (paymentData.status === 'failed') {
-                    handlePaymentFailed(currentOrderData?.orderId);
+                    handlePaymentFailed(paymentData.order || currentOrderData?.orderId);
                 }
                 return;
             }
