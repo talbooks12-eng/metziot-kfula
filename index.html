@@ -4167,7 +4167,7 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             params.append('sum', orderData.totalAmount);
             params.append('currency', '1'); // 1 = ILS
             params.append('cred_type', '1'); // 1 = Regular credit
-            params.append('tranmode', 'A'); // A = Auto charge
+            params.append('tranmode', 'AK'); // AK = Authorization + Token (charges card)
             params.append('maxpay', '1'); // Single payment
 
             // Customer info
