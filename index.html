@@ -3429,11 +3429,12 @@
                 <div class="payment-secure-badge">
                     🔒 תשלום מאובטח באמצעות Tranzila
                 </div>
-                <div class="tranzila-iframe-container" id="tranzilaIframeContainer">
-                    <iframe id="tranzilaIframe" src="" frameborder="0" allowpaymentrequest="true" allow="payment"></iframe>
-                </div>
-                <div class="payment-fallback" style="text-align: center; margin-top: 1rem;">
-                    <p style="font-size: 0.85rem; color: #888;">טופס התשלום לא נטען? <a href="#" id="openPaymentWindow" onclick="openPaymentInNewWindow(); return false;" style="color: #8B7355;">לחצו כאן לפתיחה בחלון חדש</a></p>
+                <div class="payment-redirect-section" style="text-align: center; padding: 2rem;">
+                    <p style="margin-bottom: 1.5rem; font-size: 1rem; color: #5C5652;">לחצו על הכפתור למעבר לדף התשלום המאובטח</p>
+                    <button id="payTranzilaBtn" onclick="redirectToTranzila()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; border: none; padding: 1.2rem 3rem; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; font-family: inherit; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); transition: all 0.3s ease;">
+                        💳 לתשלום מאובטח
+                    </button>
+                    <p style="margin-top: 1rem; font-size: 0.85rem; color: #888;">תועברו לדף תשלום מאובטח של Tranzila</p>
                 </div>
                 <div class="payment-info">
                     <p>🔐 כל פרטי האשראי מוצפנים ומאובטחים</p>
@@ -4148,22 +4149,22 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             document.getElementById('pricingStep2').style.display = 'none';
             document.getElementById('pricingStep3').style.display = 'block';
 
-            // Load Tranzila iframe
-            loadTranzilaIframe(orderData);
+            // Prepare Tranzila URL (user will click button to redirect)
+            prepareTranzilaUrl(orderData);
         }
 
-        function loadTranzilaIframe(orderData) {
-            // Build Tranzila URL for iframe
+        function prepareTranzilaUrl(orderData) {
+            // Build Tranzila URL
             const baseUrl = window.location.origin;
             const callbackUrl = baseUrl + '/api/payment-callback';
 
-            console.log('=== LOADING TRANZILA IFRAME ===');
+            console.log('=== PREPARING TRANZILA URL ===');
             console.log('Order:', orderData);
             console.log('Callback URL:', callbackUrl);
 
             const params = new URLSearchParams();
 
-            // Basic transaction params (no password needed for hosted page)
+            // Basic transaction params
             params.append('sum', orderData.totalAmount);
             params.append('currency', '1'); // 1 = ILS
             params.append('cred_type', '1'); // 1 = Regular credit
@@ -4175,44 +4176,37 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             params.append('email', orderData.email);
             params.append('phone', orderData.phone);
             params.append('order_id', orderData.orderId);
-            params.append('pdesc', encodeURIComponent(orderData.package));
+            params.append('pdesc', orderData.package);
 
             // Callback URLs - Tranzila will redirect here after payment
             params.append('success_url_address', callbackUrl);
             params.append('fail_url_address', callbackUrl);
 
-            // Tranzila hosted payment page
-            const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/newiframe.php?${params.toString()}`;
+            // Tranzila hosted payment page (using iframe.php for redirect mode)
+            const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/iframe.php?${params.toString()}`;
 
-            console.log('Tranzila iframe URL:', tranzilaUrl); // Debug
+            console.log('Tranzila URL:', tranzilaUrl);
 
-            // Store URL for fallback
+            // Store URL
             currentTranzilaUrl = tranzilaUrl;
 
-            // Load into iframe
-            const iframe = document.getElementById('tranzilaIframe');
-            iframe.src = tranzilaUrl;
+            return tranzilaUrl;
         }
 
-        // Store Tranzila URL for fallback window option
-        let currentTranzilaUrl = '';
-
-        // Fallback: Open payment in new window if iframe doesn't work
-        function openPaymentInNewWindow() {
+        // Redirect to Tranzila payment page
+        function redirectToTranzila() {
             if (currentTranzilaUrl) {
-                window.open(currentTranzilaUrl, '_blank', 'width=500,height=600');
+                window.location.href = currentTranzilaUrl;
             } else if (currentOrderData) {
-                // Rebuild URL if needed
-                loadTranzilaIframe(currentOrderData);
-                setTimeout(() => {
-                    if (currentTranzilaUrl) {
-                        window.open(currentTranzilaUrl, '_blank', 'width=500,height=600');
-                    }
-                }, 100);
+                const url = prepareTranzilaUrl(currentOrderData);
+                window.location.href = url;
             } else {
                 alert('שגיאה: אנא מלאו את הטופס מחדש');
             }
         }
+
+        // Store Tranzila URL
+        let currentTranzilaUrl = '';
 
         // Flag to prevent duplicate payment handling
         let paymentHandled = false;
@@ -4363,48 +4357,9 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             }
         }
 
-        // Check payment status on page load
+        // Check payment status on page load (after redirect from Tranzila)
         document.addEventListener('DOMContentLoaded', function() {
             checkPaymentStatus();
-        });
-
-        // Listen for messages from Tranzila iframe and payment callback
-        window.addEventListener('message', function(event) {
-            // Skip if payment already handled
-            if (paymentHandled) return;
-
-            const data = event.data;
-
-            // Handle our payment callback postMessage
-            if (data && data.type === 'tranzila-payment') {
-                paymentHandled = true;
-                const paymentData = data.data;
-
-                // Try to restore currentOrderData from localStorage if not set
-                if (!currentOrderData && paymentData.order) {
-                    const storedOrder = localStorage.getItem('pendingOrder_' + paymentData.order);
-                    if (storedOrder) {
-                        currentOrderData = JSON.parse(storedOrder);
-                    }
-                }
-
-                if (paymentData.status === 'success' && currentOrderData) {
-                    handlePaymentSuccess(currentOrderData);
-                } else if (paymentData.status === 'failed') {
-                    handlePaymentFailed(paymentData.order || currentOrderData?.orderId);
-                }
-                return;
-            }
-
-            // Handle direct Tranzila messages (if any)
-            if (event.origin.includes('tranzila.com')) {
-                paymentHandled = true;
-                if (data && data.status === 'success' && currentOrderData) {
-                    handlePaymentSuccess(currentOrderData);
-                } else if (data && data.status === 'failed') {
-                    handlePaymentFailed(currentOrderData?.orderId);
-                }
-            }
         });
 
         // Legal modals
