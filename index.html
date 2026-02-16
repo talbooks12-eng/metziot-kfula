@@ -4155,11 +4155,12 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
 
         function prepareTranzilaUrl(orderData) {
             // Build Tranzila URL
-            // NOTE: Success/Fail redirect URLs must be configured in Tranzila Dashboard,
-            // NOT passed as URL parameters (they are ignored by iframe.php)
+            const baseUrl = window.location.origin;
+            const callbackUrl = baseUrl + '/api/payment-callback';
 
             console.log('=== PREPARING TRANZILA URL ===');
             console.log('Order:', orderData);
+            console.log('Callback URL:', callbackUrl);
 
             const params = new URLSearchParams();
 
@@ -4167,7 +4168,7 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             params.append('sum', orderData.totalAmount);
             params.append('currency', '1'); // 1 = ILS
             params.append('cred_type', '1'); // 1 = Regular credit
-            params.append('tranmode', 'AK'); // AK = Authorization + Token (charges card)
+            params.append('tranmode', 'A'); // A = Auto charge
             params.append('maxpay', '1'); // Single payment
 
             // Customer info
@@ -4175,11 +4176,13 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             params.append('email', orderData.email);
             params.append('phone', orderData.phone);
             params.append('order_id', orderData.orderId);
-            // Include order ID in pdesc for reliable tracking (Tranzila passes this back)
-            params.append('pdesc', orderData.package + ' | ' + orderData.orderId);
+            params.append('pdesc', orderData.package);
+
+            // Callback URLs - Tranzila will redirect here after payment
+            params.append('success_url_address', callbackUrl);
+            params.append('fail_url_address', callbackUrl);
 
             // Tranzila hosted payment page (using iframe.php for redirect mode)
-            // Redirect URLs are configured in Tranzila Dashboard settings
             const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/iframe.php?${params.toString()}`;
 
             console.log('Tranzila URL:', tranzilaUrl);
