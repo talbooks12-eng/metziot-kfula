@@ -27,6 +27,14 @@ export default function handler(req, res) {
         paymentStatus = 'failed';
     }
 
+    // Build redirect URL params
+    const redirectParams = new URLSearchParams();
+    redirectParams.append('payment', paymentStatus);
+    if (order) redirectParams.append('order', order);
+    if (confirmationCode) redirectParams.append('confirmation', confirmationCode);
+
+    const redirectUrl = '/?' + redirectParams.toString();
+
     // Build data object for postMessage
     const paymentData = {
         status: paymentStatus,
@@ -35,12 +43,13 @@ export default function handler(req, res) {
         index: index
     };
 
-    // Return HTML page that sends postMessage to parent and redirects
+    // Return HTML page that tries postMessage first, then redirects as fallback
     const html = `
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מעבד תשלום...</title>
     <style>
         body {
@@ -73,31 +82,56 @@ export default function handler(req, res) {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .status-success { color: #4CAF50; }
+        .status-failed { color: #f44336; }
     </style>
 </head>
 <body>
     <div class="message">
         <div class="spinner"></div>
-        <p>מעבד את התשלום...</p>
+        <p id="statusText">מעבד את התשלום...</p>
     </div>
     <script>
-        // Send message to parent window (for iframe integration)
         const paymentData = ${JSON.stringify(paymentData)};
+        const redirectUrl = '${redirectUrl}';
+        let messageSent = false;
 
-        if (window.parent && window.parent !== window) {
-            // We're in an iframe - send postMessage to parent
-            window.parent.postMessage({
-                type: 'tranzila-payment',
-                data: paymentData
-            }, '*');
-        } else {
-            // Not in iframe - redirect normally
-            const params = new URLSearchParams();
-            params.append('payment', paymentData.status);
-            if (paymentData.order) params.append('order', paymentData.order);
-            if (paymentData.confirmation) params.append('confirmation', paymentData.confirmation);
-            window.location.href = '/?' + params.toString();
+        // Update status text based on payment result
+        const statusText = document.getElementById('statusText');
+        if (paymentData.status === 'success') {
+            statusText.innerHTML = '<span class="status-success">✓</span> התשלום התקבל! מעביר אותך...';
+        } else if (paymentData.status === 'failed') {
+            statusText.innerHTML = '<span class="status-failed">✗</span> התשלום נכשל. מעביר אותך...';
         }
+
+        // Try to send postMessage to parent (works if we're in iframe)
+        function sendToParent() {
+            try {
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'tranzila-payment',
+                        data: paymentData
+                    }, '*');
+                    messageSent = true;
+                    console.log('postMessage sent to parent');
+                }
+            } catch (e) {
+                console.log('postMessage failed:', e);
+            }
+        }
+
+        // Send message immediately
+        sendToParent();
+
+        // Also redirect after a short delay as fallback
+        // This handles cases where:
+        // 1. We're not in an iframe (Tranzila broke out)
+        // 2. postMessage was blocked
+        // 3. Parent didn't receive the message
+        setTimeout(function() {
+            // Always redirect - the main page will handle duplicate events
+            window.top.location.href = redirectUrl;
+        }, 1500);
     </script>
 </body>
 </html>

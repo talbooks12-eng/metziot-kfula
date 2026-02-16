@@ -3432,6 +3432,9 @@
                 <div class="tranzila-iframe-container" id="tranzilaIframeContainer">
                     <iframe id="tranzilaIframe" src="" frameborder="0" allowpaymentrequest="true" allow="payment"></iframe>
                 </div>
+                <div class="payment-fallback" style="text-align: center; margin-top: 1rem;">
+                    <p style="font-size: 0.85rem; color: #888;">טופס התשלום לא נטען? <a href="#" id="openPaymentWindow" onclick="openPaymentInNewWindow(); return false;" style="color: #8B7355;">לחצו כאן לפתיחה בחלון חדש</a></p>
+                </div>
                 <div class="payment-info">
                     <p>🔐 כל פרטי האשראי מוצפנים ומאובטחים</p>
                     <p>💳 אנו מקבלים: ויזה, מאסטרקארד, ישראכרט, אמריקן אקספרס</p>
@@ -4173,18 +4176,48 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
 
             console.log('Tranzila iframe URL:', tranzilaUrl); // Debug
 
+            // Store URL for fallback
+            currentTranzilaUrl = tranzilaUrl;
+
             // Load into iframe
             const iframe = document.getElementById('tranzilaIframe');
             iframe.src = tranzilaUrl;
         }
 
+        // Store Tranzila URL for fallback window option
+        let currentTranzilaUrl = '';
+
+        // Fallback: Open payment in new window if iframe doesn't work
+        function openPaymentInNewWindow() {
+            if (currentTranzilaUrl) {
+                window.open(currentTranzilaUrl, '_blank', 'width=500,height=600');
+            } else if (currentOrderData) {
+                // Rebuild URL if needed
+                loadTranzilaIframe(currentOrderData);
+                setTimeout(() => {
+                    if (currentTranzilaUrl) {
+                        window.open(currentTranzilaUrl, '_blank', 'width=500,height=600');
+                    }
+                }, 100);
+            } else {
+                alert('שגיאה: אנא מלאו את הטופס מחדש');
+            }
+        }
+
+        // Flag to prevent duplicate payment handling
+        let paymentHandled = false;
+
         // Listen for payment completion (from URL params or postMessage)
         function checkPaymentStatus() {
+            if (paymentHandled) return;
+
             const urlParams = new URLSearchParams(window.location.search);
             const paymentStatus = urlParams.get('payment');
             const orderId = urlParams.get('order');
 
             if (paymentStatus && orderId) {
+                paymentHandled = true;
+
                 // Get order data from localStorage
                 const orderData = JSON.parse(localStorage.getItem('pendingOrder_' + orderId));
 
@@ -4327,10 +4360,14 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
 
         // Listen for messages from Tranzila iframe and payment callback
         window.addEventListener('message', function(event) {
+            // Skip if payment already handled
+            if (paymentHandled) return;
+
             const data = event.data;
 
             // Handle our payment callback postMessage
             if (data && data.type === 'tranzila-payment') {
+                paymentHandled = true;
                 const paymentData = data.data;
 
                 // Try to restore currentOrderData from localStorage if not set
@@ -4351,6 +4388,7 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
 
             // Handle direct Tranzila messages (if any)
             if (event.origin.includes('tranzila.com')) {
+                paymentHandled = true;
                 if (data && data.status === 'success' && currentOrderData) {
                     handlePaymentSuccess(currentOrderData);
                 } else if (data && data.status === 'failed') {
