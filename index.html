@@ -4148,58 +4148,65 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             // Hide step 2, show step 3
             document.getElementById('pricingStep2').style.display = 'none';
             document.getElementById('pricingStep3').style.display = 'block';
+
+            // Prepare Tranzila URL (user will click button to redirect)
+            prepareTranzilaUrl(orderData);
         }
 
-        // Redirect to Tranzila payment page via POST form
+        function prepareTranzilaUrl(orderData) {
+            // Build Tranzila URL
+            const baseUrl = window.location.origin;
+            const callbackUrl = baseUrl + '/api/payment-callback';
+
+            console.log('=== PREPARING TRANZILA URL ===');
+            console.log('Order:', orderData);
+            console.log('Callback URL:', callbackUrl);
+
+            const params = new URLSearchParams();
+
+            // Basic transaction params
+            params.append('sum', orderData.totalAmount);
+            params.append('currency', '1'); // 1 = ILS
+            params.append('cred_type', '1'); // 1 = Regular credit
+            params.append('tranmode', 'A'); // A = Auto charge
+            params.append('maxpay', '1'); // Single payment
+
+            // Customer info
+            params.append('contact', orderData.name);
+            params.append('email', orderData.email);
+            params.append('phone', orderData.phone);
+            params.append('order_id', orderData.orderId);
+            params.append('pdesc', orderData.package);
+
+            // Callback URLs - Tranzila will redirect here after payment
+            params.append('success_url_address', callbackUrl);
+            params.append('fail_url_address', callbackUrl);
+
+            // Tranzila hosted payment page (using iframe.php for redirect mode)
+            const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/iframe.php?${params.toString()}`;
+
+            console.log('Tranzila URL:', tranzilaUrl);
+
+            // Store URL
+            currentTranzilaUrl = tranzilaUrl;
+
+            return tranzilaUrl;
+        }
+
+        // Redirect to Tranzila payment page
         function redirectToTranzila() {
-            if (!currentOrderData) {
+            if (currentTranzilaUrl) {
+                window.location.href = currentTranzilaUrl;
+            } else if (currentOrderData) {
+                const url = prepareTranzilaUrl(currentOrderData);
+                window.location.href = url;
+            } else {
                 alert('שגיאה: אנא מלאו את הטופס מחדש');
-                return;
             }
-
-            // Show loading state
-            const payBtn = document.getElementById('payTranzilaBtn');
-            payBtn.innerHTML = '⏳ מעבר לדף התשלום...';
-            payBtn.disabled = true;
-
-            console.log('=== SUBMITTING TO TRANZILA ===');
-            console.log('Order:', currentOrderData);
-
-            // Create and submit a POST form to Tranzila
-            // This is the standard method used by WooCommerce and other integrations
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/iframe.php`;
-            form.acceptCharset = 'UTF-8';
-
-            // Add all required parameters as hidden fields
-            const params = {
-                'sum': currentOrderData.totalAmount,
-                'currency': '1',
-                'cred_type': '1',
-                'maxpay': '1',
-                'contact': currentOrderData.name,
-                'email': currentOrderData.email,
-                'phone': currentOrderData.phone,
-                'order_id': currentOrderData.orderId,
-                'pdesc': currentOrderData.package,
-                'lang': 'il',
-                'nologo': '1'
-            };
-
-            for (const [key, value] of Object.entries(params)) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = value;
-                form.appendChild(input);
-            }
-
-            // Append form to body and submit
-            document.body.appendChild(form);
-            console.log('Submitting form to Tranzila...');
-            form.submit();
         }
+
+        // Store Tranzila URL
+        let currentTranzilaUrl = '';
 
         // Flag to prevent duplicate payment handling
         let paymentHandled = false;
