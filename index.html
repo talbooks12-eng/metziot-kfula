@@ -4182,8 +4182,11 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             params.append('success_url_address', callbackUrl);
             params.append('fail_url_address', callbackUrl);
 
-            // Tranzila hosted payment page (using iframe.php for redirect mode)
-            const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/iframe.php?${params.toString()}`;
+            // Language
+            params.append('lang', 'il');
+
+            // Tranzila hosted payment page (using iframenew.php - the new endpoint)
+            const tranzilaUrl = `https://direct.tranzila.com/${TRANZILA_TERMINAL}/iframenew.php?${params.toString()}`;
 
             console.log('Tranzila URL:', tranzilaUrl);
 
