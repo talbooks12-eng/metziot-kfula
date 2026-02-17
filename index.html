@@ -4164,21 +4164,18 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
 
             const params = new URLSearchParams();
 
-            // Basic transaction params
+            // Required params (per Tranzila docs basic example)
             params.append('sum', orderData.totalAmount);
             params.append('currency', '1'); // 1 = ILS
-            params.append('cred_type', '1'); // 1 = Regular credit
-            params.append('tranmode', 'A'); // A = Auto charge
-            params.append('maxpay', '1'); // Single payment
 
-            // Customer info
+            // Customer info (only use fields from Tranzila's allowed list)
             params.append('contact', orderData.name);
             params.append('email', orderData.email);
             params.append('phone', orderData.phone);
-            params.append('order_id', orderData.orderId);
-            params.append('pdesc', orderData.package);
+            // Include order ID in pdesc since order_id is not a standard field
+            params.append('pdesc', orderData.package + ' - ' + orderData.orderId);
 
-            // Callback URLs - Tranzila will redirect here after payment
+            // Callback URLs
             params.append('success_url_address', callbackUrl);
             params.append('fail_url_address', callbackUrl);
 
