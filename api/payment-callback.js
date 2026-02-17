@@ -10,8 +10,16 @@ export default function handler(req, res) {
     const query = req.query || {};
     const body = req.body || {};
 
-    // Order ID - Tranzila returns it as order_id
-    const orderId = body.order_id || query.order_id || query.order || '';
+    // Order ID - extract from pdesc (format: "package - ORDER_ID")
+    let orderId = body.order_id || query.order_id || query.order || '';
+
+    // If no order_id, try to extract from pdesc
+    if (!orderId) {
+        const pdesc = body.pdesc || query.pdesc || '';
+        if (pdesc && pdesc.includes(' - ')) {
+            orderId = pdesc.split(' - ').pop();
+        }
+    }
 
     // Tranzila response code - "000" means success
     const responseCode = body.Response || query.Response || '';
