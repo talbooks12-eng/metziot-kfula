@@ -4071,9 +4071,30 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
         async function sendOrderConfirmationToCustomer(orderData) {
             try {
                 const isPickup = orderData.deliveryMethod === 'איסוף עצמי';
-                const deliveryInfo = isPickup
-                    ? `איסוף עצמי - ניצור קשר לתיאום`
-                    : `משלוח לכתובת: ${orderData.address}`;
+
+                // Different content for pickup vs delivery
+                const pickupSection = `
+אופן קבלה: איסוף עצמי
+
+פרטי איסוף:
+━━━━━━━━━━━━━━━━━━
+📍 אזור: המרכז (המיקום המדויק יתואם)
+🕐 שעות איסוף: ימים א׳-ה׳ 18:00-20:00
+📱 טלפון לתיאום: 054-325-7663
+📧 אימייל: Talbooks12@gmail.com
+━━━━━━━━━━━━━━━━━━
+
+צרו קשר בטלפון או באימייל לתיאום מועד ומיקום האיסוף.`;
+
+                const deliverySection = `
+אופן קבלה: משלוח
+כתובת: ${orderData.address}
+
+ניצור איתך קשר בהקדם לתיאום המשלוח.
+
+לשאלות ובירורים:
+📱 טלפון: 054-325-7663
+📧 אימייל: Talbooks12@gmail.com`;
 
                 const emailFormData = new FormData();
                 emailFormData.append('_subject', 'אישור הזמנה - מציאות כפולה | ההזמנה התקבלה בהצלחה!');
@@ -4092,15 +4113,9 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
 מספר הזמנה: ${orderData.orderId}
 חבילה: ${orderData.package}
 סכום ששולם: ₪${orderData.totalAmount}
-אופן קבלה: ${deliveryInfo}
 ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 ━━━━━━━━━━━━━━━━━━
-
-${isPickup ? 'ניצור איתך קשר בהקדם לתיאום מועד ומיקום האיסוף.' : 'ניצור איתך קשר בהקדם לתיאום המשלוח.'}
-
-לשאלות ובירורים:
-📱 טלפון: 054-325-7663
-📧 אימייל: Talbooks12@gmail.com
+${isPickup ? pickupSection : deliverySection}
 
 תודה שבחרת לתמוך בפרויקט! 🤍
 15% מההכנסות נתרמות לפרויקט שפת הים.
