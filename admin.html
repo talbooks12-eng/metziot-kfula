@@ -518,20 +518,30 @@
             </div>
         </div>
 
+        <!-- Important Notice -->
+        <div style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 1.5rem 2rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.3rem;">📋 לצפייה בכל ההזמנות</h3>
+            <p style="margin: 0 0 1rem 0; opacity: 0.95;">כל ההזמנות מהאתר נשמרות ב-Google Forms ונשלחות למייל</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="https://docs.google.com/forms/d/1FAIpQLSfzkGSK5IEAqswyzyuqa37ReV0bEZow_5DuuHlWOglTc08eqA/edit#responses" target="_blank" style="background: white; color: #4CAF50; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600;">צפה בתשובות Google Forms</a>
+                <a href="https://mail.google.com/mail/u/0/#search/from%3Aformsubmit+OR+subject%3A%D7%94%D7%96%D7%9E%D7%A0%D7%94" target="_blank" style="background: rgba(255,255,255,0.2); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; border: 2px solid white;">📧 חפש במייל</a>
+            </div>
+        </div>
+
         <!-- Quick Links -->
         <div class="quick-links">
-            <a href="https://analytics.google.com/analytics/web/" target="_blank" class="quick-link">
-                <div class="quick-link-icon">📈</div>
-                <div class="quick-link-content">
-                    <h3>Google Analytics</h3>
-                    <p>צפייה בתנועה, מבקרים, דפים פופולריים</p>
-                </div>
-            </a>
-            <a href="https://docs.google.com/spreadsheets" target="_blank" class="quick-link">
+            <a href="https://docs.google.com/forms/d/1FAIpQLSfzkGSK5IEAqswyzyuqa37ReV0bEZow_5DuuHlWOglTc08eqA/edit#responses" target="_blank" class="quick-link" style="border: 2px solid #4CAF50;">
                 <div class="quick-link-icon">📋</div>
                 <div class="quick-link-content">
-                    <h3>Google Sheets</h3>
-                    <p>כל ההזמנות בטבלה מסודרת</p>
+                    <h3>הזמנות - Google Forms</h3>
+                    <p>כל ההזמנות מהאתר (הכי מעודכן!)</p>
+                </div>
+            </a>
+            <a href="https://my.tranzila.com/" target="_blank" class="quick-link" style="border: 2px solid #2196F3;">
+                <div class="quick-link-icon">💳</div>
+                <div class="quick-link-content">
+                    <h3>Tranzila - תשלומים</h3>
+                    <p>צפייה בכל התשלומים שהתקבלו</p>
                 </div>
             </a>
             <a href="https://mail.google.com" target="_blank" class="quick-link">
@@ -541,13 +551,36 @@
                     <p>התראות הזמנות ופניות לקוחות</p>
                 </div>
             </a>
-            <a href="https://www.tranzila.com/app" target="_blank" class="quick-link">
-                <div class="quick-link-icon">💳</div>
+            <a href="https://analytics.google.com/analytics/web/" target="_blank" class="quick-link">
+                <div class="quick-link-icon">📈</div>
                 <div class="quick-link-content">
-                    <h3>Tranzila Dashboard</h3>
-                    <p>ניהול תשלומים וסליקה - Terminal: fxptbooks3601</p>
+                    <h3>Google Analytics</h3>
+                    <p>צפייה בתנועה, מבקרים, דפים פופולריים</p>
                 </div>
             </a>
+        </div>
+
+        <!-- Shipping Export Section -->
+        <div class="section" style="background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border: 2px solid #2196F3;">
+            <div class="section-header">
+                <h2>🚚 ייצוא משלוחים לחברת שליחויות</h2>
+            </div>
+            <p style="margin-bottom: 1rem; color: #1565C0;">ייצא את פרטי המשלוחים כקובץ CSV לשליחה לחברת המשלוחים</p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="https://docs.google.com/forms/d/1FAIpQLSfzkGSK5IEAqswyzyuqa37ReV0bEZow_5DuuHlWOglTc08eqA/edit#responses" target="_blank" style="background: #2196F3; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    📥 ייצוא מ-Google Forms (CSV)
+                </a>
+                <button onclick="exportShippingCSV()" style="background: #4CAF50; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    📦 ייצוא משלוחים מקומיים
+                </button>
+            </div>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px; font-size: 0.9rem;">
+                <strong>💡 איך לייצא מ-Google Forms:</strong><br>
+                1. לחץ על הכפתור הכחול<br>
+                2. בחר "Responses" (תשובות)<br>
+                3. לחץ על האייקון הירוק של Google Sheets<br>
+                4. בגיליון: File → Download → CSV
+            </div>
         </div>
 
         <!-- Tips -->
@@ -556,8 +589,9 @@
             <ul>
                 <li>📊 בדוק Google Analytics לנתוני תנועה מפורטים</li>
                 <li>📧 ההזמנות נשלחות אוטומטית למייל Talbooks12@gmail.com</li>
-                <li>📋 כל ההזמנות נשמרות גם ב-Google Sheets</li>
+                <li>📋 כל ההזמנות נשמרות גם ב-Google Forms</li>
                 <li>💳 Tranzila מחובר ופעיל!</li>
+                <li>🚚 לייצוא משלוחים - השתמש בקטע למעלה</li>
             </ul>
         </div>
 
@@ -572,8 +606,8 @@
                 </div>
             </div>
 
-            <div class="local-orders-note">
-                ℹ️ ההזמנות המוצגות כאן הן מהדפדפן הנוכחי בלבד. לרשימה המלאה, בדוק את Google Sheets או את המייל.
+            <div class="local-orders-note" style="background: #FFF3E0; border: 1px solid #FFB74D; color: #E65100;">
+                ⚠️ הטבלה למטה מציגה רק הזמנות מהדפדפן הזה (לבדיקות). <strong>לכל ההזמנות האמיתיות - השתמש בכפתורים הירוקים למעלה!</strong>
             </div>
 
             <div id="ordersContainer">
@@ -785,6 +819,61 @@
                 loadOrders();
                 icon.classList.remove('refreshing');
             }, 1000);
+        }
+
+        // Export shipping orders to CSV
+        function exportShippingCSV() {
+            const completedOrders = JSON.parse(localStorage.getItem('completedOrders') || '[]');
+            const pendingOrders = [];
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('pendingOrder_')) {
+                    try {
+                        const order = JSON.parse(localStorage.getItem(key));
+                        if (order) pendingOrders.push(order);
+                    } catch (e) {}
+                }
+            }
+
+            const allOrders = [...completedOrders, ...pendingOrders];
+
+            // Filter only shipping orders (משלוח)
+            const shippingOrders = allOrders.filter(o => o.deliveryMethod === 'משלוח');
+
+            if (shippingOrders.length === 0) {
+                alert('אין הזמנות משלוח לייצוא.\n\nלייצוא כל ההזמנות מהאתר, השתמש בכפתור "ייצוא מ-Google Forms"');
+                return;
+            }
+
+            // Create CSV content
+            const headers = ['מספר הזמנה', 'תאריך', 'שם', 'טלפון', 'אימייל', 'כתובת', 'חבילה', 'סכום', 'סטטוס'];
+            const rows = shippingOrders.map(o => [
+                o.orderId || '',
+                new Date(o.timestamp).toLocaleDateString('he-IL'),
+                o.name || '',
+                o.phone || '',
+                o.email || '',
+                (o.address || '').replace(/,/g, ' -'),
+                o.package || '',
+                o.totalAmount || '',
+                o.paymentStatus === 'paid' ? 'שולם' : 'ממתין'
+            ]);
+
+            let csvContent = '\uFEFF'; // BOM for Hebrew support in Excel
+            csvContent += headers.join(',') + '\n';
+            rows.forEach(row => {
+                csvContent += row.map(cell => `"${cell}"`).join(',') + '\n';
+            });
+
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `משלוחים_${new Date().toLocaleDateString('he-IL').replace(/\./g, '-')}.csv`;
+            link.click();
+
+            alert(`יוצאו ${shippingOrders.length} הזמנות משלוח!`);
         }
 
         // Auto-refresh every 30 seconds
