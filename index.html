@@ -3399,16 +3399,6 @@
                         </label>
                     </div>
 
-                    <!-- Coupon Code -->
-                    <div class="form-group coupon-group">
-                        <label>קוד קופון (אופציונלי)</label>
-                        <div class="coupon-input-wrapper">
-                            <input type="text" id="couponInput" placeholder="הזן קוד קופון">
-                            <button type="button" class="coupon-apply-btn" onclick="applyCoupon()">החל</button>
-                        </div>
-                        <div id="couponMessage" class="coupon-message"></div>
-                    </div>
-
                     <p class="price-note">* המחירים המוצגים הם סופיים. העסק הינו עוסק פטור ואינו גובה מע"מ. משלוח: ₪29.99 | איסוף עצמי: חינם</p>
 
                     <button type="button" class="submit-order-btn" onclick="submitOrder(event)">
@@ -3787,17 +3777,8 @@
         // Note: TranzilaPW (HThjvyeO) is only used server-side for API calls
 
         // ============================================
-        // COUPON CODES (manage from admin or here)
-        // ============================================
-        const COUPONS = {
-            'TEST95': { discount: 95, description: 'קופון בדיקה 95%' },
-            'FRIENDS20': { discount: 20, description: 'הנחת חברים 20%' },
-            'LAUNCH10': { discount: 10, description: 'הנחת השקה 10%' }
-        };
-
         // Current order data storage
         let currentOrderData = null;
-        let appliedCoupon = null;
 
         // Generate unique order ID
         function generateOrderId() {
@@ -3806,42 +3787,10 @@
             return `MK-${timestamp}-${random}`.toUpperCase();
         }
 
-        // Apply coupon code
-        function applyCoupon() {
-            const couponInput = document.getElementById('couponInput');
-            const couponMessage = document.getElementById('couponMessage');
-            const code = couponInput.value.trim().toUpperCase();
-
-            if (!code) {
-                couponMessage.textContent = 'אנא הזן קוד קופון';
-                couponMessage.className = 'coupon-message error';
-                return;
-            }
-
-            if (COUPONS[code]) {
-                appliedCoupon = { code, ...COUPONS[code] };
-                couponMessage.textContent = `✅ ${appliedCoupon.description} - הופעל בהצלחה!`;
-                couponMessage.className = 'coupon-message success';
-                couponInput.disabled = true;
-                document.querySelector('.coupon-apply-btn').textContent = '✓';
-                document.querySelector('.coupon-apply-btn').disabled = true;
-            } else {
-                appliedCoupon = null;
-                couponMessage.textContent = '❌ קוד קופון לא תקין';
-                couponMessage.className = 'coupon-message error';
-            }
-        }
-
-        // Calculate total price including shipping and coupon
+        // Calculate total price including shipping
         function calculateTotal(basePrice, deliveryMethod) {
             let price = parseInt(basePrice.replace('₪', ''));
             const shipping = deliveryMethod === 'משלוח' ? 29.99 : 0;
-
-            // Apply coupon discount to product price (not shipping)
-            if (appliedCoupon) {
-                price = price * (1 - appliedCoupon.discount / 100);
-            }
-
             return (price + shipping).toFixed(2);
         }
 
@@ -3866,23 +3815,6 @@
             const form = document.getElementById('orderForm');
             if (form) form.reset();
             currentOrderData = null;
-            // Reset coupon
-            appliedCoupon = null;
-            const couponInput = document.getElementById('couponInput');
-            const couponMessage = document.getElementById('couponMessage');
-            const couponBtn = document.querySelector('.coupon-apply-btn');
-            if (couponInput) {
-                couponInput.value = '';
-                couponInput.disabled = false;
-            }
-            if (couponMessage) {
-                couponMessage.className = 'coupon-message';
-                couponMessage.textContent = '';
-            }
-            if (couponBtn) {
-                couponBtn.textContent = 'החל';
-                couponBtn.disabled = false;
-            }
         }
 
         const pricingPopupEl = document.getElementById('pricingPopup');
@@ -3957,8 +3889,6 @@
                 package: package_,
                 originalPrice: price,
                 totalAmount,
-                coupon: appliedCoupon ? appliedCoupon.code : null,
-                couponDiscount: appliedCoupon ? appliedCoupon.discount + '%' : null,
                 address,
                 deliveryMethod,
                 dedication,
