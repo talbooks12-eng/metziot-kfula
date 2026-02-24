@@ -4118,7 +4118,7 @@ ${isPickup ? pickupSection : deliverySection}
         // Log order to Google Forms
         async function logOrderToGoogleForms(orderData, status) {
             try {
-                const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfzkGSK5IEAqswyzyuqa37ReV0bEZow_5DuuHlWOglTc08eqA/formResponse';
+                const googleFormUrl = 'https://docs.google.com/forms/d/1NvEJW9PQLeg8ZbmKMSlet8LodBHtf928OI_HOZT5L5U/formResponse';
                 const googleFormData = new FormData();
                 googleFormData.append('entry.558958194', orderData.name);
                 googleFormData.append('entry.760949935', orderData.email);
@@ -4244,7 +4244,7 @@ ${isPickup ? pickupSection : deliverySection}
             orderData.paidAt = new Date().toISOString();
 
             // Submit to Google Forms with payment confirmation
-            const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfzkGSK5IEAqswyzyuqa37ReV0bEZow_5DuuHlWOglTc08eqA/formResponse';
+            const googleFormUrl = 'https://docs.google.com/forms/d/1NvEJW9PQLeg8ZbmKMSlet8LodBHtf928OI_HOZT5L5U/formResponse';
             const googleFormData = new FormData();
             googleFormData.append('entry.558958194', orderData.name);
             googleFormData.append('entry.760949935', orderData.email);
