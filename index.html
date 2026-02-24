@@ -4120,15 +4120,15 @@ ${isPickup ? pickupSection : deliverySection}
             try {
                 const googleFormUrl = 'https://docs.google.com/forms/d/1NvEJW9PQLeg8ZbmKMSlet8LodBHtf928OI_HOZT5L5U/formResponse';
                 const googleFormData = new FormData();
-                googleFormData.append('entry.558958194', orderData.name);
-                googleFormData.append('entry.760949935', orderData.email);
-                googleFormData.append('entry.25500744', orderData.phone);
-                googleFormData.append('entry.929296802', orderData.package);
-                googleFormData.append('entry.667716366', '₪' + orderData.totalAmount + ' (' + status + ' - ' + orderData.orderId + ')');
-                googleFormData.append('entry.2012880841', orderData.address +
+                googleFormData.append('entry.2021414229', orderData.name);
+                googleFormData.append('entry.1955948094', orderData.email);
+                googleFormData.append('entry.1541655931', orderData.phone);
+                googleFormData.append('entry.160280846', orderData.package);
+                googleFormData.append('entry.913201632', '₪' + orderData.totalAmount + ' (' + status + ' - ' + orderData.orderId + ')');
+                googleFormData.append('entry.1207434786', orderData.address +
                     (orderData.dedication ? '\nהקדשה: ' + orderData.dedication : '') +
                     (orderData.notes ? '\nהערות: ' + orderData.notes : ''));
-                googleFormData.append('entry.1586531686', orderData.deliveryMethod);
+                googleFormData.append('entry.1092365239', orderData.deliveryMethod);
 
                 await fetch(googleFormUrl, {
                     method: 'POST',
@@ -4246,15 +4246,15 @@ ${isPickup ? pickupSection : deliverySection}
             // Submit to Google Forms with payment confirmation
             const googleFormUrl = 'https://docs.google.com/forms/d/1NvEJW9PQLeg8ZbmKMSlet8LodBHtf928OI_HOZT5L5U/formResponse';
             const googleFormData = new FormData();
-            googleFormData.append('entry.558958194', orderData.name);
-            googleFormData.append('entry.760949935', orderData.email);
-            googleFormData.append('entry.25500744', orderData.phone);
-            googleFormData.append('entry.929296802', orderData.package);
-            googleFormData.append('entry.667716366', '₪' + orderData.totalAmount + ' (שולם - ' + orderData.orderId + ')');
-            googleFormData.append('entry.2012880841', orderData.address +
+            googleFormData.append('entry.2021414229', orderData.name);
+            googleFormData.append('entry.1955948094', orderData.email);
+            googleFormData.append('entry.1541655931', orderData.phone);
+            googleFormData.append('entry.160280846', orderData.package);
+            googleFormData.append('entry.913201632', '₪' + orderData.totalAmount + ' (שולם - ' + orderData.orderId + ')');
+            googleFormData.append('entry.1207434786', orderData.address +
                 (orderData.dedication ? '\nהקדשה: ' + orderData.dedication : '') +
                 (orderData.notes ? '\nהערות: ' + orderData.notes : ''));
-            googleFormData.append('entry.1586531686', orderData.deliveryMethod);
+            googleFormData.append('entry.1092365239', orderData.deliveryMethod);
 
             try {
                 fetch(googleFormUrl, {
