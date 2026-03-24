@@ -571,7 +571,7 @@
                     📥 ייצוא מ-Google Forms (CSV)
                 </a>
                 <button onclick="exportShippingCSV()" style="background: #4CAF50; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
-                    📦 ייצוא משלוחים מקומיים
+                    📦 ייצוא CSV לחברת Cargo
                 </button>
             </div>
             <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px; font-size: 0.9rem;">
@@ -821,7 +821,7 @@
             }, 1000);
         }
 
-        // Export shipping orders to CSV
+        // Export shipping orders to Cargo CSV format
         function exportShippingCSV() {
             const completedOrders = JSON.parse(localStorage.getItem('completedOrders') || '[]');
             const pendingOrders = [];
@@ -838,42 +838,90 @@
 
             const allOrders = [...completedOrders, ...pendingOrders];
 
-            // Filter only shipping orders (משלוח)
-            const shippingOrders = allOrders.filter(o => o.deliveryMethod === 'משלוח');
+            // Filter only paid shipping orders (משלוח)
+            const shippingOrders = allOrders.filter(o => o.deliveryMethod === 'משלוח' && o.paymentStatus === 'paid');
 
             if (shippingOrders.length === 0) {
-                alert('אין הזמנות משלוח לייצוא.\n\nלייצוא כל ההזמנות מהאתר, השתמש בכפתור "ייצוא מ-Google Forms"');
+                alert('אין הזמנות משלוח ששולמו לייצוא.\n\nלייצוא כל ההזמנות מהאתר, השתמש בכפתור "ייצוא מ-Google Forms"');
                 return;
             }
 
-            // Create CSV content
-            const headers = ['מספר הזמנה', 'תאריך', 'שם', 'טלפון', 'אימייל', 'כתובת', 'חבילה', 'סכום', 'סטטוס'];
-            const rows = shippingOrders.map(o => [
-                o.orderId || '',
-                new Date(o.timestamp).toLocaleDateString('he-IL'),
-                o.name || '',
-                o.phone || '',
-                o.email || '',
-                (o.address || '').replace(/,/g, ' -'),
-                o.package || '',
-                o.totalAmount || '',
-                o.paymentStatus === 'paid' ? 'שולם' : 'ממתין'
-            ]);
+            // Parse address into street, number, city, floor, apartment
+            function parseAddress(address) {
+                const result = { street: '', number: '', city: '', floor: '', apartment: '' };
+                if (!address) return result;
 
-            let csvContent = '\uFEFF'; // BOM for Hebrew support in Excel
+                const parts = address.split(',').map(s => s.trim());
+
+                // First part: street + number
+                if (parts.length > 0) {
+                    const streetMatch = parts[0].match(/^(.+?)\s+(\d+)/);
+                    if (streetMatch) {
+                        result.street = streetMatch[1];
+                        result.number = streetMatch[2];
+                    } else {
+                        result.street = parts[0];
+                    }
+                }
+
+                // Look for דירה, קומה, and city in remaining parts
+                for (let i = 0; i < parts.length; i++) {
+                    const aptMatch = parts[i].match(/דירה\s*(\d+)/);
+                    const floorMatch = parts[i].match(/קומה\s*(\d+)/);
+                    if (aptMatch) result.apartment = aptMatch[1];
+                    if (floorMatch) result.floor = floorMatch[1];
+                }
+
+                // City is usually the last part that is not דירה/קומה
+                for (let j = parts.length - 1; j >= 1; j--) {
+                    if (!parts[j].match(/דירה|קומה/)) {
+                        result.city = parts[j].trim();
+                        break;
+                    }
+                }
+
+                return result;
+            }
+
+            // Cargo CSV headers
+            const headers = ['To name','To company','To street','To street number','To city','To phone','To email','Floor','Apartment','Order ID (Transaction ID)','Barcode','Double delivery','Number of parcels','Notes','Cash on delivery (govaina)','Order total'];
+
+            const rows = shippingOrders.map(o => {
+                const addr = parseAddress(o.address);
+                const phone = (o.phone || '').toString();
+                return [
+                    o.name || '',
+                    '',
+                    addr.street,
+                    addr.number,
+                    addr.city,
+                    phone.startsWith('0') ? phone : '0' + phone,
+                    o.email || '',
+                    addr.floor,
+                    addr.apartment,
+                    '',
+                    '',
+                    '',
+                    '1',
+                    o.notes || '',
+                    '',
+                    ''
+                ];
+            });
+
+            let csvContent = '\uFEFF'; // BOM for Hebrew support
             csvContent += headers.join(',') + '\n';
             rows.forEach(row => {
                 csvContent += row.map(cell => `"${cell}"`).join(',') + '\n';
             });
 
-            // Download CSV
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `משלוחים_${new Date().toLocaleDateString('he-IL').replace(/\./g, '-')}.csv`;
+            link.download = `cargo_shipments_${new Date().toLocaleDateString('he-IL').replace(/\./g, '-')}.csv`;
             link.click();
 
-            alert(`יוצאו ${shippingOrders.length} הזמנות משלוח!`);
+            alert(`יוצאו ${shippingOrders.length} הזמנות משלוח בפורמט Cargo!`);
         }
 
         // Auto-refresh every 30 seconds
