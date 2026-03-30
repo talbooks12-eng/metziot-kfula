@@ -4305,6 +4305,23 @@ ${isPickup ? pickupSection : deliverySection}
             completedOrders.push(orderData);
             localStorage.setItem('completedOrders', JSON.stringify(completedOrders));
 
+            // Auto-save shipping orders for easy Cargo CSV export
+            if (orderData.deliveryMethod === 'משלוח') {
+                const pendingShipments = JSON.parse(localStorage.getItem('pendingShipments') || '[]');
+                pendingShipments.push({
+                    name: orderData.name,
+                    address: orderData.address,
+                    phone: orderData.phone,
+                    email: orderData.email,
+                    notes: orderData.notes || '',
+                    package: orderData.package,
+                    orderId: orderData.orderId,
+                    date: new Date().toISOString(),
+                    exported: false
+                });
+                localStorage.setItem('pendingShipments', JSON.stringify(pendingShipments));
+            }
+
             // Track in Google Analytics
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'purchase', {

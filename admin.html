@@ -560,26 +560,44 @@
             </a>
         </div>
 
-        <!-- Shipping Export Section -->
+        <!-- Shipping Management Section -->
         <div class="section" style="background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border: 2px solid #2196F3;">
             <div class="section-header">
-                <h2>🚚 ייצוא משלוחים לחברת שליחויות</h2>
+                <h2>🚚 ניהול משלוחים - Cargo</h2>
             </div>
-            <p style="margin-bottom: 1rem; color: #1565C0;">ייצא את פרטי המשלוחים כקובץ CSV לשליחה לחברת המשלוחים</p>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                <a href="https://docs.google.com/forms/d/1NvEJW9PQLeg8ZbmKMSlet8LodBHtf928OI_HOZT5L5U/edit#responses" target="_blank" style="background: #2196F3; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
-                    📥 ייצוא מ-Google Forms (CSV)
-                </a>
-                <button onclick="exportShippingCSV()" style="background: #4CAF50; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
-                    📦 ייצוא CSV לחברת Cargo
+            <p style="margin-bottom: 1rem; color: #1565C0;">משלוחים ממתינים לייצוא לחברת Cargo</p>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                <button onclick="exportCargoCSV()" style="background: #4CAF50; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1rem;">
+                    📦 הורד CSV לחברת Cargo
+                </button>
+                <button onclick="markAllExported()" style="background: #FF9800; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    ✅ סמן הכל כנשלח
+                </button>
+                <button onclick="exportAllShippingCSV()" style="background: #2196F3; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    📋 ייצוא כל המשלוחים (כולל שנשלחו)
                 </button>
             </div>
-            <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px; font-size: 0.9rem;">
-                <strong>💡 איך לייצא מ-Google Forms:</strong><br>
-                1. לחץ על הכפתור הכחול<br>
-                2. בחר "Responses" (תשובות)<br>
-                3. לחץ על האייקון הירוק של Google Sheets<br>
-                4. בגיליון: File → Download → CSV
+
+            <div id="pendingShipmentsCount" style="padding: 0.75rem 1rem; background: rgba(255,255,255,0.7); border-radius: 8px; margin-bottom: 1rem; font-weight: 600; color: #1565C0;"></div>
+
+            <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
+                <thead>
+                    <tr style="background: #1565C0; color: white;">
+                        <th style="padding: 0.75rem; text-align: right;">שם</th>
+                        <th style="padding: 0.75rem; text-align: right;">כתובת</th>
+                        <th style="padding: 0.75rem; text-align: right;">עיר</th>
+                        <th style="padding: 0.75rem; text-align: right;">טלפון</th>
+                        <th style="padding: 0.75rem; text-align: right;">חבילה</th>
+                        <th style="padding: 0.75rem; text-align: right;">סטטוס</th>
+                        <th style="padding: 0.75rem; text-align: center;">פעולות</th>
+                    </tr>
+                </thead>
+                <tbody id="shipmentsTableBody" style="color: #333;">
+                </tbody>
+            </table>
+            <div id="noShipments" style="display: none; text-align: center; padding: 2rem; color: #666; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                אין משלוחים ממתינים
             </div>
         </div>
 
@@ -696,6 +714,7 @@
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('dashboard').classList.add('active');
             loadOrders();
+            loadShipments();
         }
 
         // Load orders from localStorage
@@ -821,111 +840,202 @@
             }, 1000);
         }
 
-        // Export shipping orders to Cargo CSV format
-        function exportShippingCSV() {
+        // Load and display pending shipments
+        function loadShipments() {
+            const shipments = JSON.parse(localStorage.getItem('pendingShipments') || '[]');
+            const tbody = document.getElementById('shipmentsTableBody');
+            const noShipments = document.getElementById('noShipments');
+            const countDiv = document.getElementById('pendingShipmentsCount');
+            
+            // Also check completedOrders for shipping orders not yet in pendingShipments
             const completedOrders = JSON.parse(localStorage.getItem('completedOrders') || '[]');
-            const pendingOrders = [];
-
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key && key.startsWith('pendingOrder_')) {
-                    try {
-                        const order = JSON.parse(localStorage.getItem(key));
-                        if (order) pendingOrders.push(order);
-                    } catch (e) {}
+            const shippingFromCompleted = completedOrders.filter(o => o.deliveryMethod === 'משלוח' && o.paymentStatus === 'paid');
+            
+            // Merge: add any completed shipping orders not already in pendingShipments
+            const existingIds = new Set(shipments.map(s => s.orderId));
+            shippingFromCompleted.forEach(o => {
+                if (!existingIds.has(o.orderId)) {
+                    shipments.push({
+                        name: o.name,
+                        address: o.address,
+                        phone: o.phone,
+                        email: o.email,
+                        notes: o.notes || '',
+                        package: o.package,
+                        orderId: o.orderId,
+                        date: o.timestamp || o.paidAt || new Date().toISOString(),
+                        exported: false
+                    });
                 }
-            }
+            });
+            localStorage.setItem('pendingShipments', JSON.stringify(shipments));
 
-            const allOrders = [...completedOrders, ...pendingOrders];
+            const pending = shipments.filter(s => !s.exported);
+            const exported = shipments.filter(s => s.exported);
+            
+            countDiv.textContent = `📦 ${pending.length} משלוחים ממתינים | ✅ ${exported.length} נשלחו`;
 
-            // Filter only paid shipping orders (משלוח)
-            const shippingOrders = allOrders.filter(o => o.deliveryMethod === 'משלוח' && o.paymentStatus === 'paid');
-
-            if (shippingOrders.length === 0) {
-                alert('אין הזמנות משלוח ששולמו לייצוא.\n\nלייצוא כל ההזמנות מהאתר, השתמש בכפתור "ייצוא מ-Google Forms"');
+            if (shipments.length === 0) {
+                tbody.innerHTML = '';
+                noShipments.style.display = 'block';
                 return;
             }
 
-            // Parse address into street, number, city, floor, apartment
-            function parseAddress(address) {
-                const result = { street: '', number: '', city: '', floor: '', apartment: '' };
-                if (!address) return result;
-
+            noShipments.style.display = 'none';
+            
+            // Parse city from address
+            function parseCity(address) {
+                if (!address) return '';
                 const parts = address.split(',').map(s => s.trim());
-
-                // First part: street + number
-                if (parts.length > 0) {
-                    const streetMatch = parts[0].match(/^(.+?)\s+(\d+)/);
-                    if (streetMatch) {
-                        result.street = streetMatch[1];
-                        result.number = streetMatch[2];
-                    } else {
-                        result.street = parts[0];
-                    }
-                }
-
-                // Look for דירה, קומה, and city in remaining parts
-                for (let i = 0; i < parts.length; i++) {
-                    const aptMatch = parts[i].match(/דירה\s*(\d+)/);
-                    const floorMatch = parts[i].match(/קומה\s*(\d+)/);
-                    if (aptMatch) result.apartment = aptMatch[1];
-                    if (floorMatch) result.floor = floorMatch[1];
-                }
-
-                // City is usually the last part that is not דירה/קומה
-                for (let j = parts.length - 1; j >= 1; j--) {
-                    if (!parts[j].match(/דירה|קומה/)) {
-                        result.city = parts[j].trim();
-                        break;
-                    }
-                }
-
-                return result;
+                return parts.length > 1 ? parts[parts.length - 1] : '';
             }
 
-            // Cargo CSV headers
-            const headers = ['To name','To company','To street','To street number','To city','To phone','To email','Floor','Apartment','Order ID (Transaction ID)','Barcode','Double delivery','Number of parcels','Notes','Cash on delivery (govaina)','Order total'];
-
-            const rows = shippingOrders.map(o => {
-                const addr = parseAddress(o.address);
-                const phone = (o.phone || '').toString();
-                return [
-                    o.name || '',
-                    '',
-                    addr.street,
-                    addr.number,
-                    addr.city,
-                    phone.startsWith('0') ? phone : '0' + phone,
-                    o.email || '',
-                    addr.floor,
-                    addr.apartment,
-                    '',
-                    '',
-                    '',
-                    '1',
-                    o.notes || '',
-                    '',
-                    ''
-                ];
-            });
-
-            let csvContent = '\uFEFF'; // BOM for Hebrew support
-            csvContent += headers.join(',') + '\n';
-            rows.forEach(row => {
-                csvContent += row.map(cell => `"${cell}"`).join(',') + '\n';
-            });
-
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `cargo_shipments_${new Date().toLocaleDateString('he-IL').replace(/\./g, '-')}.csv`;
-            link.click();
-
-            alert(`יוצאו ${shippingOrders.length} הזמנות משלוח בפורמט Cargo!`);
+            tbody.innerHTML = shipments
+                .sort((a, b) => a.exported - b.exported)
+                .map((s, idx) => {
+                const statusColor = s.exported ? '#4CAF50' : '#FF9800';
+                const statusText = s.exported ? '✅ נשלח' : '⏳ ממתין';
+                const rowBg = s.exported ? '#f0f8f0' : '#fff8e1';
+                const city = parseCity(s.address);
+                const parcels = s.package && s.package.includes('4') ? '4' : s.package && s.package.includes('3') ? '3' : '1';
+                return `
+                    <tr style="background: ${rowBg}; border-bottom: 1px solid #eee;">
+                        <td style="padding: 0.6rem;">${s.name}</td>
+                        <td style="padding: 0.6rem; font-size: 0.85rem;">${s.address || ''}</td>
+                        <td style="padding: 0.6rem;">${city}</td>
+                        <td style="padding: 0.6rem; direction: ltr; text-align: right;">${s.phone}</td>
+                        <td style="padding: 0.6rem;">${parcels} עותקים</td>
+                        <td style="padding: 0.6rem;"><span style="color: ${statusColor}; font-weight: 600;">${statusText}</span></td>
+                        <td style="padding: 0.6rem; text-align: center;">
+                            <button onclick="toggleExported(${idx})" style="background: ${s.exported ? '#FF9800' : '#4CAF50'}; color: white; border: none; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                                ${s.exported ? 'החזר' : 'סמן נשלח'}
+                            </button>
+                            <button onclick="removeShipment(${idx})" style="background: #f44336; color: white; border: none; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem; margin-right: 0.3rem;">
+                                מחק
+                            </button>
+                        </td>
+                    </tr>`;
+            }).join('');
         }
 
-        // Auto-refresh every 30 seconds
-        setInterval(loadOrders, 30000);
+        function toggleExported(idx) {
+            const shipments = JSON.parse(localStorage.getItem('pendingShipments') || '[]');
+            if (shipments[idx]) {
+                shipments[idx].exported = !shipments[idx].exported;
+                localStorage.setItem('pendingShipments', JSON.stringify(shipments));
+                loadShipments();
+            }
+        }
+
+        function removeShipment(idx) {
+            if (!confirm('בטוח למחוק משלוח זה?')) return;
+            const shipments = JSON.parse(localStorage.getItem('pendingShipments') || '[]');
+            shipments.splice(idx, 1);
+            localStorage.setItem('pendingShipments', JSON.stringify(shipments));
+            loadShipments();
+        }
+
+        function markAllExported() {
+            const shipments = JSON.parse(localStorage.getItem('pendingShipments') || '[]');
+            const pending = shipments.filter(s => !s.exported);
+            if (pending.length === 0) {
+                alert('אין משלוחים ממתינים');
+                return;
+            }
+            if (!confirm('לסמן ' + pending.length + ' משלוחים כנשלחו?')) return;
+            shipments.forEach(s => s.exported = true);
+            localStorage.setItem('pendingShipments', JSON.stringify(shipments));
+            loadShipments();
+        }
+
+        // Export pending shipments as Cargo CSV (correct format!)
+        function exportCargoCSV() {
+            const shipments = JSON.parse(localStorage.getItem('pendingShipments') || '[]');
+            const pending = shipments.filter(s => !s.exported);
+
+            if (pending.length === 0) {
+                alert('אין משלוחים ממתינים לייצוא');
+                return;
+            }
+
+            // Parse address into street+number and city
+            function parseForCargo(address) {
+                if (!address) return { fullAddress: '', city: '' };
+                const parts = address.split(',').map(s => s.trim());
+                if (parts.length > 1) {
+                    const city = parts[parts.length - 1];
+                    const street = parts.slice(0, -1).join(' ');
+                    return { fullAddress: street, city: city };
+                }
+                return { fullAddress: address, city: '' };
+            }
+
+            // Cargo CSV format: שם מלא,כתובת,עיר,טלפון נייד,מיקוד,הערות למשלוח
+            let csv = '\uFEFF'; // BOM
+            csv += 'שם מלא,כתובת,עיר,טלפון נייד,מיקוד,הערות למשלוח\n';
+
+            pending.forEach(s => {
+                const addr = parseForCargo(s.address);
+                const phone = (s.phone || '').toString();
+                const parcels = s.package && s.package.includes('4') ? '4 חבילות' : s.package && s.package.includes('3') ? '3 חבילות' : '';
+                const notes = [s.notes, parcels].filter(Boolean).join(' ');
+                csv += [
+                    '"' + (s.name || '') + '"',
+                    '"' + (addr.fullAddress || '') + '"',
+                    '"' + (addr.city || '') + '"',
+                    '"' + (phone.startsWith('0') ? phone : '0' + phone) + '"',
+                    '""',
+                    '"' + (notes || '') + '"'
+                ].join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'cargo_shipments_' + new Date().toLocaleDateString('he-IL').replace(/\./g, '-') + '.csv';
+            link.click();
+
+            alert('יוצאו ' + pending.length + ' משלוחים בפורמט Cargo!\n\nאחרי שתעלה לקארגו, לחץ על "סמן הכל כנשלח"');
+        }
+
+        // Export ALL shipments (including exported)
+        function exportAllShippingCSV() {
+            const shipments = JSON.parse(localStorage.getItem('pendingShipments') || '[]');
+
+            if (shipments.length === 0) {
+                alert('אין משלוחים');
+                return;
+            }
+
+            let csv = '\uFEFF';
+            csv += 'שם מלא,כתובת,עיר,טלפון נייד,מיקוד,הערות למשלוח,סטטוס\n';
+
+            shipments.forEach(s => {
+                const parts = (s.address || '').split(',').map(p => p.trim());
+                const city = parts.length > 1 ? parts[parts.length - 1] : '';
+                const street = parts.length > 1 ? parts.slice(0, -1).join(' ') : s.address || '';
+                const phone = (s.phone || '').toString();
+                const status = s.exported ? 'נשלח' : 'ממתין';
+                csv += [
+                    '"' + (s.name || '') + '"',
+                    '"' + street + '"',
+                    '"' + city + '"',
+                    '"' + (phone.startsWith('0') ? phone : '0' + phone) + '"',
+                    '""',
+                    '"' + (s.notes || '') + '"',
+                    '"' + status + '"'
+                ].join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'all_shipments_' + new Date().toLocaleDateString('he-IL').replace(/\./g, '-') + '.csv';
+            link.click();
+        }
+
+                // Auto-refresh every 30 seconds
+        setInterval(() => { loadOrders(); loadShipments(); }, 30000);
     </script>
 </body>
 </html>
