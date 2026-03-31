@@ -3374,8 +3374,12 @@
                     </div>
 
                     <div class="form-group" id="addressGroup">
-                        <label>כתובת למשלוח *</label>
-                        <textarea name="כתובת" id="addressInput" required placeholder="רחוב, מספר בית, עיר, מיקוד"></textarea>
+                        <label>רחוב ומספר בית *</label>
+                        <input type="text" name="רחוב" id="streetInput" required placeholder="לדוגמה: הרצל 15, דירה 3">
+                    </div>
+                    <div class="form-group" id="cityGroup">
+                        <label>עיר *</label>
+                        <input type="text" name="עיר" id="cityInput" required placeholder="לדוגמה: תל אביב">
                     </div>
 
                     <div class="form-group">
@@ -3874,7 +3878,9 @@
             const phone = form.querySelector('input[name="טלפון"]').value;
             const package_ = document.getElementById('packageInput').value;
             const price = document.getElementById('priceInput').value;
-            const address = document.getElementById('addressInput').value;
+            const street = document.getElementById('streetInput').value;
+            const city = document.getElementById('cityInput').value;
+            const address = street + ', ' + city;
             const deliveryMethod = form.querySelector('input[name="אופן_קבלה"]:checked').value;
             const dedication = form.querySelector('textarea[name="הקדשה"]')?.value || '';
             const notes = form.querySelector('input[name="הערות"]')?.value || '';
@@ -5020,7 +5026,8 @@ ${isPickup ? pickupSection : deliverySection}
             'איסוף עצמי': 'Self Pickup',
             'בתיאום מראש באזור המרכז': 'By appointment in central Israel',
             'חינם': 'Free',
-            'כתובת למשלוח': 'Delivery Address',
+            'רחוב ומספר בית': 'Street and House Number',
+            'עיר': 'City',
             'הקדשה אישית (אופציונלי)': 'Personal Dedication (optional)',
             'הערות להזמנה (אופציונלי)': 'Order Notes (optional)',
             'שליחת הזמנה': 'Submit Order',
@@ -5110,8 +5117,10 @@ ${isPickup ? pickupSection : deliverySection}
                 }
             });
 
-            const addressInput = document.querySelector('textarea[name="כתובת"]');
-            if (addressInput) addressInput.placeholder = 'Street, number, city, zip code';
+            const streetInput = document.querySelector('input[name="רחוב"]');
+            if (streetInput) streetInput.placeholder = 'e.g. Herzl 15, Apt 3';
+            const cityInput = document.querySelector('input[name="עיר"]');
+            if (cityInput) cityInput.placeholder = 'e.g. Tel Aviv';
 
             const dedicationInput = document.querySelector('textarea[name="הקדשה"]');
             if (dedicationInput) dedicationInput.placeholder = 'To whom? What message would you like to write?';
@@ -5165,7 +5174,9 @@ ${isPickup ? pickupSection : deliverySection}
             const options = document.querySelectorAll('.delivery-option');
             const pickupNote = document.getElementById('pickupNote');
             const addressGroup = document.getElementById('addressGroup');
-            const addressInput = document.getElementById('addressInput');
+            const cityGroup = document.getElementById('cityGroup');
+            const streetInput = document.getElementById('streetInput');
+            const cityInput = document.getElementById('cityInput');
 
             options.forEach(opt => opt.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
@@ -5173,14 +5184,19 @@ ${isPickup ? pickupSection : deliverySection}
             if (method === 'pickup') {
                 pickupNote.classList.add('visible');
                 addressGroup.style.display = 'none';
-                addressInput.removeAttribute('required');
-                addressInput.value = 'איסוף עצמי - יתואם בטלפון';
+                cityGroup.style.display = 'none';
+                streetInput.removeAttribute('required');
+                cityInput.removeAttribute('required');
+                streetInput.value = 'איסוף עצמי - יתואם בטלפון';
+                cityInput.value = '';
             } else {
                 pickupNote.classList.remove('visible');
                 addressGroup.style.display = 'flex';
-                addressInput.setAttribute('required', 'required');
-                if (addressInput.value === 'איסוף עצמי - יתואם בטלפון') {
-                    addressInput.value = '';
+                cityGroup.style.display = 'flex';
+                streetInput.setAttribute('required', 'required');
+                cityInput.setAttribute('required', 'required');
+                if (streetInput.value === 'איסוף עצמי - יתואם בטלפון') {
+                    streetInput.value = '';
                 }
             }
         }
