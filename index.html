@@ -5203,28 +5203,21 @@ ${isPickup ? pickupSection : deliverySection}
 
         // Countdown Timer - Set end date to 6 weeks from now
         function initCountdown() {
-            // Check if we have a stored end date, otherwise create one
-            let endDate = localStorage.getItem('saleEnd6Weeks');
-            if (!endDate) {
-                // Set countdown to 42 days (6 weeks) from now
-                const now = new Date();
-                now.setDate(now.getDate() + 42);
-                endDate = now.toISOString();
-                localStorage.setItem('saleEnd6Weeks', endDate);
-            }
-
-            const countdownEnd = new Date(endDate);
+            // Fixed sale end date: April 12, 2026
+            const countdownEnd = new Date('2026-04-12T23:59:59');
 
             function updateCountdown() {
                 const now = new Date();
                 const diff = countdownEnd - now;
 
                 if (diff <= 0) {
-                    // Reset countdown when it ends
-                    const newEnd = new Date();
-                    newEnd.setDate(newEnd.getDate() + 42);
-                    localStorage.setItem('saleEnd6Weeks', newEnd.toISOString());
-                    location.reload();
+                    // Sale is over - hide discount elements and show regular price
+                    document.querySelectorAll('.countdown').forEach(el => el.style.display = 'none');
+                    document.querySelectorAll('.popup-badge, .popup-urgency').forEach(el => el.style.display = 'none');
+                    const saleBar = document.querySelector('.sale-bar');
+                    if (saleBar) saleBar.style.display = 'none';
+                    const popup = document.getElementById('salePopup');
+                    if (popup) popup.style.display = 'none';
                     return;
                 }
 
