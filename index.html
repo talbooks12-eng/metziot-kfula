@@ -4012,38 +4012,11 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
                 const isPickup = orderData.deliveryMethod === 'איסוף עצמי';
 
                 // Different content for pickup vs delivery
-                const pickupSection = `
-אופן קבלה: איסוף עצמי
+                const pickupMessage = `
+אהלן ${orderData.name}! 😊
 
-פרטי איסוף:
-━━━━━━━━━━━━━━━━━━
-📍 אזור: המרכז (המיקום המדויק יתואם)
-🕐 שעות איסוף: ימים א׳-ה׳ 18:00-20:00
-📱 טלפון לתיאום: 054-325-7663
-📧 אימייל: Talbooks12@gmail.com
-━━━━━━━━━━━━━━━━━━
-
-צרו קשר בטלפון או באימייל לתיאום מועד ומיקום האיסוף.`;
-
-                const deliverySection = `
-אופן קבלה: משלוח
-כתובת: ${orderData.address}
-
-ניצור איתך קשר בהקדם לתיאום המשלוח.
-
-לשאלות ובירורים:
-📱 טלפון: 054-325-7663
-📧 אימייל: Talbooks12@gmail.com`;
-
-                const emailFormData = new FormData();
-                emailFormData.append('_subject', 'אישור הזמנה - מציאות כפולה | ההזמנה התקבלה בהצלחה!');
-                emailFormData.append('_replyto', 'Talbooks12@gmail.com');
-                emailFormData.append('_template', 'box');
-                emailFormData.append('_captcha', 'false');
-                emailFormData.append('message', `
-שלום ${orderData.name},
-
-תודה על הזמנתך מאתר מציאות כפולה! 📚
+תודה שרכשת את הספר הראשון שלי ״מציאות כפולה״!
+מתרגש שאת/ה חלק מהסיפור שלי ותמכת גם בפרויקט שפת הים, שהוא חשוב מאוד עבורי.
 
 ההזמנה התקבלה בהצלחה ✅
 
@@ -4054,15 +4027,57 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
 סכום ששולם: ₪${orderData.totalAmount}
 ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 ━━━━━━━━━━━━━━━━━━
-${isPickup ? pickupSection : deliverySection}
 
-תודה שבחרת לתמוך בפרויקט! 🤍
-15% מההכנסות נתרמות לפרויקט שפת הים.
+📍 איסוף עצמי:
+האיסוף מתבצע מאזור השרון, במרכז הארץ, בתיאום מראש.
+ניתן לתאם באמצעות טלפון: 054-3257663
 
-בברכה,
-טל הוך
-מציאות כפולה
-                `);
+לשאלות ובירורים:
+📱 טלפון: 054-325-7663
+📧 אימייל: Talbooks12@gmail.com
+
+אשמח לשמוע מה חשבת על הספר, ומוזמן/ת לשתף ברשתות החברתיות ולתייג אותי!
+
+תודה שוב,
+טל
+                `;
+
+                const deliveryMessage = `
+אהלן ${orderData.name}! 😊
+
+תודה שרכשת את הספר הראשון שלי ״מציאות כפולה״!
+מתרגש שאת/ה חלק מהסיפור שלי ותמכת גם בפרויקט שפת הים, שהוא חשוב מאוד עבורי.
+
+ההזמנה התקבלה בהצלחה ✅
+
+פרטי ההזמנה:
+━━━━━━━━━━━━━━━━━━
+מספר הזמנה: ${orderData.orderId}
+חבילה: ${orderData.package}
+סכום ששולם: ₪${orderData.totalAmount}
+${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
+━━━━━━━━━━━━━━━━━━
+
+📦 פרטי משלוח:
+כתובת: ${orderData.address}
+המשלוח יגיע אליך תוך 4-6 ימי עסקים.
+
+לשאלות ובירורים:
+📱 טלפון: 054-325-7663
+📧 אימייל: Talbooks12@gmail.com
+
+אשמח לשמוע מה חשבת על הספר, ומוזמן/ת לשתף ברשתות החברתיות ולתייג אותי!
+
+תודה שוב,
+טל
+                `;
+
+                const emailFormData = new FormData();
+                emailFormData.append('_subject', isPickup ? 'תודה על הרכישה! פרטי איסוף עצמי 📖' : 'תודה על הרכישה! הספר בדרך אליך 📖');
+                emailFormData.append('_replyto', 'Talbooks12@gmail.com');
+                emailFormData.append('_template', 'box');
+                emailFormData.append('_captcha', 'false');
+                emailFormData.append('message', isPickup ? pickupMessage : deliveryMessage);
 
                 await fetch('https://formsubmit.co/ajax/' + orderData.email, {
                     method: 'POST',
@@ -4078,14 +4093,15 @@ ${isPickup ? pickupSection : deliverySection}
         async function sendPickupConfirmationToCustomer(orderData) {
             try {
                 const emailFormData = new FormData();
-                emailFormData.append('_subject', 'אישור הזמנה - מציאות כפולה | פרטי איסוף עצמי');
+                emailFormData.append('_subject', 'תודה על הרכישה! פרטי איסוף עצמי 📖');
                 emailFormData.append('_replyto', 'Talbooks12@gmail.com');
                 emailFormData.append('_template', 'box');
                 emailFormData.append('_captcha', 'false');
                 emailFormData.append('message', `
-שלום ${orderData.name},
+אהלן ${orderData.name}! 😊
 
-תודה על הזמנתך מאתר מציאות כפולה! 📚
+תודה שרכשת את הספר הראשון שלי ״מציאות כפולה״!
+מתרגש שאת/ה חלק מהסיפור שלי ותמכת גם בפרויקט שפת הים, שהוא חשוב מאוד עבורי.
 
 פרטי ההזמנה:
 ━━━━━━━━━━━━━━━━━━
@@ -4094,22 +4110,18 @@ ${isPickup ? pickupSection : deliverySection}
 סכום: ₪${orderData.totalAmount}
 ━━━━━━━━━━━━━━━━━━
 
-בחרת באיסוף עצמי - הנה הפרטים:
-━━━━━━━━━━━━━━━━━━
-📍 אזור: המרכז (המיקום המדויק יתואם)
-🕐 שעות איסוף: ימים א׳-ה׳ 18:00-20:00
-📱 טלפון לתיאום: 054-325-7663
+📍 איסוף עצמי:
+האיסוף מתבצע מאזור השרון, במרכז הארץ, בתיאום מראש.
+ניתן לתאם באמצעות טלפון: 054-3257663
+
+לשאלות ובירורים:
+📱 טלפון: 054-325-7663
 📧 אימייל: Talbooks12@gmail.com
-━━━━━━━━━━━━━━━━━━
 
-צרו קשר בטלפון או באימייל לתיאום מועד ומיקום האיסוף.
+אשמח לשמוע מה חשבת על הספר, ומוזמן/ת לשתף ברשתות החברתיות ולתייג אותי!
 
-תודה שבחרת לתמוך בפרויקט! 🤍
-15% מההכנסות נתרמות לפרויקט שפת הים.
-
-בברכה,
-טל הוך
-מציאות כפולה
+תודה שוב,
+טל
                 `);
 
                 await fetch('https://formsubmit.co/ajax/' + orderData.email, {
