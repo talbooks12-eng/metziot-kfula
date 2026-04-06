@@ -60,7 +60,7 @@
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
-            "reviewCount": "9"
+            "reviewCount": "6"
         }
     }
     </script>
@@ -3374,12 +3374,8 @@
                     </div>
 
                     <div class="form-group" id="addressGroup">
-                        <label>רחוב ומספר בית *</label>
-                        <input type="text" name="רחוב" id="streetInput" required placeholder="לדוגמה: הרצל 15, דירה 3">
-                    </div>
-                    <div class="form-group" id="cityGroup">
-                        <label>עיר *</label>
-                        <input type="text" name="עיר" id="cityInput" required placeholder="לדוגמה: תל אביב">
+                        <label>כתובת למשלוח *</label>
+                        <textarea name="כתובת" id="addressInput" required placeholder="רחוב, מספר בית, עיר, מיקוד"></textarea>
                     </div>
 
                     <div class="form-group">
@@ -3512,7 +3508,7 @@
         <div class="container">
             <h2 class="section-title">על המחבר</h2>
             <div class="author-content">
-                <p>טל הוך, בן 25, סטודנט ולוחם במילואים בחטיבת הצנחנים 55. תוך כדי שירות מילואים פעיל, במרחב שבו החיים ממשיכים במקביל ללחימה, נולדה הכתיבה – לא כסיפור גבורה, אלא כניסיון לשקף חיים יומיומיים שמתקיימים מתחת לפני השטח. דרך חוויות, מחשבות ותחושות, טל מבקש להוציא לאור את האנשים השקופים שחיים בינינו: מי שנעים בין חזית לעורף, בין שגרה אזרחית למציאות מלחמתית, ונושאים בתוכם חוויות שלא תמיד מוצאות מקום או שפה. מתוך כך, הוא מציג את המציאות המורכבת שהלוחמים חיים בה, ומבקש להעניק הצצה, חיבוק ונחמה לכל מי שחי את המציאות הכפולה הזו יום־יום.</p>
+                <p>טל הוך, בן 24, סטודנט ולוחם במילואים בחטיבת הצנחנים 55. תוך כדי שירות מילואים פעיל, במרחב שבו החיים ממשיכים במקביל ללחימה, נולדה הכתיבה – לא כסיפור גבורה, אלא כניסיון לשקף חיים יומיומיים שמתקיימים מתחת לפני השטח. דרך חוויות, מחשבות ותחושות, טל מבקש להוציא לאור את האנשים השקופים שחיים בינינו: מי שנעים בין חזית לעורף, בין שגרה אזרחית למציאות מלחמתית, ונושאים בתוכם חוויות שלא תמיד מוצאות מקום או שפה. מתוך כך, הוא מציג את המציאות המורכבת שהלוחמים חיים בה, ומבקש להעניק הצצה, חיבוק ונחמה לכל מי שחי את המציאות הכפולה הזו יום־יום.</p>
             </div>
         </div>
     </section>
@@ -3698,21 +3694,6 @@
                     <p class="review-text">"קראתי בלילה אחד. כתיבה כנה ונוגעת. האיורים מוסיפים המון לחוויה. ממליץ בחום."</p>
                     <div class="review-author">— דני גולדשטיין <span class="verified-badge">✓ מאומת</span></div>
                 </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"ספר שגורם לך לעצור ולהרגיש. כל עמוד הוא חיבוק למי שהיה שם ולמי שמחכה בבית."</p>
-                    <div class="review-author">— עידן ברוך <span class="verified-badge">✓ מאומת</span></div>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"הספר הזה תפס אותי מהמשפט הראשון. כתוב בכנות שחודרת ללב, מרגיש כמו שיחה עם חבר קרוב."</p>
-                    <div class="review-author">— נדב גלפר <span class="verified-badge">✓ מאומת</span></div>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"בתור מילואימניק, הספר הזה נגע בי אישית. זה בדיוק מה שאנחנו חווים ביומיום — והמילים כאן מדויקות בטירוף."</p>
-                    <div class="review-author">— רז גור לוי <span class="verified-badge">✓ מאומת</span></div>
-                </div>
             </div>
 
             
@@ -3893,9 +3874,7 @@
             const phone = form.querySelector('input[name="טלפון"]').value;
             const package_ = document.getElementById('packageInput').value;
             const price = document.getElementById('priceInput').value;
-            const street = document.getElementById('streetInput').value;
-            const city = document.getElementById('cityInput').value;
-            const address = street + ', ' + city;
+            const address = document.getElementById('addressInput').value;
             const deliveryMethod = form.querySelector('input[name="אופן_קבלה"]:checked').value;
             const dedication = form.querySelector('textarea[name="הקדשה"]')?.value || '';
             const notes = form.querySelector('input[name="הערות"]')?.value || '';
@@ -3973,6 +3952,9 @@
 
         // Send Telegram notification (private - only to your chat)
         async function sendTelegramNotification(orderData, type) {
+            const TELEGRAM_BOT_TOKEN = '8587921062:AAEnQXzItjfBeFzExi9QCqQM5GoWH2ll-2I';
+            const TELEGRAM_CHAT_ID = '6573456373'; // Your private chat ID
+
             let message = '';
             if (type === 'new') {
                 message = `🛒 *הזמנה חדשה!*
@@ -4004,10 +3986,14 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
             }
 
             try {
-                await fetch('/api/telegram-notify', {
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message })
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
                 });
             } catch (error) {
                 console.error('Error sending Telegram notification:', error);
@@ -4020,72 +4006,57 @@ ${orderData.dedication ? '✍️ הקדשה: ' + orderData.dedication : ''}
                 const isPickup = orderData.deliveryMethod === 'איסוף עצמי';
 
                 // Different content for pickup vs delivery
-                const pickupMessage = `
-אהלן ${orderData.name}! 😊
+                const pickupSection = `
+אופן קבלה: איסוף עצמי
 
-תודה שרכשת את הספר הראשון שלי ״מציאות כפולה״!
-מתרגש שאת/ה חלק מהסיפור שלי ותמכת גם בפרויקט שפת הים, שהוא חשוב מאוד עבורי.
-
-ההזמנה התקבלה בהצלחה ✅
-
-פרטי ההזמנה:
+פרטי איסוף:
 ━━━━━━━━━━━━━━━━━━
-מספר הזמנה: ${orderData.orderId}
-חבילה: ${orderData.package}
-סכום ששולם: ₪${orderData.totalAmount}
-${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
-━━━━━━━━━━━━━━━━━━
-
-📍 איסוף עצמי:
-האיסוף מתבצע מאזור השרון, במרכז הארץ, בתיאום מראש.
-ניתן לתאם באמצעות טלפון: 054-3257663
-
-לשאלות ובירורים:
-📱 טלפון: 054-325-7663
+📍 אזור: המרכז (המיקום המדויק יתואם)
+🕐 שעות איסוף: ימים א׳-ה׳ 18:00-20:00
+📱 טלפון לתיאום: 054-325-7663
 📧 אימייל: Talbooks12@gmail.com
-
-אשמח לשמוע מה חשבת על הספר, ומוזמן/ת לשתף ברשתות החברתיות ולתייג אותי!
-
-תודה שוב,
-טל
-                `;
-
-                const deliveryMessage = `
-אהלן ${orderData.name}! 😊
-
-תודה שרכשת את הספר הראשון שלי ״מציאות כפולה״!
-מתרגש שאת/ה חלק מהסיפור שלי ותמכת גם בפרויקט שפת הים, שהוא חשוב מאוד עבורי.
-
-ההזמנה התקבלה בהצלחה ✅
-
-פרטי ההזמנה:
-━━━━━━━━━━━━━━━━━━
-מספר הזמנה: ${orderData.orderId}
-חבילה: ${orderData.package}
-סכום ששולם: ₪${orderData.totalAmount}
-${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 ━━━━━━━━━━━━━━━━━━
 
-📦 פרטי משלוח:
+צרו קשר בטלפון או באימייל לתיאום מועד ומיקום האיסוף.`;
+
+                const deliverySection = `
+אופן קבלה: משלוח
 כתובת: ${orderData.address}
-המשלוח יגיע אליך תוך 4-6 ימי עסקים.
+
+ניצור איתך קשר בהקדם לתיאום המשלוח.
 
 לשאלות ובירורים:
 📱 טלפון: 054-325-7663
-📧 אימייל: Talbooks12@gmail.com
-
-אשמח לשמוע מה חשבת על הספר, ומוזמן/ת לשתף ברשתות החברתיות ולתייג אותי!
-
-תודה שוב,
-טל
-                `;
+📧 אימייל: Talbooks12@gmail.com`;
 
                 const emailFormData = new FormData();
-                emailFormData.append('_subject', isPickup ? 'תודה על הרכישה! פרטי איסוף עצמי 📖' : 'תודה על הרכישה! הספר בדרך אליך 📖');
+                emailFormData.append('_subject', 'אישור הזמנה - מציאות כפולה | ההזמנה התקבלה בהצלחה!');
                 emailFormData.append('_replyto', 'Talbooks12@gmail.com');
                 emailFormData.append('_template', 'box');
                 emailFormData.append('_captcha', 'false');
-                emailFormData.append('message', isPickup ? pickupMessage : deliveryMessage);
+                emailFormData.append('message', `
+שלום ${orderData.name},
+
+תודה על הזמנתך מאתר מציאות כפולה! 📚
+
+ההזמנה התקבלה בהצלחה ✅
+
+פרטי ההזמנה:
+━━━━━━━━━━━━━━━━━━
+מספר הזמנה: ${orderData.orderId}
+חבילה: ${orderData.package}
+סכום ששולם: ₪${orderData.totalAmount}
+${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
+━━━━━━━━━━━━━━━━━━
+${isPickup ? pickupSection : deliverySection}
+
+תודה שבחרת לתמוך בפרויקט! 🤍
+15% מההכנסות נתרמות לפרויקט שפת הים.
+
+בברכה,
+טל הוך
+מציאות כפולה
+                `);
 
                 await fetch('https://formsubmit.co/ajax/' + orderData.email, {
                     method: 'POST',
@@ -4101,15 +4072,14 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
         async function sendPickupConfirmationToCustomer(orderData) {
             try {
                 const emailFormData = new FormData();
-                emailFormData.append('_subject', 'תודה על הרכישה! פרטי איסוף עצמי 📖');
+                emailFormData.append('_subject', 'אישור הזמנה - מציאות כפולה | פרטי איסוף עצמי');
                 emailFormData.append('_replyto', 'Talbooks12@gmail.com');
                 emailFormData.append('_template', 'box');
                 emailFormData.append('_captcha', 'false');
                 emailFormData.append('message', `
-אהלן ${orderData.name}! 😊
+שלום ${orderData.name},
 
-תודה שרכשת את הספר הראשון שלי ״מציאות כפולה״!
-מתרגש שאת/ה חלק מהסיפור שלי ותמכת גם בפרויקט שפת הים, שהוא חשוב מאוד עבורי.
+תודה על הזמנתך מאתר מציאות כפולה! 📚
 
 פרטי ההזמנה:
 ━━━━━━━━━━━━━━━━━━
@@ -4118,18 +4088,22 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 סכום: ₪${orderData.totalAmount}
 ━━━━━━━━━━━━━━━━━━
 
-📍 איסוף עצמי:
-האיסוף מתבצע מאזור השרון, במרכז הארץ, בתיאום מראש.
-ניתן לתאם באמצעות טלפון: 054-3257663
-
-לשאלות ובירורים:
-📱 טלפון: 054-325-7663
+בחרת באיסוף עצמי - הנה הפרטים:
+━━━━━━━━━━━━━━━━━━
+📍 אזור: המרכז (המיקום המדויק יתואם)
+🕐 שעות איסוף: ימים א׳-ה׳ 18:00-20:00
+📱 טלפון לתיאום: 054-325-7663
 📧 אימייל: Talbooks12@gmail.com
+━━━━━━━━━━━━━━━━━━
 
-אשמח לשמוע מה חשבת על הספר, ומוזמן/ת לשתף ברשתות החברתיות ולתייג אותי!
+צרו קשר בטלפון או באימייל לתיאום מועד ומיקום האיסוף.
 
-תודה שוב,
-טל
+תודה שבחרת לתמוך בפרויקט! 🤍
+15% מההכנסות נתרמות לפרויקט שפת הים.
+
+בברכה,
+טל הוך
+מציאות כפולה
                 `);
 
                 await fetch('https://formsubmit.co/ajax/' + orderData.email, {
@@ -4330,23 +4304,6 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             const completedOrders = JSON.parse(localStorage.getItem('completedOrders') || '[]');
             completedOrders.push(orderData);
             localStorage.setItem('completedOrders', JSON.stringify(completedOrders));
-
-            // Auto-save shipping orders for easy Cargo CSV export
-            if (orderData.deliveryMethod === 'משלוח') {
-                const pendingShipments = JSON.parse(localStorage.getItem('pendingShipments') || '[]');
-                pendingShipments.push({
-                    name: orderData.name,
-                    address: orderData.address,
-                    phone: orderData.phone,
-                    email: orderData.email,
-                    notes: orderData.notes || '',
-                    package: orderData.package,
-                    orderId: orderData.orderId,
-                    date: new Date().toISOString(),
-                    exported: false
-                });
-                localStorage.setItem('pendingShipments', JSON.stringify(pendingShipments));
-            }
 
             // Track in Google Analytics
             if (typeof gtag !== 'undefined') {
@@ -5046,8 +5003,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             'איסוף עצמי': 'Self Pickup',
             'בתיאום מראש באזור המרכז': 'By appointment in central Israel',
             'חינם': 'Free',
-            'רחוב ומספר בית': 'Street and House Number',
-            'עיר': 'City',
+            'כתובת למשלוח': 'Delivery Address',
             'הקדשה אישית (אופציונלי)': 'Personal Dedication (optional)',
             'הערות להזמנה (אופציונלי)': 'Order Notes (optional)',
             'שליחת הזמנה': 'Submit Order',
@@ -5137,10 +5093,8 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 }
             });
 
-            const streetInput = document.querySelector('input[name="רחוב"]');
-            if (streetInput) streetInput.placeholder = 'e.g. Herzl 15, Apt 3';
-            const cityInput = document.querySelector('input[name="עיר"]');
-            if (cityInput) cityInput.placeholder = 'e.g. Tel Aviv';
+            const addressInput = document.querySelector('textarea[name="כתובת"]');
+            if (addressInput) addressInput.placeholder = 'Street, number, city, zip code';
 
             const dedicationInput = document.querySelector('textarea[name="הקדשה"]');
             if (dedicationInput) dedicationInput.placeholder = 'To whom? What message would you like to write?';
@@ -5194,9 +5148,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             const options = document.querySelectorAll('.delivery-option');
             const pickupNote = document.getElementById('pickupNote');
             const addressGroup = document.getElementById('addressGroup');
-            const cityGroup = document.getElementById('cityGroup');
-            const streetInput = document.getElementById('streetInput');
-            const cityInput = document.getElementById('cityInput');
+            const addressInput = document.getElementById('addressInput');
 
             options.forEach(opt => opt.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
@@ -5204,40 +5156,42 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             if (method === 'pickup') {
                 pickupNote.classList.add('visible');
                 addressGroup.style.display = 'none';
-                cityGroup.style.display = 'none';
-                streetInput.removeAttribute('required');
-                cityInput.removeAttribute('required');
-                streetInput.value = 'איסוף עצמי - יתואם בטלפון';
-                cityInput.value = '';
+                addressInput.removeAttribute('required');
+                addressInput.value = 'איסוף עצמי - יתואם בטלפון';
             } else {
                 pickupNote.classList.remove('visible');
                 addressGroup.style.display = 'flex';
-                cityGroup.style.display = 'flex';
-                streetInput.setAttribute('required', 'required');
-                cityInput.setAttribute('required', 'required');
-                if (streetInput.value === 'איסוף עצמי - יתואם בטלפון') {
-                    streetInput.value = '';
+                addressInput.setAttribute('required', 'required');
+                if (addressInput.value === 'איסוף עצמי - יתואם בטלפון') {
+                    addressInput.value = '';
                 }
             }
         }
 
         // Countdown Timer - Set end date to 6 weeks from now
         function initCountdown() {
-            // Fixed sale end date: April 12, 2026
-            const countdownEnd = new Date('2026-04-12T23:59:59');
+            // Check if we have a stored end date, otherwise create one
+            let endDate = localStorage.getItem('saleEnd6Weeks');
+            if (!endDate) {
+                // Set countdown to 42 days (6 weeks) from now
+                const now = new Date();
+                now.setDate(now.getDate() + 42);
+                endDate = now.toISOString();
+                localStorage.setItem('saleEnd6Weeks', endDate);
+            }
+
+            const countdownEnd = new Date(endDate);
 
             function updateCountdown() {
                 const now = new Date();
                 const diff = countdownEnd - now;
 
                 if (diff <= 0) {
-                    // Sale is over - hide discount elements and show regular price
-                    document.querySelectorAll('.countdown').forEach(el => el.style.display = 'none');
-                    document.querySelectorAll('.popup-badge, .popup-urgency').forEach(el => el.style.display = 'none');
-                    const saleBar = document.querySelector('.sale-bar');
-                    if (saleBar) saleBar.style.display = 'none';
-                    const popup = document.getElementById('salePopup');
-                    if (popup) popup.style.display = 'none';
+                    // Reset countdown when it ends
+                    const newEnd = new Date();
+                    newEnd.setDate(newEnd.getDate() + 42);
+                    localStorage.setItem('saleEnd6Weeks', newEnd.toISOString());
+                    location.reload();
                     return;
                 }
 
