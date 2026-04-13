@@ -1,4 +1,6 @@
-export default async function handler(req, res) {
+const https = require('https');
+
+module.exports = function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -7,37 +9,56 @@ export default async function handler(req, res) {
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
     if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-        console.error('Missing Telegram environment variables');
+        console.error('Missing Telegram environment variables. TOKEN exists:', !!TELEGRAM_BOT_TOKEN, 'CHAT_ID exists:', !!TELEGRAM_CHAT_ID);
         return res.status(500).json({ error: 'Server configuration error' });
     }
 
-    try {
-        const { message } = req.body;
+    const { message } = req.body || {};
 
-        if (!message) {
-            return res.status(400).json({ error: 'Missing message' });
-        }
-
-        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: message,
-                parse_mode: 'Markdown'
-            })
-        });
-
-        const data = await response.json();
-
-        if (!data.ok) {
-            console.error('Telegram API error:', data);
-            return res.status(500).json({ error: 'Failed to send notification' });
-        }
-
-        return res.status(200).json({ success: true });
-    } catch (error) {
-        console.error('Error sending Telegram notification:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+    if (!message) {
+        return res.status(400).json({ error: 'Missing message' });
     }
-}
+
+    const postData = JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown'
+    });
+
+    const options = {
+        hostname: 'api.telegram.org',
+        path: `/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(postData)
+        }
+    };
+
+    const request = https.request(options, (response) => {
+        let data = '';
+        response.on('data', (chunk) => { data += chunk; });
+        response.on('end', () => {
+            try {
+                const parsed = JSON.parse(data);
+                if (parsed.ok) {
+                    return res.status(200).json({ success: true });
+                } else {
+                    console.error('Telegram API error:', parsed);
+                    return res.status(500).json({ error: 'Failed to send notification' });
+                }
+            } catch (e) {
+                console.error('Parse error:', e);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+        });
+    });
+
+    request.on('error', (error) => {
+        console.error('Request error:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    });
+
+    request.write(postData);
+    request.end();
+};
