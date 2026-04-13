@@ -3119,49 +3119,7 @@
     </style>
 </head>
 <body>
-    <!-- Early Sales Popup -->
-    <div class="popup-overlay" id="salesPopup">
-        <div class="popup-modal">
-            <button class="popup-close" onclick="closePopup()">&times;</button>
-            <div class="popup-badge">🔥 מבצע לזמן מוגבל</div>
-            <h3 class="popup-title">מבצע השקה!</h3>
-            <div class="popup-price-compare">
-                <span class="popup-price-old">₪89</span>
-                <span class="popup-price-arrow">←</span>
-                <span class="popup-price-new">₪59</span>
-            </div>
-            <div class="popup-savings">חיסכון של ₪30!</div>
-            <div class="popup-urgency">⏰ המבצע מסתיים בקרוב</div>
-            <button class="popup-btn" onclick="closePopup(); openPricing();">לרכישה עכשיו</button>
-        </div>
-    </div>
-
-    <!-- Urgency Banner -->
-    <div class="urgency-banner">
-        <div class="container">
-            <div class="urgency-text">
-                <strong>₪30 הנחה</strong> · המבצע נגמר בעוד:
-            </div>
-            <div class="countdown" id="countdown">
-                <div class="countdown-item">
-                    <span id="days">00</span>
-                    <small>ימים</small>
-                </div>
-                <div class="countdown-item">
-                    <span id="hours">00</span>
-                    <small>שעות</small>
-                </div>
-                <div class="countdown-item">
-                    <span id="minutes">00</span>
-                    <small>דקות</small>
-                </div>
-                <div class="countdown-item">
-                    <span id="seconds">00</span>
-                    <small>שניות</small>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Urgency banner and sale popup removed -->
 
     <!-- Skip to content link for accessibility -->
     <a href="#main-content" class="skip-link" data-he="דלג לתוכן הראשי" data-en="Skip to main content">דלג לתוכן הראשי</a>
@@ -3214,9 +3172,7 @@
 
                 <!-- Price Display -->
                 <div class="hero-price">
-                    <span class="hero-price-old">₪89</span>
-                    <span class="hero-price-new">₪59</span>
-                    <span class="hero-price-badge">חיסכון ₪30</span>
+                    <span class="hero-price-new">₪79</span>
                 </div>
 
                 <!-- Delivery Promise -->
@@ -3283,35 +3239,57 @@
                 <p class="pricing-subtitle">חסכו בקנייה של מספר עותקים!</p>
 
                 <div class="pricing-grid">
-                    <div class="price-card" onclick="selectPackage('עותק בודד', '59')">
-                        <div class="price-badge">חיסכון ₪30</div>
+                    <div class="price-card" onclick="selectPackage('עותק בודד', '79')">
                         <div class="price-label">עותק בודד</div>
-                        <div class="price-old">₪89</div>
-                        <div class="price-current">₪59</div>
+                        <div class="price-current">₪79</div>
                         <span class="price-btn">לרכישה</span>
-                        <div class="price-donation">🤍 15% נתרמים לפרויקט שפת הים</div>
+                        <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
                     </div>
-                    <div class="price-card featured" onclick="selectPackage('3 עותקים', '165')">
+                    <div class="price-card featured" onclick="selectPackage('3 עותקים', '210')">
                         <div class="price-badge">הכי נמכר 🔥</div>
                         <div class="price-label">3 עותקים</div>
-                        <div class="price-old">₪267</div>
-                        <div class="price-current">₪165</div>
-                        <div class="price-savings">חיסכון ₪102!</div>
+                        <div class="price-current">₪210</div>
+                        <div class="price-savings">₪70 לעותק</div>
                         <span class="price-btn">לרכישה</span>
-                        <div class="price-donation">🤍 15% נתרמים לפרויקט שפת הים</div>
+                        <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
                     </div>
-                    <div class="price-card" onclick="selectPackage('4 עותקים', '199')">
+                    <div class="price-card" onclick="selectPackage('4 עותקים', '260')">
                         <div class="price-badge">משתלם במיוחד</div>
                         <div class="price-label">4 עותקים</div>
-                        <div class="price-old">₪356</div>
-                        <div class="price-current">₪199</div>
-                        <div class="price-savings">חיסכון ₪157!</div>
+                        <div class="price-current">₪260</div>
+                        <div class="price-savings">₪65 לעותק</div>
                         <span class="price-btn">לרכישה</span>
-                        <div class="price-donation">🤍 15% נתרמים לפרויקט שפת הים</div>
+                        <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
+                    </div>
+                    <div class="price-card" onclick="openCustomQuantity()">
+                        <div class="price-badge">בחר כמות</div>
+                        <div class="price-label">כמות מותאמת</div>
+                        <div class="price-current">₪79 לעותק</div>
+                        <div class="price-savings">3 עותקים = ₪70 | 4+ = ₪65</div>
+                        <span class="price-btn">לבחירה</span>
+                        <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
                     </div>
                 </div>
 
-                <p class="pricing-note">🤍 15% מכל רכישה נתרמים לפרויקט שפת הים</p>
+                <!-- Custom Quantity Selector -->
+                <div id="customQuantitySection" style="display:none; text-align:center; margin-top:1.5rem;">
+                    <label style="font-size:1.1rem; font-weight:600;">כמה עותקים?</label>
+                    <div style="display:flex; align-items:center; justify-content:center; gap:1rem; margin-top:0.8rem;">
+                        <button type="button" onclick="changeQuantity(-1)" style="width:40px;height:40px;font-size:1.5rem;border-radius:50%;border:2px solid #7BA3B8;background:white;cursor:pointer;">-</button>
+                        <span id="quantityDisplay" style="font-size:1.8rem;font-weight:700;min-width:40px;">1</span>
+                        <button type="button" onclick="changeQuantity(1)" style="width:40px;height:40px;font-size:1.5rem;border-radius:50%;border:2px solid #7BA3B8;background:white;cursor:pointer;">+</button>
+                    </div>
+                    <div id="quantityPriceDisplay" style="margin-top:0.8rem;font-size:1.2rem;font-weight:600;color:#7BA3B8;">סה״כ: ₪79</div>
+                    <!-- Promo Code -->
+                    <div style="margin-top:1rem;">
+                        <input type="text" id="promoCodeInput" placeholder="קוד קופון" style="padding:8px 12px;border:2px solid #ddd;border-radius:8px;text-align:center;font-size:1rem;width:180px;">
+                        <button type="button" onclick="applyPromoCode()" style="padding:8px 16px;background:#7BA3B8;color:white;border:none;border-radius:8px;font-size:1rem;cursor:pointer;margin-right:8px;">החל</button>
+                        <div id="promoMessage" style="margin-top:0.5rem;font-size:0.9rem;"></div>
+                    </div>
+                    <button type="button" onclick="confirmCustomQuantity()" style="margin-top:1rem;padding:12px 40px;background:#7BA3B8;color:white;border:none;border-radius:12px;font-size:1.1rem;font-weight:600;cursor:pointer;">לרכישה</button>
+                </div>
+
+                <p class="pricing-note">🤍 חלק מכל רכישה נתרמת לפרויקט שפת הים</p>
                 <div class="project-info-ticker" onclick="this.classList.toggle('expanded')">
                     <span class="ticker-toggle">מה זה פרויקט שפת הים? <span class="ticker-arrow">▼</span></span>
                     <div class="ticker-content">
@@ -3848,7 +3826,64 @@
             });
         }
 
+        let customQuantity = 1;
+        let promoActive = false;
+        const PROMO_CODE = 'DOUBLE59';
+        const PROMO_PRICE = 59;
+
+        function getPerCopyPrice(qty) {
+            if (promoActive) return PROMO_PRICE;
+            if (qty >= 4) return 65;
+            if (qty >= 3) return 70;
+            return 79;
+        }
+
+        function openCustomQuantity() {
+            customQuantity = 1;
+            promoActive = false;
+            document.getElementById('customQuantitySection').style.display = 'block';
+            document.getElementById('quantityDisplay').textContent = '1';
+            document.getElementById('promoCodeInput').value = '';
+            document.getElementById('promoMessage').textContent = '';
+            updateQuantityPrice();
+        }
+
+        function changeQuantity(delta) {
+            customQuantity = Math.max(1, customQuantity + delta);
+            document.getElementById('quantityDisplay').textContent = customQuantity;
+            updateQuantityPrice();
+        }
+
+        function updateQuantityPrice() {
+            const perCopy = getPerCopyPrice(customQuantity);
+            const total = perCopy * customQuantity;
+            document.getElementById('quantityPriceDisplay').innerHTML = 'סה״כ: ₪' + total + ' <span style="font-size:0.85rem;color:#888;">(₪' + perCopy + ' לעותק)</span>';
+        }
+
+        function applyPromoCode() {
+            const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+            const msg = document.getElementById('promoMessage');
+            if (code === PROMO_CODE) {
+                promoActive = true;
+                msg.textContent = '✅ קוד קופון הופעל! ₪59 לעותק';
+                msg.style.color = 'green';
+            } else {
+                promoActive = false;
+                msg.textContent = '❌ קוד לא תקין';
+                msg.style.color = 'red';
+            }
+            updateQuantityPrice();
+        }
+
+        function confirmCustomQuantity() {
+            const perCopy = getPerCopyPrice(customQuantity);
+            const total = perCopy * customQuantity;
+            const label = customQuantity === 1 ? 'עותק בודד' : customQuantity + ' עותקים';
+            selectPackage(label, total.toString());
+        }
+
         function selectPackage(packageName, price) {
+            document.getElementById('customQuantitySection').style.display = 'none';
             document.getElementById('selectedPackageDisplay').textContent = packageName + ' - ₪' + price;
             document.getElementById('packageInput').value = packageName;
             document.getElementById('priceInput').value = '₪' + price;
@@ -4659,7 +4694,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 
                 <h3>6. מחירים ותשלום</h3>
                 <p>כל המחירים באתר הם <strong>מחירים סופיים</strong>. העסק הינו עוסק פטור ואינו גובה מע"מ על פי חוק. דמי המשלוח מוצגים בבירור לפני ביצוע ההזמנה.</p>
-                <p>מחיר קטלוגי: ₪89 | מחיר מבצע: ₪59</p>
+                <p>מחיר: ₪79 לעותק</p>
                 <p>התשלום מתבצע בצורה מאובטחת דרך האתר באמצעות כרטיס אשראי.</p>
 
                 <h3>7. אחריות על המוצר</h3>
@@ -4678,7 +4713,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                     <li>מען: יימסר בתיאום טלפוני</li>
                     <li>טלפון ודוא"ל: Talbooks12@gmail.com</li>
                     <li>תיאור המוצר: ספר "מציאות כפולה" בכריכה רכה</li>
-                    <li>מחיר: ₪59 (מחיר סופי, עוסק פטור), דמי משלוח: ₪29.99 או איסוף עצמי חינם</li>
+                    <li>מחיר: ₪79 לעותק (מחיר סופי, עוסק פטור), דמי משלוח: ₪29.99 או איסוף עצמי חינם</li>
                     <li>תנאי תשלום: כרטיס אשראי דרך האתר</li>
                     <li>מועד אספקה: 3-5 ימי עסקים</li>
                     <li>זכות ביטול: 14 ימים מקבלת המוצר</li>
@@ -5166,28 +5201,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             }
         });
 
-        // Popup functions
-        function closePopup() {
-            document.getElementById('salesPopup').classList.remove('active');
-            sessionStorage.setItem('popupClosed', 'true');
-        }
-
-        // Show popup after 1.5 seconds if not already closed this session
-        const salesPopupEl = document.getElementById('salesPopup');
-        if (!sessionStorage.getItem('popupClosed') && salesPopupEl) {
-            setTimeout(() => {
-                salesPopupEl.classList.add('active');
-            }, 1500);
-        }
-
-        // Close popup when clicking outside
-        if (salesPopupEl) {
-            salesPopupEl.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closePopup();
-                }
-            });
-        }
+        // Sale popup removed
 
         // Delivery method selection
         function selectDeliveryMethod(method) {
@@ -5221,42 +5235,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             }
         }
 
-        // Countdown Timer - Set end date to 6 weeks from now
-        function initCountdown() {
-            // Fixed sale end date: April 20, 2026
-            const countdownEnd = new Date('2026-04-20T23:59:59');
-
-            function updateCountdown() {
-                const now = new Date();
-                const diff = countdownEnd - now;
-
-                if (diff <= 0) {
-                    // Sale is over - hide discount elements and show regular price
-                    document.querySelectorAll('.countdown').forEach(el => el.style.display = 'none');
-                    document.querySelectorAll('.popup-badge, .popup-urgency').forEach(el => el.style.display = 'none');
-                    const saleBar = document.querySelector('.sale-bar');
-                    if (saleBar) saleBar.style.display = 'none';
-                    const popup = document.getElementById('salePopup');
-                    if (popup) popup.style.display = 'none';
-                    return;
-                }
-
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                document.getElementById('days').textContent = days.toString().padStart(2, '0');
-                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-            }
-
-            updateCountdown();
-            setInterval(updateCountdown, 1000); // Update every second
-        }
-
-        initCountdown();
+        // Countdown timer removed - no active sale
     </script>
 
     <!-- Enhanced Analytics Tracking -->
