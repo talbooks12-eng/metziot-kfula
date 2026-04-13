@@ -3261,32 +3261,27 @@
                         <span class="price-btn">לרכישה</span>
                         <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
                     </div>
-                    <div class="price-card" onclick="openCustomQuantity()">
-                        <div class="price-badge">בחר כמות</div>
-                        <div class="price-label">כמות מותאמת</div>
-                        <div class="price-current">₪79.99 לעותק</div>
-                        <div class="price-savings">3 עותקים = ₪69.99 | 4+ = ₪64.99</div>
-                        <span class="price-btn">לבחירה</span>
-                        <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
-                    </div>
                 </div>
 
-                <!-- Custom Quantity Selector -->
-                <div id="customQuantitySection" style="display:none; text-align:center; margin-top:1.5rem;">
-                    <label style="font-size:1.1rem; font-weight:600;">כמה עותקים?</label>
-                    <div style="display:flex; align-items:center; justify-content:center; gap:1rem; margin-top:0.8rem;">
-                        <button type="button" onclick="changeQuantity(-1)" style="width:40px;height:40px;font-size:1.5rem;border-radius:50%;border:2px solid #7BA3B8;background:white;cursor:pointer;">-</button>
-                        <span id="quantityDisplay" style="font-size:1.8rem;font-weight:700;min-width:40px;">1</span>
-                        <button type="button" onclick="changeQuantity(1)" style="width:40px;height:40px;font-size:1.5rem;border-radius:50%;border:2px solid #7BA3B8;background:white;cursor:pointer;">+</button>
+                <!-- Custom Quantity Selector - compact strip -->
+                <div style="margin-top:1.5rem; background:rgba(123,163,184,0.08); border-radius:16px; padding:1.2rem 1.5rem; text-align:center;">
+                    <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;">
+                        <span style="font-size:1rem; font-weight:600; color:#5a4a3a;">רוצה כמות אחרת?</span>
+                        <div style="display:flex; align-items:center; gap:0.6rem;">
+                            <button type="button" onclick="changeQuantity(-1)" style="width:34px;height:34px;font-size:1.3rem;border-radius:50%;border:2px solid #7BA3B8;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#7BA3B8;font-weight:700;">−</button>
+                            <span id="quantityDisplay" style="font-size:1.4rem;font-weight:700;min-width:30px;color:#5a4a3a;">1</span>
+                            <button type="button" onclick="changeQuantity(1)" style="width:34px;height:34px;font-size:1.3rem;border-radius:50%;border:2px solid #7BA3B8;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#7BA3B8;font-weight:700;">+</button>
+                        </div>
+                        <span id="quantityPriceDisplay" style="font-size:1rem;font-weight:600;color:#7BA3B8;">₪79.99</span>
+                        <button type="button" onclick="confirmCustomQuantity()" style="padding:8px 20px;background:#7BA3B8;color:white;border:none;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;">לרכישה</button>
                     </div>
-                    <div id="quantityPriceDisplay" style="margin-top:0.8rem;font-size:1.2rem;font-weight:600;color:#7BA3B8;">סה״כ: ₪79.99</div>
+                    <div style="font-size:0.8rem;color:#888;margin-top:0.5rem;">3 עותקים = ₪69.99 לעותק | 4+ = ₪64.99 לעותק</div>
                     <!-- Promo Code -->
-                    <div style="margin-top:1rem;">
-                        <input type="text" id="promoCodeInput" placeholder="קוד קופון" style="padding:8px 12px;border:2px solid #ddd;border-radius:8px;text-align:center;font-size:1rem;width:180px;">
-                        <button type="button" onclick="applyPromoCode()" style="padding:8px 16px;background:#7BA3B8;color:white;border:none;border-radius:8px;font-size:1rem;cursor:pointer;margin-right:8px;">החל</button>
-                        <div id="promoMessage" style="margin-top:0.5rem;font-size:0.9rem;"></div>
+                    <div style="margin-top:0.8rem; display:flex; align-items:center; justify-content:center; gap:0.5rem; flex-wrap:wrap;">
+                        <input type="text" id="promoCodeInput" placeholder="קוד קופון" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:8px;text-align:center;font-size:0.9rem;width:140px;">
+                        <button type="button" onclick="applyPromoCode()" style="padding:6px 14px;background:#5a4a3a;color:white;border:none;border-radius:8px;font-size:0.9rem;cursor:pointer;">החל</button>
                     </div>
-                    <button type="button" onclick="confirmCustomQuantity()" style="margin-top:1rem;padding:12px 40px;background:#7BA3B8;color:white;border:none;border-radius:12px;font-size:1.1rem;font-weight:600;cursor:pointer;">לרכישה</button>
+                    <div id="promoMessage" style="margin-top:0.3rem;font-size:0.85rem;"></div>
                 </div>
 
                 <p class="pricing-note">🤍 חלק מכל רכישה נתרמת לפרויקט שפת הים</p>
@@ -3838,16 +3833,6 @@
             return 79.99;
         }
 
-        function openCustomQuantity() {
-            customQuantity = 1;
-            promoActive = false;
-            document.getElementById('customQuantitySection').style.display = 'block';
-            document.getElementById('quantityDisplay').textContent = '1';
-            document.getElementById('promoCodeInput').value = '';
-            document.getElementById('promoMessage').textContent = '';
-            updateQuantityPrice();
-        }
-
         function changeQuantity(delta) {
             customQuantity = Math.max(1, customQuantity + delta);
             document.getElementById('quantityDisplay').textContent = customQuantity;
@@ -3856,8 +3841,8 @@
 
         function updateQuantityPrice() {
             const perCopy = getPerCopyPrice(customQuantity);
-            const total = perCopy * customQuantity;
-            document.getElementById('quantityPriceDisplay').innerHTML = 'סה״כ: ₪' + total + ' <span style="font-size:0.85rem;color:#888;">(₪' + perCopy + ' לעותק)</span>';
+            const total = (perCopy * customQuantity).toFixed(2);
+            document.getElementById('quantityPriceDisplay').innerHTML = '₪' + total + ' <span style="font-size:0.8rem;color:#888;">(₪' + perCopy + ' x ' + customQuantity + ')</span>';
         }
 
         function applyPromoCode() {
@@ -3883,7 +3868,6 @@
         }
 
         function selectPackage(packageName, price) {
-            document.getElementById('customQuantitySection').style.display = 'none';
             document.getElementById('selectedPackageDisplay').textContent = packageName + ' - ₪' + price;
             document.getElementById('packageInput').value = packageName;
             document.getElementById('priceInput').value = '₪' + price;
