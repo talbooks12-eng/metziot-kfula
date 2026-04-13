@@ -3172,7 +3172,7 @@
 
                 <!-- Price Display -->
                 <div class="hero-price">
-                    <span class="hero-price-new">₪79</span>
+                    <span class="hero-price-new">₪79.99</span>
                 </div>
 
                 <!-- Delivery Promise -->
@@ -3239,33 +3239,33 @@
                 <p class="pricing-subtitle">חסכו בקנייה של מספר עותקים!</p>
 
                 <div class="pricing-grid">
-                    <div class="price-card" onclick="selectPackage('עותק בודד', '79')">
+                    <div class="price-card" onclick="selectPackage('עותק בודד', '79.99')">
                         <div class="price-label">עותק בודד</div>
-                        <div class="price-current">₪79</div>
+                        <div class="price-current">₪79.99</div>
                         <span class="price-btn">לרכישה</span>
                         <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
                     </div>
-                    <div class="price-card featured" onclick="selectPackage('3 עותקים', '210')">
+                    <div class="price-card featured" onclick="selectPackage('3 עותקים', '209.97')">
                         <div class="price-badge">הכי נמכר 🔥</div>
                         <div class="price-label">3 עותקים</div>
-                        <div class="price-current">₪210</div>
-                        <div class="price-savings">₪70 לעותק</div>
+                        <div class="price-current">₪209.97</div>
+                        <div class="price-savings">₪69.99 לעותק</div>
                         <span class="price-btn">לרכישה</span>
                         <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
                     </div>
-                    <div class="price-card" onclick="selectPackage('4 עותקים', '260')">
+                    <div class="price-card" onclick="selectPackage('4 עותקים', '259.96')">
                         <div class="price-badge">משתלם במיוחד</div>
                         <div class="price-label">4 עותקים</div>
-                        <div class="price-current">₪260</div>
-                        <div class="price-savings">₪65 לעותק</div>
+                        <div class="price-current">₪259.96</div>
+                        <div class="price-savings">₪64.99 לעותק</div>
                         <span class="price-btn">לרכישה</span>
                         <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
                     </div>
                     <div class="price-card" onclick="openCustomQuantity()">
                         <div class="price-badge">בחר כמות</div>
                         <div class="price-label">כמות מותאמת</div>
-                        <div class="price-current">₪79 לעותק</div>
-                        <div class="price-savings">3 עותקים = ₪70 | 4+ = ₪65</div>
+                        <div class="price-current">₪79.99 לעותק</div>
+                        <div class="price-savings">3 עותקים = ₪69.99 | 4+ = ₪64.99</div>
                         <span class="price-btn">לבחירה</span>
                         <div class="price-donation">🤍 חלק מההכנסות נתרמות לפרויקט שפת הים</div>
                     </div>
@@ -3279,7 +3279,7 @@
                         <span id="quantityDisplay" style="font-size:1.8rem;font-weight:700;min-width:40px;">1</span>
                         <button type="button" onclick="changeQuantity(1)" style="width:40px;height:40px;font-size:1.5rem;border-radius:50%;border:2px solid #7BA3B8;background:white;cursor:pointer;">+</button>
                     </div>
-                    <div id="quantityPriceDisplay" style="margin-top:0.8rem;font-size:1.2rem;font-weight:600;color:#7BA3B8;">סה״כ: ₪79</div>
+                    <div id="quantityPriceDisplay" style="margin-top:0.8rem;font-size:1.2rem;font-weight:600;color:#7BA3B8;">סה״כ: ₪79.99</div>
                     <!-- Promo Code -->
                     <div style="margin-top:1rem;">
                         <input type="text" id="promoCodeInput" placeholder="קוד קופון" style="padding:8px 12px;border:2px solid #ddd;border-radius:8px;text-align:center;font-size:1rem;width:180px;">
@@ -3789,7 +3789,7 @@
 
         // Calculate total price including shipping
         function calculateTotal(basePrice, deliveryMethod) {
-            let price = parseInt(basePrice.replace('₪', ''));
+            let price = parseFloat(basePrice.replace('₪', ''));
             const shipping = deliveryMethod === 'משלוח' ? 29.99 : 0;
             return (price + shipping).toFixed(2);
         }
@@ -3833,9 +3833,9 @@
 
         function getPerCopyPrice(qty) {
             if (promoActive) return PROMO_PRICE;
-            if (qty >= 4) return 65;
-            if (qty >= 3) return 70;
-            return 79;
+            if (qty >= 4) return 64.99;
+            if (qty >= 3) return 69.99;
+            return 79.99;
         }
 
         function openCustomQuantity() {
@@ -4694,7 +4694,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 
                 <h3>6. מחירים ותשלום</h3>
                 <p>כל המחירים באתר הם <strong>מחירים סופיים</strong>. העסק הינו עוסק פטור ואינו גובה מע"מ על פי חוק. דמי המשלוח מוצגים בבירור לפני ביצוע ההזמנה.</p>
-                <p>מחיר: ₪79 לעותק</p>
+                <p>מחיר: ₪79.99 לעותק</p>
                 <p>התשלום מתבצע בצורה מאובטחת דרך האתר באמצעות כרטיס אשראי.</p>
 
                 <h3>7. אחריות על המוצר</h3>
@@ -4713,7 +4713,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                     <li>מען: יימסר בתיאום טלפוני</li>
                     <li>טלפון ודוא"ל: Talbooks12@gmail.com</li>
                     <li>תיאור המוצר: ספר "מציאות כפולה" בכריכה רכה</li>
-                    <li>מחיר: ₪79 לעותק (מחיר סופי, עוסק פטור), דמי משלוח: ₪29.99 או איסוף עצמי חינם</li>
+                    <li>מחיר: ₪79.99 לעותק (מחיר סופי, עוסק פטור), דמי משלוח: ₪29.99 או איסוף עצמי חינם</li>
                     <li>תנאי תשלום: כרטיס אשראי דרך האתר</li>
                     <li>מועד אספקה: 3-5 ימי עסקים</li>
                     <li>זכות ביטול: 14 ימים מקבלת המוצר</li>
