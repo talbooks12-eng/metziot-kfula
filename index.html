@@ -3356,6 +3356,17 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="checkbox-label" style="margin-bottom:0.8rem;cursor:pointer;">
+                            <input type="checkbox" name="מתנה" id="giftCheckbox" onchange="toggleGiftFields()">
+                            <span>🎁 זו מתנה לחבר/ה</span>
+                        </label>
+                        <div id="giftFields" style="display:none;">
+                            <input type="text" name="שם_מקבל" placeholder="שם מקבל/ת המתנה" style="margin-bottom:0.5rem;">
+                            <input type="text" name="ברכה" placeholder="ברכה אישית (אופציונלי)">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label>הקדשה אישית (אופציונלי)</label>
                         <textarea name="הקדשה" placeholder="אם תרצו הקדשה אישית בספר, כתבו כאן למי ומה לכתוב..."></textarea>
                     </div>
@@ -3424,7 +3435,24 @@
                         <p>📦 ניצור איתך קשר בקרוב לתיאום המשלוח</p>
                         <p>🤍 תודה שתמכת בפרויקט שפת הים</p>
                     </div>
-                    <button class="btn btn-primary" onclick="closePricing()">סגירה</button>
+                    <!-- Share buttons -->
+                    <div style="margin-top:1.2rem;">
+                        <p style="font-weight:600;margin-bottom:0.6rem;">אהבת? שתף/י חברים 🤍</p>
+                        <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;">
+                            <a href="https://wa.me/?text=%D7%A7%D7%A0%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A1%D7%A4%D7%A8%20%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%20-%20%D7%A1%D7%99%D7%A4%D7%95%D7%A8%20%D7%9E%D7%A8%D7%92%D7%A9%20%D7%A9%D7%9B%D7%9C%20%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%20%D7%A6%D7%A8%D7%99%D7%9A%20%D7%9C%D7%A7%D7%A8%D7%95%D7%90%20%F0%9F%93%96%20https://www.metziotkfula.com" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#25D366;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492l4.613-1.467A11.948 11.948 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-2.115 0-4.142-.657-5.846-1.893l-.42-.296-2.735.87.912-2.665-.324-.443A9.724 9.724 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
+                                WhatsApp
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.metziotkfula.com" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#1877F2;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                Facebook
+                            </a>
+                            <button onclick="navigator.clipboard.writeText('https://www.metziotkfula.com').then(()=>this.textContent='✅ הקישור הועתק!')" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#5a4a3a;color:white;border-radius:10px;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;">
+                                🔗 העתק קישור
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="closePricing()" style="margin-top:1rem;">סגירה</button>
                 </div>
             </div>
         </div>
@@ -3688,7 +3716,20 @@
                 </div>
             </div>
 
-            
+            <!-- Share strip -->
+            <div style="text-align:center; margin-top:2rem;">
+                <p style="font-size:1.1rem; font-weight:600; color:#5a4a3a; margin-bottom:0.8rem;">מכירים מישהו שצריך לקרוא את זה? שתפו 🤍</p>
+                <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="https://wa.me/?text=%D7%A1%D7%A4%D7%A8%20%D7%A9%D7%97%D7%99%D7%99%D7%91%D7%99%D7%9D%20%D7%9C%D7%A7%D7%A8%D7%95%D7%90%20-%20%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%20%F0%9F%93%96%20https://www.metziotkfula.com" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 18px;background:#25D366;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492l4.613-1.467A11.948 11.948 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-2.115 0-4.142-.657-5.846-1.893l-.42-.296-2.735.87.912-2.665-.324-.443A9.724 9.724 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
+                        שתף בWhatsApp
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.metziotkfula.com" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 18px;background:#1877F2;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        שתף בFacebook
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -5185,7 +5226,12 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             }
         });
 
-        // Sale popup removed
+        // Gift checkbox toggle
+        function toggleGiftFields() {
+            const fields = document.getElementById('giftFields');
+            const checkbox = document.getElementById('giftCheckbox');
+            fields.style.display = checkbox.checked ? 'block' : 'none';
+        }
 
         // Delivery method selection
         function selectDeliveryMethod(method) {
