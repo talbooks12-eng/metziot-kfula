@@ -1,16 +1,11 @@
 const https = require('https');
 
+const TELEGRAM_BOT_TOKEN = '8587921062:AAERSCVZe1tDt4FKIss6exrYrriMDVLJA1c';
+const TELEGRAM_CHAT_ID = '6573456373';
+
 module.exports = function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-    const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-
-    if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-        console.error('Missing Telegram environment variables. TOKEN exists:', !!TELEGRAM_BOT_TOKEN, 'CHAT_ID exists:', !!TELEGRAM_CHAT_ID);
-        return res.status(500).json({ error: 'Server configuration error' });
     }
 
     const { message } = req.body || {};
