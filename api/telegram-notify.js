@@ -8,10 +8,17 @@ module.exports = function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { message } = req.body || {};
+    // Parse body - handle both string and object
+    let body = req.body;
+    if (typeof body === 'string') {
+        try { body = JSON.parse(body); } catch (e) { body = {}; }
+    }
+    body = body || {};
+
+    const message = body.message;
 
     if (!message) {
-        return res.status(400).json({ error: 'Missing message' });
+        return res.status(400).json({ error: 'Missing message', receivedBody: typeof req.body, keys: Object.keys(body) });
     }
 
     const postData = JSON.stringify({
@@ -22,7 +29,7 @@ module.exports = function handler(req, res) {
 
     const options = {
         hostname: 'api.telegram.org',
-        path: `/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+        path: '/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -30,28 +37,25 @@ module.exports = function handler(req, res) {
         }
     };
 
-    const request = https.request(options, (response) => {
+    const request = https.request(options, function(response) {
         let data = '';
-        response.on('data', (chunk) => { data += chunk; });
-        response.on('end', () => {
+        response.on('data', function(chunk) { data += chunk; });
+        response.on('end', function() {
             try {
                 const parsed = JSON.parse(data);
                 if (parsed.ok) {
                     return res.status(200).json({ success: true });
                 } else {
-                    console.error('Telegram API error:', parsed);
-                    return res.status(500).json({ error: 'Failed to send notification' });
+                    return res.status(500).json({ error: 'Telegram error', details: parsed });
                 }
             } catch (e) {
-                console.error('Parse error:', e);
-                return res.status(500).json({ error: 'Internal server error' });
+                return res.status(500).json({ error: 'Parse error' });
             }
         });
     });
 
-    request.on('error', (error) => {
-        console.error('Request error:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+    request.on('error', function(error) {
+        return res.status(500).json({ error: 'Request error', details: error.message });
     });
 
     request.write(postData);
