@@ -1738,6 +1738,79 @@
             }
         }
 
+        /* Real Book Photos Section */
+        .book-photos {
+            padding: 3rem 1.5rem;
+            background: white;
+            overflow: hidden;
+        }
+
+        .book-photos .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .book-photos-grid {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 1rem;
+            scrollbar-width: none;
+        }
+
+        .book-photos-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .book-photo-item {
+            flex: 0 0 280px;
+            scroll-snap-align: center;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .book-photo-item:hover {
+            transform: scale(1.03);
+        }
+
+        .book-photo-item img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .book-photos-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                overflow-x: visible;
+            }
+
+            .book-photo-item {
+                flex: none;
+            }
+
+            .book-photo-item img {
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .book-photo-item {
+                flex: 0 0 240px;
+            }
+
+            .book-photo-item img {
+                height: 300px;
+            }
+        }
+
         /* Reviews Section */
         .reviews {
             padding: 4rem 2rem;
@@ -3654,6 +3727,33 @@
                 <figure class="gallery-item">
                     <img src="illustrations/05-phone.jpg" alt="טלפון">
                 </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real Book Photos Section -->
+    <section class="book-photos">
+        <div class="container">
+            <h2 class="section-title">הספר במציאות</h2>
+            <div class="book-photos-grid">
+                <div class="book-photo-item">
+                    <img src="assets/book-hand-sea.jpg" alt="מציאות כפולה - הספר מעל הים" loading="lazy">
+                </div>
+                <div class="book-photo-item">
+                    <img src="assets/book-cafe-bookmark.jpg" alt="מציאות כפולה - הספר והסימניה בבית קפה" loading="lazy">
+                </div>
+                <div class="book-photo-item">
+                    <img src="assets/book-beach-cover.jpg" alt="מציאות כפולה - הספר על חול החוף" loading="lazy">
+                </div>
+                <div class="book-photo-item">
+                    <img src="assets/book-sand-coral.jpg" alt="מציאות כפולה - הספר פתוח על החוף" loading="lazy">
+                </div>
+                <div class="book-photo-item">
+                    <img src="assets/book-sand-open.jpg" alt="מציאות כפולה - גב הספר על החוף" loading="lazy">
+                </div>
+                <div class="book-photo-item">
+                    <img src="assets/book-cafe-table.jpg" alt="מציאות כפולה - הספר על שולחן בית קפה" loading="lazy">
+                </div>
             </div>
         </div>
     </section>
