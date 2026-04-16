@@ -4257,13 +4257,10 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 emailFormData.append('_captcha', 'false');
                 emailFormData.append('message', isPickup ? pickupMessage : deliveryMessage);
 
-                await fetch('https://formsubmit.co/ajax/' + orderData.email, {
-                    method: 'POST',
-                    body: emailFormData
-                });
-                console.log('Order confirmation email sent to customer:', orderData.email);
+                // DISABLED: Do not send to customer via FormSubmit (causes activation email spam to customers)
+                console.log('Customer email skipped (FormSubmit disabled for customer addresses):', orderData.email);
             } catch (error) {
-                console.error('Error sending order confirmation to customer:', error);
+                console.error('Error in customer confirmation function:', error);
             }
         }
 
@@ -4302,12 +4299,10 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 טל
                 `);
 
-                await fetch('https://formsubmit.co/ajax/' + orderData.email, {
-                    method: 'POST',
-                    body: emailFormData
-                });
+                // DISABLED: Do not send to customer via FormSubmit (causes activation email spam to customers)
+                console.log('Customer pickup email skipped:', orderData.email);
             } catch (error) {
-                console.error('Error sending pickup confirmation to customer:', error);
+                console.error('Error in pickup confirmation function:', error);
             }
         }
 
@@ -4484,8 +4479,9 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 // Send Telegram notification for paid order
                 sendTelegramNotification(orderData, 'paid');
 
-                // Send order confirmation email to customer
-                sendOrderConfirmationToCustomer(orderData);
+                // NOTE: Customer email confirmation disabled - FormSubmit requires per-recipient activation
+                // which sends customers a confusing "Activate Form" email instead of the order confirmation.
+                // Customer sees the success message on the website and will be contacted personally.
             } catch (error) {
                 console.error('Error logging order:', error);
             }
