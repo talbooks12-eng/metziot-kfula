@@ -248,9 +248,9 @@
             font-size: 0.5rem;
         }
 
-        /* Copies Sold Counter - Hidden for now */
+        /* Copies Sold Counter */
         .copies-sold {
-            display: none; /* Enable later */
+            display: inline-block;
             background: #E8F5E9;
             color: #2E7D32;
             padding: 0.5rem 1rem;
@@ -1840,6 +1840,54 @@
             }
         }
 
+        /* Featured Pull Quote */
+        .featured-quote {
+            max-width: 820px;
+            margin: 0 auto 3rem;
+            padding: 2.5rem 2rem 2rem;
+            background: linear-gradient(135deg, #FFFEF9 0%, #F5F1E8 100%);
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 8px 40px rgba(123, 163, 184, 0.15);
+            border: 1px solid rgba(123, 163, 184, 0.2);
+        }
+        .featured-quote-mark {
+            font-family: Georgia, serif;
+            font-size: 5rem;
+            line-height: 0.6;
+            color: var(--accent);
+            opacity: 0.35;
+            margin-bottom: 0.5rem;
+        }
+        .featured-quote-text {
+            font-size: 1.4rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+            font-style: italic;
+            font-weight: 500;
+            margin: 0 0 1.2rem;
+            padding: 0 1rem;
+        }
+        .featured-quote-author {
+            font-size: 1rem;
+            color: var(--accent-dark);
+            font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .featured-quote {
+                margin: 0 1rem 2rem;
+                padding: 1.8rem 1.2rem 1.4rem;
+            }
+            .featured-quote-mark {
+                font-size: 3.5rem;
+            }
+            .featured-quote-text {
+                font-size: 1.1rem;
+                padding: 0;
+            }
+        }
+
         /* Reviews Section */
         .reviews {
             padding: 4rem 2rem;
@@ -3310,9 +3358,9 @@
                 <p class="tagline hero-headline">הסיפור שכל ישראלי צריך לקרוא</p>
                 <p class="tagline">יומן אמיתי של לוחם מילואים, שנכתב בזמן אמת בין קרבות להפוגות. חוויות, רגשות ומחשבות שלא מספרים בחדשות.</p>
 
-                <!-- Copies Sold - Hidden for now -->
+                <!-- Copies Sold -->
                 <div class="copies-sold">
-                    כבר נמכרו <span>150+</span> עותקים
+                    ✓ כבר נמכרו <span>100+</span> עותקים
                 </div>
 
                 <!-- Price Display -->
@@ -3833,13 +3881,15 @@
         <div class="container">
             <h2 class="section-title">מה אומרים הקוראים</h2>
 
+            <!-- Featured Pull Quote -->
+            <figure class="featured-quote">
+                <div class="featured-quote-mark">"</div>
+                <blockquote class="featured-quote-text">נכתב ישר מהחדרים הכי עמוקים בלב. מדהים שהצלחת לדבר כל רגש של לוחם שלא מסוגל לבטא את מה שעבר ועובר.</blockquote>
+                <figcaption class="featured-quote-author">— רון סולומון <span class="verified-badge">✓ מאומת</span></figcaption>
+            </figure>
+
             <!-- Approved Reviews -->
             <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"נכתב ישר מהחדרים הכי עמוקים בלב. מדהים שהצלחת לדבר כל רגש של לוחם שלא מסוגל לבטא את מה שעבר ועובר. בתור מישהו שלחם איתך כתף אל כתף - אין גאה ממני!"</p>
-                    <div class="review-author">— רון סולומון <span class="verified-badge">✓ מאומת</span></div>
-                </div>
                 <div class="review-card">
                     <div class="review-stars">★★★★★</div>
                     <p class="review-text">"הסופר מצליח להדגיש את המציאות הלא פשוטה שאנו חיים בה בעזרת סיפור נוגע ללב - בעזרת כמה מילים פשוטות ויד על הגב - טל מצליח לספר את סיפורים של הטובים בינינו."</p>
@@ -5586,7 +5636,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
         <div style="background:white;border-radius:20px;padding:2rem 1.5rem;max-width:400px;width:100%;text-align:center;position:relative;max-height:90vh;max-height:90dvh;overflow-y:auto;box-sizing:border-box;">
             <button id="exitPopupClose" aria-label="סגור" style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.04);border:none;width:40px;height:40px;border-radius:50%;font-size:1.5rem;cursor:pointer;color:#555;display:flex;align-items:center;justify-content:center;line-height:1;">&times;</button>
             <h3 style="font-size:1.35rem;color:#5a4a3a;margin:0.5rem 0 0.7rem;line-height:1.3;">לפני שעוזבים... 📖</h3>
-            <p style="color:#666;font-size:1rem;line-height:1.6;margin:0 0 1.2rem;">150+ קוראים כבר חלק מהסיפור.<br>הספר ״מציאות כפולה״ ממתין גם לך.</p>
+            <p style="color:#666;font-size:1rem;line-height:1.6;margin:0 0 1.2rem;">100+ קוראים כבר חלק מהסיפור.<br>הספר ״מציאות כפולה״ ממתין גם לך.</p>
             <button id="exitPopupCta" style="padding:14px 32px;background:#7BA3B8;color:white;border:none;border-radius:12px;font-size:1.05rem;font-weight:600;cursor:pointer;min-height:48px;width:100%;max-width:260px;">לרכישת הספר</button>
         </div>
     </div>
