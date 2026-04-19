@@ -36,6 +36,35 @@
         gtag('config', 'G-PKRFCTSNS9');
     </script>
 
+    <!-- Microsoft Clarity (heatmaps + session recordings) — REPLACE YOUR_CLARITY_ID with the ID from clarity.microsoft.com -->
+    <script>
+        window.CLARITY_ID = 'wea0rzcevo';
+        if (window.CLARITY_ID && window.CLARITY_ID !== 'YOUR_CLARITY_ID') {
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", window.CLARITY_ID);
+        }
+    </script>
+
+    <!-- Meta Pixel — REPLACE YOUR_PIXEL_ID with the ID from business.facebook.com/events_manager2 -->
+    <script>
+        window.META_PIXEL_ID = 'YOUR_PIXEL_ID';
+        if (window.META_PIXEL_ID && window.META_PIXEL_ID !== 'YOUR_PIXEL_ID') {
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', window.META_PIXEL_ID);
+            fbq('track', 'PageView');
+        }
+    </script>
+
     <!-- Schema.org Structured Data for Google -->
     <script type="application/ld+json">
     {
@@ -2480,15 +2509,15 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            /* Hero */
+            /* Hero — tightened so price + CTA fit above the fold */
             .hero {
-                padding: 5rem 1.5rem 3rem;
+                padding: 3.5rem 1.25rem 2rem;
                 min-height: auto;
             }
 
             .hero .container {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 1rem;
                 text-align: center;
             }
 
@@ -2498,7 +2527,13 @@
 
             .hero-content h1,
             .hero-title {
-                font-size: 2.2rem;
+                font-size: 2rem;
+                line-height: 1.25;
+            }
+
+            .hero-content .tagline {
+                font-size: 0.95rem;
+                margin-bottom: 0.6rem;
             }
 
             .book-cover-wrapper {
@@ -2506,7 +2541,42 @@
             }
 
             .book-cover {
-                max-width: 200px;
+                max-width: 150px;
+            }
+
+            .hero-price {
+                margin: 0.5rem 0;
+            }
+
+            .copies-sold {
+                margin: 0.5rem 0;
+                font-size: 0.85rem;
+            }
+
+            .hero-delivery {
+                font-size: 0.8rem;
+                margin: 0.4rem 0;
+            }
+
+            .reader-satisfaction {
+                font-size: 0.85rem;
+                margin: 0.4rem 0;
+            }
+
+            .hero-content .btn-primary {
+                margin-top: 0.5rem;
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .trust-badges {
+                margin-top: 0.8rem;
+                gap: 0.4rem;
+            }
+
+            .trust-badge {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.6rem;
             }
 
             /* Hero price and badges */
@@ -3514,19 +3584,19 @@
                     <div style="margin-top:1.2rem;">
                         <p style="font-weight:600;margin-bottom:0.6rem;">אהבת? שתף/י חברים 🤍</p>
                         <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;">
-                            <a href="https://wa.me/?text=%D7%A7%D7%A0%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A1%D7%A4%D7%A8%20%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%20-%20%D7%A1%D7%99%D7%A4%D7%95%D7%A8%20%D7%9E%D7%A8%D7%92%D7%A9%20%D7%A9%D7%9B%D7%9C%20%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%20%D7%A6%D7%A8%D7%99%D7%9A%20%D7%9C%D7%A7%D7%A8%D7%95%D7%90%20%F0%9F%93%96%20https://www.metziotkfula.com" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#25D366;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
+                            <a href="https://wa.me/?text=%D7%A7%D7%A0%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A1%D7%A4%D7%A8%20%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%20-%20%D7%A1%D7%99%D7%A4%D7%95%D7%A8%20%D7%9E%D7%A8%D7%92%D7%A9%20%D7%A9%D7%9B%D7%9C%20%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%20%D7%A6%D7%A8%D7%99%D7%9A%20%D7%9C%D7%A7%D7%A8%D7%95%D7%90%20%F0%9F%93%96%20https://www.metziotkfula.com/%3Futm_source%3Dshare%26utm_medium%3Dwhatsapp%26utm_campaign%3Dsuccess_share" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#25D366;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492l4.613-1.467A11.948 11.948 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-2.115 0-4.142-.657-5.846-1.893l-.42-.296-2.735.87.912-2.665-.324-.443A9.724 9.724 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
                                 WhatsApp
                             </a>
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.metziotkfula.com" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#1877F2;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.metziotkfula.com%2F%3Futm_source%3Dshare%26utm_medium%3Dfacebook%26utm_campaign%3Dsuccess_share" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#1877F2;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                                 Facebook
                             </a>
-                            <button onclick="navigator.clipboard.writeText('https://www.metziotkfula.com').then(()=>{this.innerHTML='✅ הקישור הועתק!';setTimeout(()=>window.open('https://www.instagram.com/','_blank'),500);})" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;border-radius:10px;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;">
+                            <button onclick="navigator.clipboard.writeText('https://www.metziotkfula.com/?utm_source=share&utm_medium=instagram&utm_campaign=success_share').then(()=>{this.innerHTML='✅ הקישור הועתק!';setTimeout(()=>window.open('https://www.instagram.com/','_blank'),500);})" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;border-radius:10px;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                                 Instagram
                             </button>
-                            <button onclick="navigator.clipboard.writeText('https://www.metziotkfula.com').then(()=>this.textContent='✅ הקישור הועתק!')" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#5a4a3a;color:white;border-radius:10px;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;">
+                            <button onclick="navigator.clipboard.writeText('https://www.metziotkfula.com/?utm_source=share&utm_medium=copylink&utm_campaign=success_share').then(()=>this.textContent='✅ הקישור הועתק!')" style="display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:#5a4a3a;color:white;border-radius:10px;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;">
                                 🔗 העתק קישור
                             </button>
                         </div>
@@ -3826,15 +3896,15 @@
             <div style="text-align:center; margin-top:2rem;">
                 <p style="font-size:1.1rem; font-weight:600; color:#5a4a3a; margin-bottom:0.8rem;">מכירים מישהו שצריך לקרוא את זה? שתפו 🤍</p>
                 <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;">
-                    <a href="https://wa.me/?text=%D7%A1%D7%A4%D7%A8%20%D7%A9%D7%97%D7%99%D7%99%D7%91%D7%99%D7%9D%20%D7%9C%D7%A7%D7%A8%D7%95%D7%90%20-%20%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%20%F0%9F%93%96%20https://www.metziotkfula.com" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 18px;background:#25D366;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
+                    <a href="https://wa.me/?text=%D7%A1%D7%A4%D7%A8%20%D7%A9%D7%97%D7%99%D7%99%D7%91%D7%99%D7%9D%20%D7%9C%D7%A7%D7%A8%D7%95%D7%90%20-%20%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%20%F0%9F%93%96%20https://www.metziotkfula.com/%3Futm_source%3Dshare%26utm_medium%3Dwhatsapp%26utm_campaign%3Dreview_share" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 18px;background:#25D366;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492l4.613-1.467A11.948 11.948 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75c-2.115 0-4.142-.657-5.846-1.893l-.42-.296-2.735.87.912-2.665-.324-.443A9.724 9.724 0 012.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75z"/></svg>
                         שתף בWhatsApp
                     </a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.metziotkfula.com" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 18px;background:#1877F2;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.metziotkfula.com%2F%3Futm_source%3Dshare%26utm_medium%3Dfacebook%26utm_campaign%3Dreview_share" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:8px 18px;background:#1877F2;color:white;border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:600;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                         שתף בFacebook
                     </a>
-                    <button onclick="navigator.clipboard.writeText('https://www.metziotkfula.com').then(()=>{this.innerHTML='✅ הועתק!';setTimeout(()=>window.open('https://www.instagram.com/','_blank'),500);})" style="display:inline-flex;align-items:center;gap:5px;padding:8px 18px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;border-radius:10px;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;">
+                    <button onclick="navigator.clipboard.writeText('https://www.metziotkfula.com/?utm_source=share&utm_medium=instagram&utm_campaign=review_share').then(()=>{this.innerHTML='✅ הועתק!';setTimeout(()=>window.open('https://www.instagram.com/','_blank'),500);})" style="display:inline-flex;align-items:center;gap:5px;padding:8px 18px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:white;border-radius:10px;border:none;font-size:0.9rem;font-weight:600;cursor:pointer;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                         שתף בInstagram
                     </button>
@@ -3943,6 +4013,16 @@
         function openPricing() {
             document.getElementById('pricingPopup').classList.add('open');
             document.body.style.overflow = 'hidden';
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'view_item', {
+                    currency: 'ILS',
+                    value: 79.99,
+                    items: [{ item_id: 'metziot-kfula', item_name: 'מציאות כפולה', price: 79.99 }]
+                });
+            }
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'ViewContent', { content_ids: ['metziot-kfula'], content_type: 'product', currency: 'ILS', value: 79.99 });
+            }
         }
 
         function closePricing() {
@@ -4018,12 +4098,34 @@
             selectPackage(label, total.toString());
         }
 
+        function parsePackageQuantity(packageName) {
+            if (!packageName) return 1;
+            if (packageName.indexOf('בודד') !== -1) return 1;
+            const m = packageName.match(/(\d+)/);
+            return m ? parseInt(m[1], 10) : 1;
+        }
+
         function selectPackage(packageName, price) {
             document.getElementById('selectedPackageDisplay').textContent = packageName + ' - ₪' + price;
             document.getElementById('packageInput').value = packageName;
             document.getElementById('priceInput').value = '₪' + price;
             document.getElementById('pricingStep1').style.display = 'none';
             document.getElementById('pricingStep2').style.display = 'block';
+            const qty = parsePackageQuantity(packageName);
+            const value = parseFloat(price);
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'begin_checkout', {
+                    currency: 'ILS',
+                    value: value,
+                    items: [{ item_id: 'metziot-kfula', item_name: 'מציאות כפולה', price: value / qty, quantity: qty }]
+                });
+            }
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'InitiateCheckout', {
+                    content_ids: ['metziot-kfula'], content_type: 'product',
+                    currency: 'ILS', value: value, num_items: qty
+                });
+            }
         }
 
         function backToPackages() {
@@ -4514,16 +4616,30 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 localStorage.setItem('pendingShipments', JSON.stringify(pendingShipments));
             }
 
-            // Track in Google Analytics
+            // Track in Google Analytics + Meta Pixel
+            const _qty = parsePackageQuantity(orderData.package);
+            const _total = parseFloat(orderData.totalAmount);
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'purchase', {
                     transaction_id: orderData.orderId,
-                    value: parseFloat(orderData.totalAmount),
+                    value: _total,
                     currency: 'ILS',
                     items: [{
-                        item_name: orderData.package,
-                        price: parseFloat(orderData.totalAmount)
+                        item_id: 'metziot-kfula',
+                        item_name: 'מציאות כפולה',
+                        item_variant: orderData.package,
+                        price: _total / _qty,
+                        quantity: _qty
                     }]
+                });
+            }
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Purchase', {
+                    content_ids: ['metziot-kfula'],
+                    content_type: 'product',
+                    currency: 'ILS',
+                    value: _total,
+                    num_items: _qty
                 });
             }
         }
@@ -5466,23 +5582,85 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
         }, 30000);
     </script>
     <!-- Exit Intent Popup -->
-    <div id="exitPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;align-items:center;justify-content:center;">
-        <div style="background:white;border-radius:20px;padding:2.5rem;max-width:400px;width:90%;text-align:center;position:relative;margin:auto;margin-top:15vh;">
-            <button onclick="document.getElementById('exitPopup').style.display='none'" style="position:absolute;top:10px;left:10px;background:none;border:none;font-size:1.5rem;cursor:pointer;color:#888;">&times;</button>
-            <h3 style="font-size:1.4rem;color:#5a4a3a;margin-bottom:0.8rem;">לפני שעוזבים... 📖</h3>
-            <p style="color:#666;font-size:1rem;line-height:1.6;">150+ קוראים כבר חלק מהסיפור.<br>הספר ״מציאות כפולה״ ממתין גם לך.</p>
-            <button onclick="document.getElementById('exitPopup').style.display='none';openPricing();" style="margin-top:1.2rem;padding:12px 30px;background:#7BA3B8;color:white;border:none;border-radius:12px;font-size:1.1rem;font-weight:600;cursor:pointer;">לרכישת הספר</button>
+    <div id="exitPopup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:10000;align-items:center;justify-content:center;padding:1rem;box-sizing:border-box;">
+        <div style="background:white;border-radius:20px;padding:2rem 1.5rem;max-width:400px;width:100%;text-align:center;position:relative;max-height:90vh;max-height:90dvh;overflow-y:auto;box-sizing:border-box;">
+            <button id="exitPopupClose" aria-label="סגור" style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.04);border:none;width:40px;height:40px;border-radius:50%;font-size:1.5rem;cursor:pointer;color:#555;display:flex;align-items:center;justify-content:center;line-height:1;">&times;</button>
+            <h3 style="font-size:1.35rem;color:#5a4a3a;margin:0.5rem 0 0.7rem;line-height:1.3;">לפני שעוזבים... 📖</h3>
+            <p style="color:#666;font-size:1rem;line-height:1.6;margin:0 0 1.2rem;">150+ קוראים כבר חלק מהסיפור.<br>הספר ״מציאות כפולה״ ממתין גם לך.</p>
+            <button id="exitPopupCta" style="padding:14px 32px;background:#7BA3B8;color:white;border:none;border-radius:12px;font-size:1.05rem;font-weight:600;cursor:pointer;min-height:48px;width:100%;max-width:260px;">לרכישת הספר</button>
         </div>
     </div>
     <script>
-    let exitPopupShown = false;
-    document.addEventListener('mouseleave', function(e) {
-        if (e.clientY < 10 && !exitPopupShown && !sessionStorage.getItem('exitPopupShown')) {
-            document.getElementById('exitPopup').style.display = 'flex';
-            exitPopupShown = true;
-            sessionStorage.setItem('exitPopupShown', 'true');
+    (function() {
+        const popup = document.getElementById('exitPopup');
+        const closeBtn = document.getElementById('exitPopupClose');
+        const ctaBtn = document.getElementById('exitPopupCta');
+        let shown = false;
+
+        function alreadyShown() {
+            return shown || sessionStorage.getItem('exitPopupShown') === 'true';
         }
-    });
+
+        function showPopup(source) {
+            if (alreadyShown()) return;
+            popup.style.display = 'flex';
+            shown = true;
+            sessionStorage.setItem('exitPopupShown', 'true');
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'exit_popup_shown', { event_category: 'engagement', event_label: source });
+            }
+        }
+
+        function hidePopup(reason) {
+            popup.style.display = 'none';
+            if (typeof gtag !== 'undefined' && reason) {
+                gtag('event', 'exit_popup_' + reason, { event_category: 'engagement' });
+            }
+        }
+
+        closeBtn.addEventListener('click', () => hidePopup('dismissed'));
+        popup.addEventListener('click', (e) => { if (e.target === popup) hidePopup('dismissed'); });
+        ctaBtn.addEventListener('click', () => {
+            hidePopup('cta_click');
+            if (typeof openPricing === 'function') openPricing();
+        });
+
+        // Desktop: mouse leaves top of viewport
+        const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+        if (!isTouch) {
+            document.addEventListener('mouseleave', (e) => {
+                if (e.clientY < 10) showPopup('desktop_mouseleave');
+            });
+        }
+
+        // Mobile: rapid scroll-up after user has engaged with the page
+        let lastY = window.scrollY;
+        let lastT = Date.now();
+        let maxScroll = 0;
+        window.addEventListener('scroll', () => {
+            const y = window.scrollY;
+            const t = Date.now();
+            maxScroll = Math.max(maxScroll, y);
+            const dy = lastY - y;
+            const dt = t - lastT;
+            // Engaged (scrolled past 40% of page) and scrolling up fast
+            if (isTouch && !alreadyShown()
+                && maxScroll > window.innerHeight * 1.2
+                && dy > 80 && dt < 250
+                && y < window.innerHeight * 0.5) {
+                showPopup('mobile_scroll_up');
+            }
+            lastY = y;
+            lastT = t;
+        }, { passive: true });
+
+        // Mobile fallback: user hid the tab for a moment then came back (intent to leave)
+        document.addEventListener('visibilitychange', () => {
+            if (isTouch && document.visibilityState === 'visible' && maxScroll > window.innerHeight * 0.6) {
+                setTimeout(() => showPopup('mobile_tab_return'), 500);
+            }
+        });
+    })();
     </script>
 </body>
 </html>
