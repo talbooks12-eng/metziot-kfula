@@ -3532,19 +3532,25 @@
                     <input type="hidden" name="חבילה" id="packageInput">
                     <input type="hidden" name="מחיר" id="priceInput">
 
+                    <!-- Returning customer notice - shown if saved details loaded -->
+                    <div id="returningCustomerNotice" style="display:none;background:#E8F5E9;color:#2E7D32;padding:0.6rem 1rem;border-radius:10px;font-size:0.9rem;margin-bottom:1rem;text-align:center;">
+                        👋 ברוכים השבים! הפרטים שלכם מולאו אוטומטית.
+                        <a href="#" onclick="clearSavedDetails(); return false;" style="color:#1B5E20;text-decoration:underline;margin-right:6px;">נקה</a>
+                    </div>
+
                     <div class="form-group">
                         <label>שם מלא *</label>
-                        <input type="text" name="שם" required placeholder="השם שלכם">
+                        <input type="text" name="שם" id="nameInput" required placeholder="השם שלכם" autocomplete="name">
                     </div>
 
                     <div class="form-group">
                         <label>אימייל *</label>
-                        <input type="email" name="אימייל" required placeholder="example@email.com">
+                        <input type="email" name="אימייל" id="emailInput" required placeholder="example@email.com" autocomplete="email">
                     </div>
 
                     <div class="form-group">
                         <label>טלפון *</label>
-                        <input type="tel" name="טלפון" required placeholder="050-0000000">
+                        <input type="tel" name="טלפון" id="phoneInput" required placeholder="050-0000000" autocomplete="tel">
                     </div>
 
                     <div class="form-group">
@@ -3575,11 +3581,11 @@
 
                     <div class="form-group" id="addressGroup">
                         <label>רחוב ומספר בית *</label>
-                        <input type="text" name="רחוב" id="streetInput" required placeholder="לדוגמה: הרצל 15, דירה 3">
+                        <input type="text" name="רחוב" id="streetInput" required placeholder="לדוגמה: הרצל 15, דירה 3" autocomplete="street-address">
                     </div>
                     <div class="form-group" id="cityGroup">
                         <label>עיר *</label>
-                        <input type="text" name="עיר" id="cityInput" required placeholder="לדוגמה: תל אביב">
+                        <input type="text" name="עיר" id="cityInput" required placeholder="לדוגמה: תל אביב" autocomplete="address-level2">
                     </div>
 
                     <div class="form-group">
@@ -4189,12 +4195,49 @@
             return m ? parseInt(m[1], 10) : 1;
         }
 
+        // Pre-fill form from saved customer details (returning buyers)
+        function loadSavedCustomerDetails() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('savedCustomerDetails') || 'null');
+                if (!saved) return false;
+                const set = (id, val) => { const el = document.getElementById(id); if (el && !el.value) el.value = val || ''; };
+                set('nameInput', saved.name);
+                set('emailInput', saved.email);
+                set('phoneInput', saved.phone);
+                set('streetInput', saved.street);
+                set('cityInput', saved.city);
+                const notice = document.getElementById('returningCustomerNotice');
+                if (notice && (saved.name || saved.email)) notice.style.display = 'block';
+                return true;
+            } catch (e) { return false; }
+        }
+
+        function saveCustomerDetails(data) {
+            try {
+                localStorage.setItem('savedCustomerDetails', JSON.stringify({
+                    name: data.name, email: data.email, phone: data.phone,
+                    street: data.street, city: data.city,
+                    savedAt: new Date().toISOString()
+                }));
+            } catch (e) {}
+        }
+
+        function clearSavedDetails() {
+            localStorage.removeItem('savedCustomerDetails');
+            ['nameInput','emailInput','phoneInput','streetInput','cityInput'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.value = '';
+            });
+            const notice = document.getElementById('returningCustomerNotice');
+            if (notice) notice.style.display = 'none';
+        }
+
         function selectPackage(packageName, price) {
             document.getElementById('selectedPackageDisplay').textContent = packageName + ' - ₪' + price;
             document.getElementById('packageInput').value = packageName;
             document.getElementById('priceInput').value = '₪' + price;
             document.getElementById('pricingStep1').style.display = 'none';
             document.getElementById('pricingStep2').style.display = 'block';
+            loadSavedCustomerDetails();
             const qty = parsePackageQuantity(packageName);
             const value = parseFloat(price);
             if (typeof gtag !== 'undefined') {
@@ -4279,6 +4322,9 @@
 
             // Save to localStorage as backup (notifications sent only after payment)
             localStorage.setItem('pendingOrder_' + orderId, JSON.stringify(currentOrderData));
+
+            // Save customer details for next time (returning customer autofill)
+            saveCustomerDetails({ name, email, phone, street, city });
 
             // Show payment step - notifications will be sent after successful payment
             showPaymentStep(currentOrderData);
