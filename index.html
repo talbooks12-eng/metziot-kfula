@@ -600,6 +600,23 @@
             margin-bottom: 0.75rem;
         }
 
+        .price-per-book {
+            font-size: 0.85rem;
+            color: #7a6a55;
+            margin-bottom: 0.3rem;
+        }
+
+        .price-save {
+            display: inline-block;
+            background: #2E7D32;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+            margin-bottom: 0.75rem;
+        }
+
         .price-donation {
             font-size: 0.8rem;
             color: #2C5282;
@@ -1321,7 +1338,7 @@
             }
             .pricing-grid {
                 grid-template-columns: 1fr;
-                gap: 0.6rem;
+                gap: 0.9rem;
                 margin-bottom: 0.75rem;
             }
             .pricing-popup-content {
@@ -1419,36 +1436,52 @@
                 padding: 0.2rem 0.5rem;
             }
             .price-card {
-                padding: 0.75rem;
-                border-radius: 12px;
+                padding: 1.1rem 1rem;
+                border-radius: 14px;
+                min-height: auto;
             }
             .price-card.featured {
                 transform: none;
-                border-width: 2px;
+                border-width: 3px;
+                box-shadow: 0 6px 20px rgba(123,163,184,0.25);
             }
             .price-card.featured .price-current {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
             }
             .price-label {
-                font-size: 1rem;
-                margin-bottom: 0.15rem;
+                font-size: 1.05rem;
+                margin-bottom: 0.3rem;
+                font-weight: 700;
             }
             .price-old {
-                font-size: 0.75rem;
-                margin-bottom: 0.1rem;
-            }
-            .price-current {
-                font-size: 1.3rem;
+                font-size: 0.8rem;
                 margin-bottom: 0.15rem;
             }
+            .price-current {
+                font-size: 1.6rem;
+                margin-bottom: 0.2rem;
+            }
+            .price-per-book {
+                font-size: 0.85rem;
+                margin-bottom: 0.35rem;
+            }
+            .price-save {
+                font-size: 0.8rem;
+                padding: 0.2rem 0.6rem;
+                margin-bottom: 0.5rem;
+            }
             .price-savings {
-                font-size: 0.7rem;
+                font-size: 0.75rem;
                 margin-bottom: 0.25rem;
                 padding: 0.2rem 0.4rem;
             }
             .price-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
+                padding: 0.7rem 1.4rem;
+                font-size: 0.95rem;
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
             }
             .price-donation {
                 font-size: 0.7rem;
@@ -3435,26 +3468,27 @@
                     <div class="price-card" onclick="selectPackage('עותק בודד', '79.99')">
                         <div class="price-label">עותק בודד</div>
                         <div class="price-current">₪79.99</div>
+                        <div class="price-per-book">₪79.99 לעותק</div>
                         <span class="price-btn">לרכישה</span>
-                        <div style="font-size:0.75rem;color:#888;margin-top:0.5rem;">🚚 ₪109.98 כולל משלוח | 📍 ₪79.99 באיסוף עצמי</div>
                     </div>
                     <div class="price-card featured" onclick="selectPackage('3 עותקים', '209.97')">
                         <div class="price-badge">הכי נמכר 🔥</div>
                         <div class="price-label">3 עותקים</div>
                         <div class="price-current">₪209.97</div>
-                        <div class="price-savings">₪69.99 לעותק</div>
+                        <div class="price-per-book">₪69.99 לעותק</div>
+                        <div class="price-save">חסכון של ₪30</div>
                         <span class="price-btn">לרכישה</span>
-                        <div style="font-size:0.75rem;color:#888;margin-top:0.5rem;">🚚 ₪239.96 כולל משלוח | 📍 ₪209.97 באיסוף עצמי</div>
                     </div>
                     <div class="price-card" onclick="selectPackage('4 עותקים', '259.96')">
                         <div class="price-badge">משתלם במיוחד</div>
                         <div class="price-label">4 עותקים</div>
                         <div class="price-current">₪259.96</div>
-                        <div class="price-savings">₪64.99 לעותק</div>
+                        <div class="price-per-book">₪64.99 לעותק</div>
+                        <div class="price-save">חסכון של ₪60</div>
                         <span class="price-btn">לרכישה</span>
-                        <div style="font-size:0.75rem;color:#888;margin-top:0.5rem;">🚚 ₪289.95 כולל משלוח | 📍 ₪259.96 באיסוף עצמי</div>
                     </div>
                 </div>
+                <div style="text-align:center;font-size:0.8rem;color:#888;margin-top:0.5rem;">🚚 משלוח ₪29.99 | 📍 איסוף עצמי חינם</div>
 
                 <!-- Custom Quantity Selector - compact strip -->
                 <div style="margin-top:1.5rem; background:rgba(123,163,184,0.08); border-radius:16px; padding:1.2rem 1.5rem; text-align:center;">
