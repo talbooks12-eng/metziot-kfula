@@ -1,7 +1,7 @@
 const https = require('https');
 
-const TELEGRAM_BOT_TOKEN = '8587921062:AAERSCVZe1tDt4FKIss6exrYrriMDVLJA1c';
-const TELEGRAM_CHAT_ID = '6573456373';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
 module.exports = function handler(req, res) {
     if (req.method !== 'POST') {
