@@ -582,8 +582,8 @@
 
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.85rem;
             margin-bottom: 1.5rem;
         }
 
@@ -3537,6 +3537,14 @@
                         <div class="price-per-book">₪79.99 לעותק</div>
                         <span class="price-btn">לרכישה</span>
                     </div>
+                    <div class="price-card" onclick="selectPackage('2 עותקים', '149.98')">
+                        <div class="price-badge">נהדר כמתנה 🎁</div>
+                        <div class="price-label">2 עותקים</div>
+                        <div class="price-current">₪149.98</div>
+                        <div class="price-per-book">₪74.99 לעותק</div>
+                        <div class="price-save">חסכון של ₪10</div>
+                        <span class="price-btn">לרכישה</span>
+                    </div>
                     <div class="price-card featured" onclick="selectPackage('3 עותקים', '209.97')">
                         <div class="price-badge">הכי נמכר 🔥</div>
                         <div class="price-label">3 עותקים</div>
@@ -3568,7 +3576,7 @@
                         <span id="quantityPriceDisplay" style="font-size:1rem;font-weight:600;color:#7BA3B8;">₪79.99</span>
                         <button type="button" onclick="confirmCustomQuantity()" style="padding:8px 20px;background:#7BA3B8;color:white;border:none;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;">לרכישה</button>
                     </div>
-                    <div style="font-size:0.8rem;color:#888;margin-top:0.5rem;">3 עותקים = ₪69.99 לעותק | 4+ = ₪64.99 לעותק</div>
+                    <div style="font-size:0.8rem;color:#888;margin-top:0.5rem;">2 עותקים = ₪74.99 לעותק | 3 = ₪69.99 | 4+ = ₪64.99</div>
                     <!-- Promo Code -->
                     <div style="margin-top:0.8rem; display:flex; align-items:center; justify-content:center; gap:0.5rem; flex-wrap:wrap;">
                         <input type="text" id="promoCodeInput" placeholder="קוד קופון" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:8px;text-align:center;font-size:0.9rem;width:140px;">
@@ -4219,6 +4227,7 @@
             if (promoActive) return PROMO_PRICE;
             if (qty >= 4) return 64.99;
             if (qty >= 3) return 69.99;
+            if (qty >= 2) return 74.99;
             return 79.99;
         }
 
