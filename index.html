@@ -1912,6 +1912,197 @@
             }
         }
 
+        /* WhatsApp alternative button in pricing popup */
+        .whatsapp-alt {
+            margin-top: 1.2rem;
+            text-align: center;
+            position: relative;
+        }
+        .whatsapp-alt-divider {
+            display: block;
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 0.6rem;
+            position: relative;
+        }
+        .whatsapp-alt-divider::before,
+        .whatsapp-alt-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 35%;
+            height: 1px;
+            background: #ddd;
+        }
+        .whatsapp-alt-divider::before { right: 0; }
+        .whatsapp-alt-divider::after { left: 0; }
+        .whatsapp-alt-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.75rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(37,211,102,0.3);
+            transition: all 0.2s;
+            min-height: 44px;
+        }
+        .whatsapp-alt-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(37,211,102,0.4);
+        }
+
+        /* B2B / Organization Sales */
+        .b2b-section {
+            padding: 4rem 2rem;
+            background: var(--bg-warm);
+        }
+        .b2b-card {
+            max-width: 880px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5F1E8 100%);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 10px 40px rgba(123,163,184,0.18);
+            border: 1px solid rgba(123,163,184,0.2);
+            text-align: center;
+        }
+        .b2b-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.5rem;
+        }
+        .b2b-card h2 {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin: 0 0 0.8rem;
+        }
+        .b2b-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .b2b-pricing {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+        }
+        .b2b-tier {
+            background: white;
+            border: 2px solid rgba(123,163,184,0.25);
+            border-radius: 14px;
+            padding: 1.2rem 0.8rem;
+            transition: all 0.2s;
+        }
+        .b2b-tier:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .b2b-tier-qty {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .b2b-tier-price {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.6rem;
+            color: var(--accent);
+        }
+        .b2b-tier-price span {
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: normal;
+        }
+        .b2b-benefits {
+            font-size: 0.9rem;
+            color: #5a4a3a;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        .b2b-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(37,211,102,0.35);
+            transition: all 0.2s;
+            min-height: 54px;
+        }
+        .b2b-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(37,211,102,0.45);
+        }
+        .b2b-cta-icon {
+            font-size: 1.3rem;
+        }
+        .b2b-contact-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .b2b-contact-note a {
+            color: var(--accent-dark);
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .b2b-section {
+                padding: 2.5rem 1rem;
+            }
+            .b2b-card {
+                padding: 2rem 1.2rem;
+                border-radius: 18px;
+            }
+            .b2b-card h2 {
+                font-size: 1.4rem;
+            }
+            .b2b-subtitle {
+                font-size: 0.95rem;
+            }
+            .b2b-pricing {
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+            }
+            .b2b-tier {
+                padding: 0.9rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: right;
+            }
+            .b2b-tier-qty {
+                margin-bottom: 0;
+                font-size: 0.9rem;
+            }
+            .b2b-tier-price {
+                font-size: 1.3rem;
+            }
+            .b2b-benefits {
+                font-size: 0.8rem;
+            }
+            .b2b-cta {
+                font-size: 1rem;
+                padding: 0.9rem 1.6rem;
+                width: 100%;
+                max-width: 340px;
+                justify-content: center;
+            }
+        }
+
         /* Mobile one-page checkout: Step 2 inline below Step 1 */
         #pricingStep2.mobile-inline {
             margin-top: 1.5rem;
@@ -3515,6 +3706,42 @@
         </div>
     </section>
 
+    <!-- B2B / Organization Sales Section -->
+    <section class="b2b-section" id="b2b">
+        <div class="container">
+            <div class="b2b-card">
+                <div class="b2b-icon">🎖️ 🏢 🏫</div>
+                <h2>רכישה לארגון, יחידה או בית ספר</h2>
+                <p class="b2b-subtitle">מחיר מיוחד לרכישה כמותית — ליחידות מילואים, מעגלי שכול, בתי ספר, ארגונים וחברות</p>
+
+                <div class="b2b-pricing">
+                    <div class="b2b-tier">
+                        <div class="b2b-tier-qty">10–29 עותקים</div>
+                        <div class="b2b-tier-price">₪59 <span>לעותק</span></div>
+                    </div>
+                    <div class="b2b-tier">
+                        <div class="b2b-tier-qty">30–99 עותקים</div>
+                        <div class="b2b-tier-price">₪49 <span>לעותק</span></div>
+                    </div>
+                    <div class="b2b-tier">
+                        <div class="b2b-tier-qty">100+ עותקים</div>
+                        <div class="b2b-tier-price">מחיר מיוחד</div>
+                    </div>
+                </div>
+
+                <div class="b2b-benefits">
+                    ✓ הקדשה אישית לכל עותק (אופציונלי) &nbsp;•&nbsp; ✓ חשבונית מס &nbsp;•&nbsp; ✓ משלוח מרוכז &nbsp;•&nbsp; ✓ 15% לפרויקט שפת הים
+                </div>
+
+                <a href="https://wa.me/972543257663?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%98%D7%9C%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A8%D7%9B%D7%99%D7%A9%D7%94%20%D7%9B%D7%9E%D7%95%D7%AA%D7%99%D7%AA%20%D7%A9%D7%9C%20%22%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%22.%0A%0A%D7%A9%D7%9D%20%D7%94%D7%90%D7%A8%D7%92%D7%95%D7%9F%3A%20%0A%D7%9B%D7%9E%D7%95%D7%AA%20%D7%9E%D7%A9%D7%95%D7%A2%D7%A8%D7%AA%3A%20%0A%D7%9E%D7%98%D7%A8%D7%94%3A%20%0A%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener" class="b2b-cta" onclick="if(typeof gtag!=='undefined')gtag('event','b2b_whatsapp_click',{event_category:'b2b'});if(typeof fbq!=='undefined')fbq('track','Contact');">
+                    <span class="b2b-cta-icon">💬</span>
+                    <span>פניה בוואטסאפ לרכישה מוסדית</span>
+                </a>
+                <div class="b2b-contact-note">או בטלפון 054-325-7663 · אימייל <a href="mailto:Talbooks12@gmail.com">Talbooks12@gmail.com</a></div>
+            </div>
+        </div>
+    </section>
+
     <!-- Pricing Popup -->
     <div class="pricing-popup" id="pricingPopup">
         <div class="pricing-popup-content">
@@ -3563,6 +3790,15 @@
                     </div>
                 </div>
                 <div style="text-align:center;font-size:0.8rem;color:#888;margin-top:0.5rem;">🚚 משלוח ₪29.99 | 📍 איסוף עצמי חינם</div>
+
+                <!-- WhatsApp order alternative -->
+                <div class="whatsapp-alt">
+                    <span class="whatsapp-alt-divider">או</span>
+                    <a href="https://wa.me/972543257663?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%98%D7%9C%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A2%D7%95%D7%AA%D7%A7%20%D7%A9%D7%9C%20%22%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%22" target="_blank" rel="noopener" class="whatsapp-alt-btn" onclick="if(typeof gtag!=='undefined')gtag('event','whatsapp_order_click',{event_category:'checkout'});if(typeof fbq!=='undefined')fbq('track','Contact');">
+                        <span>💬</span>
+                        <span>הזמן בוואטסאפ</span>
+                    </a>
+                </div>
 
                 <!-- Custom Quantity Selector - compact strip -->
                 <div style="margin-top:1.5rem; background:rgba(123,163,184,0.08); border-radius:16px; padding:1.2rem 1.5rem; text-align:center;">
