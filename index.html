@@ -240,6 +240,28 @@
             max-width: 420px;
         }
 
+        .hero-soft-cta {
+            display: inline-block;
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: var(--accent-dark);
+            text-decoration: none;
+            border-bottom: 1.5px solid var(--accent);
+            padding: 0.3rem 0;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .hero-soft-cta:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent-dark);
+        }
+        @media (max-width: 768px) {
+            .hero-soft-cta {
+                font-size: 0.95rem;
+                margin-top: 1rem;
+            }
+        }
+
         .hero-charity {
             background: linear-gradient(135deg, #E8F4FD 0%, #D0E8F7 100%);
             border: 1px solid rgba(91, 143, 185, 0.25);
@@ -3782,94 +3804,16 @@
                 <p class="tagline hero-headline">בין פחד קיומי לשקט ורגיעה</p>
                 <p class="tagline">יומן אמיתי של לוחם מילואים, שנכתב בזמן אמת בין קרבות להפוגות. חוויות, רגשות ומחשבות שלא מספרים בחדשות.</p>
 
-
-                <!-- Price Display -->
-                <div class="hero-price">
-                    <span class="hero-price-new">₪79.99</span>
-                </div>
-
-                <!-- Same-day shipping cutoff (combined delivery + urgency) -->
-                <div class="shipping-cutoff" id="shippingCutoff">
-                    <span>⏱️</span>
-                    <span id="shippingCutoffText">מזמינים עד 14:00 ביום עסקים? הספר יישלח עוד היום</span>
-                </div>
-
-                <button class="btn btn-primary" onclick="openPricing()">לרכישת הספר</button>
-
-                <!-- Charity line — primary buying driver for this audience -->
+                <!-- Charity line — emotional context, not commerce -->
                 <div class="hero-charity">
                     🤍 15% מכל ספר נתרם הלאה לפרויקט <a href="https://www.sfat-hayam.com/" target="_blank" rel="noopener">שפת הים</a> — סדנאות למילואימניקים ומעגלי שכול
                 </div>
 
-                <!-- Trust Badges -->
-                <div class="trust-badges">
-                    <div class="trust-badge">🔒 תשלום מאובטח</div>
-                    <div class="trust-badge"> Apple Pay</div>
-                    <div class="trust-badge">G Pay</div>
-                    <div class="trust-badge">📍 איסוף חינם</div>
-                    <div class="trust-badge">✅ החזר כספי מלא</div>
-                </div>
+                <a href="#sample" class="hero-soft-cta">קראו קטע לדוגמא ↓</a>
             </div>
             <div class="book-cover-wrapper" onclick="openBookSummary()" style="cursor: pointer;">
                 <img src="assets/book-cover.png" alt="כריכת הספר מציאות כפולה - לחצו לתקציר" class="book-cover">
                 <div class="click-hint">לחצו לתקציר הספר</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Buy + Donation Banner - Prominent placement -->
-    <section class="buy-banner" id="buy">
-        <div class="container">
-            <h2>רכישה עם משמעות</h2>
-            <p>🤍 15% מההכנסות נתרמות ל<a href="https://www.sfat-hayam.com/" target="_blank" style="color: #1A5F7A; text-decoration: underline; font-weight: 600;">פרויקט שפת הים</a></p>
-            <div class="donation-note">
-                סדנאות לאנשי מילואים ומעגלי שכול
-            </div>
-            <div class="project-info-ticker banner-ticker" onclick="this.classList.toggle('expanded')">
-                <span class="ticker-toggle">מה זה פרויקט שפת הים? <span class="ticker-arrow">▼</span></span>
-                <div class="ticker-content">
-                    <p>שפת הים הינו פרויקט שקם במהלך המלחמה, המקיים סדנאות ייעודיות לאנשי מילואים ומעגלי שכול. הפרויקט מאפשר חיזוק עוגנים אישיים והקניית כלים לוויסות מערכת העצבים לטובת התמודדות עם אתגרי המלחמה - דרך עולמות הנשימה, הצלילה החופשית והקרח.</p>
-                    <p><strong>עד היום עברו תחת כנפי הפרויקט מעל 2,000 משתתפים, והמלאכה עוד מרובה.</strong></p>
-                    <p>ברכישת הספר, תרמת להמשך קיומו של הפרויקט - ואדם נוסף יקבל כלים להתמודדות מיטיבה עם החיים שקיבלו תפנית.</p>
-                </div>
-            </div>
-            <br>
-            <button class="btn" onclick="openPricing()">לרכישת הספר</button>
-        </div>
-    </section>
-
-    <!-- B2B / Organization Sales Section -->
-    <section class="b2b-section" id="b2b">
-        <div class="container">
-            <div class="b2b-card">
-                <div class="b2b-icon">🎖️ 🏢 🏫</div>
-                <h2>רכישה לארגון, יחידה או בית ספר</h2>
-                <p class="b2b-subtitle">מחיר מיוחד לרכישה כמותית — ליחידות מילואים, מעגלי שכול, בתי ספר, ארגונים וחברות</p>
-
-                <div class="b2b-pricing">
-                    <div class="b2b-tier">
-                        <div class="b2b-tier-qty">10–29 עותקים</div>
-                        <div class="b2b-tier-price">₪55 <span>לעותק</span></div>
-                    </div>
-                    <div class="b2b-tier">
-                        <div class="b2b-tier-qty">30–99 עותקים</div>
-                        <div class="b2b-tier-price">₪45 <span>לעותק</span></div>
-                    </div>
-                    <div class="b2b-tier">
-                        <div class="b2b-tier-qty">100+ עותקים</div>
-                        <div class="b2b-tier-price">מחיר מיוחד</div>
-                    </div>
-                </div>
-
-                <div class="b2b-benefits">
-                    ✓ הקדשה אישית לכל עותק (אופציונלי) &nbsp;•&nbsp; ✓ משלוח מרוכז &nbsp;•&nbsp; ✓ 15% לפרויקט שפת הים
-                </div>
-
-                <a href="https://wa.me/972543257663?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%98%D7%9C%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A8%D7%9B%D7%99%D7%A9%D7%94%20%D7%9B%D7%9E%D7%95%D7%AA%D7%99%D7%AA%20%D7%A9%D7%9C%20%22%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%22.%0A%0A%D7%A9%D7%9D%20%D7%94%D7%90%D7%A8%D7%92%D7%95%D7%9F%3A%20%0A%D7%9B%D7%9E%D7%95%D7%AA%20%D7%9E%D7%A9%D7%95%D7%A2%D7%A8%D7%AA%3A%20%0A%D7%9E%D7%98%D7%A8%D7%94%3A%20%0A%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener" class="b2b-cta" onclick="if(typeof gtag!=='undefined')gtag('event','b2b_whatsapp_click',{event_category:'b2b'});if(typeof fbq!=='undefined')fbq('track','Contact');">
-                    <span class="b2b-cta-icon">💬</span>
-                    <span>פניה בוואטסאפ לרכישה מוסדית</span>
-                </a>
-                <div class="b2b-contact-note">או בטלפון 054-325-7663 · אימייל <a href="mailto:Talbooks12@gmail.com">Talbooks12@gmail.com</a></div>
             </div>
         </div>
     </section>
@@ -5418,6 +5362,63 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             }
         }
     </script>
+
+    <!-- Buy + Donation Banner - Moved to AFTER emotional content -->
+    <section class="buy-banner" id="buy">
+        <div class="container">
+            <h2>רכישה עם משמעות</h2>
+            <p>🤍 15% מההכנסות נתרמות ל<a href="https://www.sfat-hayam.com/" target="_blank" style="color: #1A5F7A; text-decoration: underline; font-weight: 600;">פרויקט שפת הים</a></p>
+            <div class="donation-note">
+                סדנאות לאנשי מילואים ומעגלי שכול
+            </div>
+            <div class="project-info-ticker banner-ticker" onclick="this.classList.toggle('expanded')">
+                <span class="ticker-toggle">מה זה פרויקט שפת הים? <span class="ticker-arrow">▼</span></span>
+                <div class="ticker-content">
+                    <p>שפת הים הינו פרויקט שקם במהלך המלחמה, המקיים סדנאות ייעודיות לאנשי מילואים ומעגלי שכול. הפרויקט מאפשר חיזוק עוגנים אישיים והקניית כלים לוויסות מערכת העצבים לטובת התמודדות עם אתגרי המלחמה - דרך עולמות הנשימה, הצלילה החופשית והקרח.</p>
+                    <p><strong>עד היום עברו תחת כנפי הפרויקט מעל 2,000 משתתפים, והמלאכה עוד מרובה.</strong></p>
+                    <p>ברכישת הספר, תרמת להמשך קיומו של הפרויקט - ואדם נוסף יקבל כלים להתמודדות מיטיבה עם החיים שקיבלו תפנית.</p>
+                </div>
+            </div>
+            <br>
+            <button class="btn" onclick="openPricing()">לרכישת הספר</button>
+        </div>
+    </section>
+
+    <!-- B2B / Organization Sales Section -->
+    <section class="b2b-section" id="b2b">
+        <div class="container">
+            <div class="b2b-card">
+                <div class="b2b-icon">🎖️ 🏢 🏫</div>
+                <h2>רכישה לארגון, יחידה או בית ספר</h2>
+                <p class="b2b-subtitle">מחיר מיוחד לרכישה כמותית — ליחידות מילואים, מעגלי שכול, בתי ספר, ארגונים וחברות</p>
+
+                <div class="b2b-pricing">
+                    <div class="b2b-tier">
+                        <div class="b2b-tier-qty">10–29 עותקים</div>
+                        <div class="b2b-tier-price">₪55 <span>לעותק</span></div>
+                    </div>
+                    <div class="b2b-tier">
+                        <div class="b2b-tier-qty">30–99 עותקים</div>
+                        <div class="b2b-tier-price">₪45 <span>לעותק</span></div>
+                    </div>
+                    <div class="b2b-tier">
+                        <div class="b2b-tier-qty">100+ עותקים</div>
+                        <div class="b2b-tier-price">מחיר מיוחד</div>
+                    </div>
+                </div>
+
+                <div class="b2b-benefits">
+                    ✓ הקדשה אישית לכל עותק (אופציונלי) &nbsp;•&nbsp; ✓ משלוח מרוכז &nbsp;•&nbsp; ✓ 15% לפרויקט שפת הים
+                </div>
+
+                <a href="https://wa.me/972543257663?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%98%D7%9C%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A8%D7%9B%D7%99%D7%A9%D7%94%20%D7%9B%D7%9E%D7%95%D7%AA%D7%99%D7%AA%20%D7%A9%D7%9C%20%22%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%22.%0A%0A%D7%A9%D7%9D%20%D7%94%D7%90%D7%A8%D7%92%D7%95%D7%9F%3A%20%0A%D7%9B%D7%9E%D7%95%D7%AA%20%D7%9E%D7%A9%D7%95%D7%A2%D7%A8%D7%AA%3A%20%0A%D7%9E%D7%98%D7%A8%D7%94%3A%20%0A%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener" class="b2b-cta" onclick="if(typeof gtag!=='undefined')gtag('event','b2b_whatsapp_click',{event_category:'b2b'});if(typeof fbq!=='undefined')fbq('track','Contact');">
+                    <span class="b2b-cta-icon">💬</span>
+                    <span>פניה בוואטסאפ לרכישה מוסדית</span>
+                </a>
+                <div class="b2b-contact-note">או בטלפון 054-325-7663 · אימייל <a href="mailto:Talbooks12@gmail.com">Talbooks12@gmail.com</a></div>
+            </div>
+        </div>
+    </section>
 
     <!-- FAQ Section -->
     <section class="faq-section" id="faq">
