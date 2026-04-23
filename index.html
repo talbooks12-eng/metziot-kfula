@@ -240,6 +240,30 @@
             max-width: 420px;
         }
 
+        .hero-charity {
+            background: linear-gradient(135deg, #E8F4FD 0%, #D0E8F7 100%);
+            border: 1px solid rgba(91, 143, 185, 0.25);
+            border-radius: 14px;
+            padding: 0.75rem 1.1rem;
+            font-size: 0.95rem;
+            color: #1A5F7A;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            max-width: 560px;
+        }
+        .hero-charity a {
+            color: #1A5F7A;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .hero-charity {
+                font-size: 0.85rem;
+                padding: 0.6rem 0.9rem;
+                margin: 0.5rem 0 0.8rem;
+            }
+        }
+
         .reader-satisfaction {
             font-size: 0.95rem;
             color: var(--accent);
@@ -2094,6 +2118,16 @@
             font-size: 0.85rem;
             color: var(--text-secondary);
         }
+        .b2b-notice {
+            margin-top: 1rem;
+            font-size: 0.82rem;
+            color: #7a6a55;
+            background: rgba(255,248,225,0.6);
+            border: 1px dashed rgba(180,83,9,0.3);
+            border-radius: 10px;
+            padding: 0.6rem 1rem;
+            display: inline-block;
+        }
         .b2b-contact-note a {
             color: var(--accent-dark);
             text-decoration: underline;
@@ -3694,22 +3728,23 @@
 
                 <!-- Reader Satisfaction Badge -->
                 <div class="reader-satisfaction">
-                    ⭐⭐⭐⭐⭐ 98% מהקוראים ממליצים
+                    ⭐⭐⭐⭐⭐ 5.0 מתוך 5 · 11 ביקורות
                 </div>
 
                 <button class="btn btn-primary" onclick="openPricing()">לרכישת הספר</button>
 
+                <!-- Charity line — primary buying driver for this audience -->
+                <div class="hero-charity">
+                    🤍 15% מכל ספר לפרויקט <a href="https://www.sfat-hayam.com/" target="_blank" rel="noopener">שפת הים</a> — סדנאות למילואימניקים ומעגלי שכול
+                </div>
+
                 <!-- Trust Badges -->
                 <div class="trust-badges">
-                    <div class="trust-badge">
-                        🔒 תשלום מאובטח
-                    </div>
-                    <div class="trust-badge">
-                        📍 איסוף חינם בתיאום
-                    </div>
-                    <div class="trust-badge">
-                        ✅ החזר כספי מלא
-                    </div>
+                    <div class="trust-badge">🔒 תשלום מאובטח</div>
+                    <div class="trust-badge"> Apple Pay</div>
+                    <div class="trust-badge">G Pay</div>
+                    <div class="trust-badge">📍 איסוף חינם</div>
+                    <div class="trust-badge">✅ החזר כספי מלא</div>
                 </div>
             </div>
             <div class="book-cover-wrapper" onclick="openBookSummary()" style="cursor: pointer;">
@@ -3765,6 +3800,9 @@
 
                 <div class="b2b-benefits">
                     ✓ הקדשה אישית לכל עותק (אופציונלי) &nbsp;•&nbsp; ✓ קבלה &nbsp;•&nbsp; ✓ משלוח מרוכז &nbsp;•&nbsp; ✓ 15% לפרויקט שפת הים
+                </div>
+                <div class="b2b-notice">
+                    📌 שימו לב: עוסק פטור — ניתנת קבלה בלבד, ללא חשבונית מס
                 </div>
 
                 <a href="https://wa.me/972543257663?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%98%D7%9C%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%2F%D7%AA%20%D7%91%D7%A8%D7%9B%D7%99%D7%A9%D7%94%20%D7%9B%D7%9E%D7%95%D7%AA%D7%99%D7%AA%20%D7%A9%D7%9C%20%22%D7%9E%D7%A6%D7%99%D7%90%D7%95%D7%AA%20%D7%9B%D7%A4%D7%95%D7%9C%D7%94%22.%0A%0A%D7%A9%D7%9D%20%D7%94%D7%90%D7%A8%D7%92%D7%95%D7%9F%3A%20%0A%D7%9B%D7%9E%D7%95%D7%AA%20%D7%9E%D7%A9%D7%95%D7%A2%D7%A8%D7%AA%3A%20%0A%D7%9E%D7%98%D7%A8%D7%94%3A%20%0A%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener" class="b2b-cta" onclick="if(typeof gtag!=='undefined')gtag('event','b2b_whatsapp_click',{event_category:'b2b'});if(typeof fbq!=='undefined')fbq('track','Contact');">
@@ -4828,7 +4866,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 
 📦 פרטי משלוח:
 כתובת: ${orderData.address}
-המשלוח יגיע אליך תוך 4-6 ימי עסקים.
+המשלוח יגיע אליך תוך 3-5 ימי עסקים.
 
 לשאלות ובירורים:
 📱 טלפון: 054-325-7663
@@ -5325,7 +5363,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                     </div>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            זמן האספקה הוא 3-5 ימי עסקים מרגע אישור ההזמנה. המשלוח מגיע עד הבית לכל רחבי הארץ. תקבלו עדכון במייל כשהחבילה יוצאת לדרך.
+                            הזמנות שמתקבלות עד 14:00 ביום עסקים נשלחות באותו היום. זמן המשלוח: 3-5 ימי עסקים מרגע השליחה. תקבלו עדכון במייל כשהחבילה יוצאת לדרך.
                         </div>
                     </div>
                 </div>
@@ -5677,38 +5715,8 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
     <!-- Review Submission Section -->
     <section class="review-submit-section" style="padding: 4rem 2rem; background: var(--bg-cream);">
         <div class="container" style="max-width: 500px; margin: 0 auto;">
-            <div class="review-form-wrapper">
-                <h3>שתפו את החוויה שלכם</h3>
-                <form class="review-form" action="https://formsubmit.co/Talbooks12@gmail.com" method="POST">
-                    <input type="hidden" name="_subject" value="ביקורת חדשה על הספר - ממתינה לאישור">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_template" value="table">
-
-                    <input type="text" name="name" id="reviewName" placeholder="השם שלכם" required>
-
-                    <label class="anonymous-option">
-                        <input type="checkbox" id="anonymousCheck" onchange="toggleAnonymous()">
-                        <span>פרסום אנונימי</span>
-                    </label>
-
-                    <div class="star-rating">
-                        <input type="radio" name="rating" value="5" id="star5" required>
-                        <label for="star5">★</label>
-                        <input type="radio" name="rating" value="4" id="star4">
-                        <label for="star4">★</label>
-                        <input type="radio" name="rating" value="3" id="star3">
-                        <label for="star3">★</label>
-                        <input type="radio" name="rating" value="2" id="star2">
-                        <label for="star2">★</label>
-                        <input type="radio" name="rating" value="1" id="star1">
-                        <label for="star1">★</label>
-                    </div>
-
-                    <textarea name="review" placeholder="מה חשבתם על הספר?" required></textarea>
-
-                    <button type="submit" class="btn btn-primary">שליחת ביקורת</button>
-                </form>
-                <p class="review-note">* הביקורת תפורסם לאחר אישור</p>
+            <div class="review-invite">
+                <p>קראתם? <a href="mailto:Talbooks12@gmail.com?subject=ביקורת%20על%20מציאות%20כפולה">שלחו לי את התחושה שלכם ↗</a></p>
             </div>
         </div>
     </section>
@@ -6160,33 +6168,11 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             });
         }
 
-        // Mobile: rapid scroll-up after user has engaged with the page
-        let lastY = window.scrollY;
-        let lastT = Date.now();
+        // Exit-intent popup is desktop-only (mobile misfires on natural scroll gestures)
         let maxScroll = 0;
         window.addEventListener('scroll', () => {
-            const y = window.scrollY;
-            const t = Date.now();
-            maxScroll = Math.max(maxScroll, y);
-            const dy = lastY - y;
-            const dt = t - lastT;
-            // Engaged (scrolled past 40% of page) and scrolling up fast
-            if (isTouch && !alreadyShown()
-                && maxScroll > window.innerHeight * 1.2
-                && dy > 80 && dt < 250
-                && y < window.innerHeight * 0.5) {
-                showPopup('mobile_scroll_up');
-            }
-            lastY = y;
-            lastT = t;
+            maxScroll = Math.max(maxScroll, window.scrollY);
         }, { passive: true });
-
-        // Mobile fallback: user hid the tab for a moment then came back (intent to leave)
-        document.addEventListener('visibilitychange', () => {
-            if (isTouch && document.visibilityState === 'visible' && maxScroll > window.innerHeight * 0.6) {
-                setTimeout(() => showPopup('mobile_tab_return'), 500);
-            }
-        });
     })();
     </script>
 </body>
