@@ -1912,6 +1912,45 @@
             }
         }
 
+        /* Promo code — compact */
+        .promo-compact {
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .promo-compact input {
+            padding: 0.55rem 0.9rem;
+            border: 1.5px solid #ddd;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            width: 160px;
+            min-height: 44px;
+        }
+        .promo-compact input:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .promo-compact button {
+            padding: 0.55rem 1.3rem;
+            background: #5a4a3a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            min-height: 44px;
+        }
+        .promo-compact #promoMessage {
+            width: 100%;
+            text-align: center;
+            margin-top: 0.3rem;
+            font-size: 0.85rem;
+        }
+
         /* WhatsApp alternative button in pricing popup */
         .whatsapp-alt {
             margin-top: 1.2rem;
@@ -3795,26 +3834,13 @@
                     </a>
                 </div>
 
-                <!-- Custom Quantity Selector - compact strip -->
-                <div style="margin-top:1.5rem; background:rgba(123,163,184,0.08); border-radius:16px; padding:1.2rem 1.5rem; text-align:center;">
-                    <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;">
-                        <span style="font-size:1rem; font-weight:600; color:#5a4a3a;">רוצה כמות אחרת?</span>
-                        <div style="display:flex; align-items:center; gap:0.6rem;">
-                            <button type="button" onclick="changeQuantity(-1)" style="width:34px;height:34px;font-size:1.3rem;border-radius:50%;border:2px solid #7BA3B8;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#7BA3B8;font-weight:700;">−</button>
-                            <span id="quantityDisplay" style="font-size:1.4rem;font-weight:700;min-width:30px;color:#5a4a3a;">1</span>
-                            <button type="button" onclick="changeQuantity(1)" style="width:34px;height:34px;font-size:1.3rem;border-radius:50%;border:2px solid #7BA3B8;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#7BA3B8;font-weight:700;">+</button>
-                        </div>
-                        <span id="quantityPriceDisplay" style="font-size:1rem;font-weight:600;color:#7BA3B8;">₪79.99</span>
-                        <button type="button" onclick="confirmCustomQuantity()" style="padding:8px 20px;background:#7BA3B8;color:white;border:none;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;">לרכישה</button>
-                    </div>
-                    <div style="font-size:0.8rem;color:#888;margin-top:0.5rem;">2 עותקים = ₪74.99 לעותק | 3 = ₪69.99 | 4+ = ₪64.99</div>
-                    <!-- Promo Code -->
-                    <div style="margin-top:0.8rem; display:flex; align-items:center; justify-content:center; gap:0.5rem; flex-wrap:wrap;">
-                        <input type="text" id="promoCodeInput" placeholder="קוד קופון" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:8px;text-align:center;font-size:0.9rem;width:140px;">
-                        <button type="button" onclick="applyPromoCode()" style="padding:6px 14px;background:#5a4a3a;color:white;border:none;border-radius:8px;font-size:0.9rem;cursor:pointer;">החל</button>
-                    </div>
-                    <div id="promoMessage" style="margin-top:0.3rem;font-size:0.85rem;"></div>
+                <!-- Promo Code (compact) -->
+                <div class="promo-compact">
+                    <input type="text" id="promoCodeInput" placeholder="קוד קופון" aria-label="קוד קופון">
+                    <button type="button" onclick="applyPromoCode()">החל</button>
+                    <div id="promoMessage" role="status" aria-live="polite"></div>
                 </div>
+                <div style="font-size:0.8rem;color:#888;margin-top:0.6rem;text-align:center;">💡 לרכישה של 10 עותקים ומעלה — ראה מחיר מיוחד למטה</div>
 
                 <p class="pricing-note">🤍 חלק מכל רכישה נתרמת לפרויקט שפת הים</p>
                 <div class="project-info-ticker" onclick="this.classList.toggle('expanded')">
