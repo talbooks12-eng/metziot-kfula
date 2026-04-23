@@ -2593,6 +2593,46 @@
             margin-top: 2rem;
         }
 
+        .faq-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 0 auto 1rem;
+            padding: 1rem 1.8rem;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.15rem;
+            color: var(--accent-dark);
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 4px 14px rgba(123,163,184,0.15);
+            transition: all 0.2s;
+            min-height: 54px;
+        }
+        .faq-toggle-btn:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+        .faq-toggle-icon {
+            font-size: 1.4rem;
+            font-weight: 700;
+            transition: transform 0.3s;
+        }
+        .faq-toggle-btn[aria-expanded="true"] .faq-toggle-icon {
+            transform: rotate(45deg);
+        }
+        @media (max-width: 768px) {
+            .faq-toggle-btn {
+                font-size: 1rem;
+                padding: 0.85rem 1.4rem;
+            }
+        }
+
         .faq-item {
             background: white;
             border-radius: 12px;
@@ -5449,8 +5489,11 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
     <!-- FAQ Section -->
     <section class="faq-section" id="faq">
         <div class="container">
-            <h2 class="section-title">שאלות נפוצות</h2>
-            <div class="faq-list">
+            <button class="faq-toggle-btn" onclick="toggleFaqSection(this)" aria-expanded="false" aria-controls="faqList">
+                <span class="faq-toggle-text">שאלות נפוצות</span>
+                <span class="faq-toggle-icon">+</span>
+            </button>
+            <div class="faq-list" id="faqList" style="display:none;">
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFaq(this)">
                         <h3>כמה זמן לוקח המשלוח?</h3>
@@ -5557,6 +5600,18 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
         function toggleFaq(element) {
             const faqItem = element.parentElement;
             faqItem.classList.toggle('open');
+        }
+
+        function toggleFaqSection(btn) {
+            const list = document.getElementById('faqList');
+            const isOpen = btn.getAttribute('aria-expanded') === 'true';
+            if (isOpen) {
+                list.style.display = 'none';
+                btn.setAttribute('aria-expanded', 'false');
+            } else {
+                list.style.display = '';
+                btn.setAttribute('aria-expanded', 'true');
+            }
         }
     </script>
 
