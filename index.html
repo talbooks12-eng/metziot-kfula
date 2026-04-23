@@ -1997,6 +1997,61 @@
             font-size: 0.85rem;
         }
 
+        /* Review invite — email CTA below reviews */
+        .review-invite {
+            text-align: center;
+            padding: 1.5rem 1rem;
+        }
+        .review-invite h3 {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            margin: 0 0 0.6rem;
+        }
+        .review-invite p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 1.5rem;
+        }
+        .review-invite-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5F1E8 100%);
+            color: var(--accent-dark);
+            font-size: 1.05rem;
+            font-weight: 600;
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            border: 2px solid var(--accent);
+            box-shadow: 0 4px 14px rgba(123,163,184,0.2);
+            transition: all 0.2s;
+            min-height: 48px;
+        }
+        .review-invite-btn:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(123,163,184,0.35);
+        }
+        .review-invite-btn span:first-child {
+            font-size: 1.25rem;
+        }
+        @media (max-width: 768px) {
+            .review-invite h3 {
+                font-size: 1.2rem;
+            }
+            .review-invite p {
+                font-size: 0.92rem;
+            }
+            .review-invite-btn {
+                font-size: 0.98rem;
+                padding: 0.8rem 1.6rem;
+            }
+        }
+
         /* WhatsApp alternative button in pricing popup */
         .whatsapp-alt {
             margin-top: 1.2rem;
@@ -5783,7 +5838,12 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
     <section class="review-submit-section" style="padding: 4rem 2rem; background: var(--bg-cream);">
         <div class="container" style="max-width: 500px; margin: 0 auto;">
             <div class="review-invite">
-                <p>קראתם? <a href="mailto:Talbooks12@gmail.com?subject=ביקורת%20על%20מציאות%20כפולה">שלחו לי את התחושה שלכם ↗</a></p>
+                <h3>קראתם את הספר?</h3>
+                <p>אשמח לשמוע את התחושה שלכם — מה נגע, מה עורר, מה נשאר איתכם.</p>
+                <a href="mailto:Talbooks12@gmail.com?subject=ביקורת%20על%20מציאות%20כפולה&body=שלום%20טל%2C%0A%0A" class="review-invite-btn">
+                    <span>💌</span>
+                    <span>שתפו אותי בתחושה</span>
+                </a>
             </div>
         </div>
     </section>
