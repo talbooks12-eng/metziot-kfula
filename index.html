@@ -2208,75 +2208,81 @@
             display: none;
         }
 
-        /* Sample Excerpt Section (full poem) */
+        /* Sample Excerpt Section — actual book spread image */
         .sample-excerpt-section {
             padding: 4rem 1.5rem 3rem;
             background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg-cream) 100%);
         }
-        .sample-excerpt {
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 3rem 2.5rem 2.5rem;
-            background: #FFFEF9;
-            border-radius: 18px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.06);
-            border: 1px solid rgba(123,163,184,0.15);
-            position: relative;
+        .sample-excerpt-image {
+            max-width: 900px;
+            margin: 0 auto 2rem;
             text-align: center;
         }
-        .sample-excerpt::before {
-            content: '"';
-            position: absolute;
-            top: -20px;
-            right: 28px;
-            font-family: Georgia, serif;
-            font-size: 7rem;
-            color: var(--accent);
-            opacity: 0.2;
-            line-height: 1;
-        }
-        .sample-excerpt-lines {
-            display: flex;
-            flex-direction: column;
-            gap: 0.35rem;
-            font-family: 'Frank Ruhl Libre', Georgia, serif;
-            font-size: 1.2rem;
-            line-height: 1.9;
-            color: var(--text-dark);
-            margin-bottom: 1.8rem;
-            font-weight: 400;
-        }
-        .sample-excerpt-lines span {
+        .sample-excerpt-image img {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
             display: block;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            background: #FFFEF9;
         }
-        .sample-excerpt-closer {
+        .sample-excerpt-image figcaption {
             margin-top: 1rem;
-            font-style: italic;
-            color: var(--accent-dark);
-            font-weight: 500;
-        }
-        .sample-excerpt figcaption {
             font-size: 0.95rem;
             color: var(--text-secondary);
             letter-spacing: 0.5px;
+        }
+
+        /* Foundation highlight callout */
+        .foundation-highlight {
+            max-width: 760px;
+            margin: 2.5rem auto 0;
+            padding: 2rem 2rem 1.6rem;
+            background: linear-gradient(135deg, #E8F4FD 0%, #D0E8F7 100%);
+            border-radius: 18px;
+            border: 1px solid rgba(91, 143, 185, 0.3);
+            text-align: center;
+        }
+        .foundation-highlight-title {
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.3rem;
+            color: #1A5F7A;
+            margin-bottom: 1rem;
+        }
+        .foundation-highlight p {
+            color: #1A5F7A;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin: 0 0 0.8rem;
+        }
+        .foundation-highlight p:last-child {
+            margin-bottom: 0;
+        }
+        .foundation-highlight a {
+            color: #1A5F7A;
+            font-weight: 700;
+            text-decoration: underline;
         }
         @media (max-width: 768px) {
             .sample-excerpt-section {
                 padding: 2.5rem 1rem 2rem;
             }
-            .sample-excerpt {
-                padding: 2rem 1.3rem 1.7rem;
+            .sample-excerpt-image img {
+                border-radius: 10px;
+            }
+            .foundation-highlight {
+                padding: 1.5rem 1.2rem 1.2rem;
+                margin-top: 1.8rem;
                 border-radius: 14px;
             }
-            .sample-excerpt::before {
-                font-size: 5rem;
-                top: -12px;
-                right: 14px;
+            .foundation-highlight-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
             }
-            .sample-excerpt-lines {
-                font-size: 1.05rem;
-                line-height: 1.8;
-                gap: 0.25rem;
+            .foundation-highlight p {
+                font-size: 0.9rem;
+                line-height: 1.6;
             }
         }
 
@@ -4128,29 +4134,21 @@
         </div>
     </section>
 
-    <!-- Sample Passage (long excerpt) -->
+    <!-- Sample Passage — actual spread from the book -->
     <section class="sample-excerpt-section" id="sample">
         <div class="container">
             <h2 class="section-title">קטע לדוגמא</h2>
-            <figure class="sample-excerpt">
-                <div class="sample-excerpt-lines">
-                    <span>בין פחד קיומי</span>
-                    <span>לשקט ורגיעה</span>
-                    <span>משדה הקרב</span>
-                    <span>לרחובות השכונה השקטה</span>
-                    <span>בבית מרגיש שאין מלחמה</span>
-                    <span>אנשים רצים ברחובות</span>
-                    <span>מקניות לקניות</span>
-                    <span>ולעיתים נראים לי חסרי דאגות</span>
-                    <span>שואל את עצמי</span>
-                    <span>מה עובר בראשם</span>
-                    <span>איך הם מרגישים שקטים בנפשם</span>
-                    <span>מהצד נראה שכולנו בורחים</span>
-                    <span>חלק בשיחות ארוכות עם אלוהים</span>
-                    <span class="sample-excerpt-closer">שקר המציאות מחזק רק את תחושת הבדידות</span>
-                </div>
-                <figcaption>— מתוך "מציאות כפולה" / טל הוך</figcaption>
+            <figure class="sample-excerpt-image">
+                <img src="assets/sample-excerpt.png" alt="עמוד לדוגמא מתוך הספר מציאות כפולה מאת טל הוך — שיר ואיור" loading="lazy">
+                <figcaption>— עמוד מתוך "מציאות כפולה" / טל הוך</figcaption>
             </figure>
+
+            <!-- Foundation highlight right under the excerpt -->
+            <div class="foundation-highlight">
+                <div class="foundation-highlight-title">🤍 הספר כולו יוצא לדרך עם שליחות</div>
+                <p>15% מכל ספר נתרם הלאה ל<a href="https://www.sfat-hayam.com/" target="_blank" rel="noopener">פרויקט שפת הים</a> — פרויקט שקם בזמן המלחמה ומעביר סדנאות ייעודיות ללוחמי מילואים ומעגלי שכול. כלים להתמודדות, חיזוק עוגנים אישיים ווויסות עצבי — דרך נשימה, צלילה חופשית וקרח.</p>
+                <p><strong>מעל 2,000 משתתפים עברו תחת כנפי הפרויקט — והמלאכה עוד מרובה.</strong></p>
+            </div>
         </div>
     </section>
 
