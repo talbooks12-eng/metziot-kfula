@@ -240,9 +240,36 @@
             max-width: 420px;
         }
 
+        .hero-cta-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .hero-buy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            color: white;
+            font-family: 'Secular One', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.95rem 2.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 22px rgba(46,125,50,0.35);
+            transition: all 0.2s;
+            min-height: 50px;
+        }
+        .hero-buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(46,125,50,0.45);
+        }
         .hero-soft-cta {
             display: inline-block;
-            margin-top: 1.5rem;
             font-size: 1rem;
             color: var(--accent-dark);
             text-decoration: none;
@@ -256,9 +283,18 @@
             border-bottom-color: var(--accent-dark);
         }
         @media (max-width: 768px) {
+            .hero-cta-row {
+                gap: 1rem;
+                margin-top: 1.2rem;
+                justify-content: center;
+            }
+            .hero-buy-btn {
+                font-size: 1rem;
+                padding: 0.85rem 1.8rem;
+                min-height: 48px;
+            }
             .hero-soft-cta {
-                font-size: 0.95rem;
-                margin-top: 1rem;
+                font-size: 0.9rem;
             }
         }
 
@@ -3910,7 +3946,10 @@
                     🤍 15% מכל ספר נתרם הלאה לפרויקט <a href="https://www.sfat-hayam.com/" target="_blank" rel="noopener">שפת הים</a> — סדנאות למילואימניקים ומעגלי שכול
                 </div>
 
-                <a href="#sample" class="hero-soft-cta">קראו קטע לדוגמא ↓</a>
+                <div class="hero-cta-row">
+                    <button class="hero-buy-btn" onclick="openPricing()">📖 לרכישת הספר</button>
+                    <a href="#sample" class="hero-soft-cta">קטע לדוגמא ↓</a>
+                </div>
             </div>
             <div class="book-cover-wrapper" onclick="openBookSummary()" style="cursor: pointer;">
                 <img src="assets/book-cover.png" alt="כריכת הספר מציאות כפולה - לחצו לתקציר" class="book-cover">
