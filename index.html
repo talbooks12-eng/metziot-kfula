@@ -1137,7 +1137,7 @@
             border: 2px solid var(--border-light);
             border-radius: 12px;
             overflow: hidden;
-            min-height: 400px;
+            min-height: 700px;
             background: white;
             position: relative;
             margin: 1rem 0;
@@ -1145,7 +1145,7 @@
 
         .tranzila-iframe-container iframe {
             width: 100%;
-            height: 480px;
+            height: 700px;
             border: none;
             display: block;
         }
@@ -1153,10 +1153,10 @@
         @media (max-width: 600px) {
             .tranzila-iframe-container {
                 border-radius: 8px;
-                min-height: 350px;
+                min-height: 680px;
             }
             .tranzila-iframe-container iframe {
-                height: 420px;
+                height: 680px;
             }
         }
 
@@ -4198,16 +4198,17 @@
                 <div class="payment-secure-badge">
                     🔒 תשלום מאובטח באמצעות Tranzila
                 </div>
-                <div class="payment-redirect-section" style="text-align: center; padding: 2rem;">
-                    <p style="margin-bottom: 1.5rem; font-size: 1rem; color: #5C5652;">לחצו על הכפתור למעבר לדף התשלום המאובטח</p>
-                    <button id="payTranzilaBtn" onclick="redirectToTranzila()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; border: none; padding: 1.2rem 3rem; border-radius: 30px; font-size: 1.2rem; font-weight: 600; cursor: pointer; font-family: inherit; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); transition: all 0.3s ease;">
-                        💳 לתשלום מאובטח
-                    </button>
-                    <p style="margin-top: 1rem; font-size: 0.85rem; color: #888;">תועברו לדף תשלום מאובטח של Tranzila</p>
+                <div class="tranzila-iframe-container">
+                    <div class="payment-loading" id="paymentLoading">
+                        <div class="spinner"></div>
+                        <p>טוען עמוד תשלום מאובטח...</p>
+                    </div>
+                    <iframe id="tranzilaIframe" allow="payment *; publickey-credentials-get *" style="display:none;" title="תשלום מאובטח"></iframe>
                 </div>
                 <div class="payment-info">
                     <p>🔐 כל פרטי האשראי מוצפנים ומאובטחים</p>
-                    <p>💳 אנו מקבלים: ויזה, מאסטרקארד, ישראכרט, אמריקן אקספרס</p>
+                    <p>💳 אנו מקבלים: ויזה, מאסטרקארד, ישראכרט, אמריקן אקספרס,  Apple Pay</p>
+                    <p style="margin-top:0.8rem;font-size:0.85rem;color:#888;">בעיה בטעינת עמוד התשלום? <a href="#" onclick="redirectToTranzila(); return false;" style="color:#5C5652;text-decoration:underline;">פתח בחלון חדש</a></p>
                 </div>
             </div>
 
@@ -5136,8 +5137,22 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             document.getElementById('pricingStep2').classList.remove('mobile-inline');
             document.getElementById('pricingStep3').style.display = 'block';
 
-            // Prepare Tranzila URL (user will click button to redirect)
-            prepareTranzilaUrl(orderData);
+            // Prepare Tranzila URL and auto-load it in the embedded iframe
+            const url = prepareTranzilaUrl(orderData);
+            loadTranzilaIframe(url);
+        }
+
+        function loadTranzilaIframe(url) {
+            const iframe = document.getElementById('tranzilaIframe');
+            const loading = document.getElementById('paymentLoading');
+            if (!iframe) return;
+            iframe.style.display = 'none';
+            if (loading) loading.style.display = 'block';
+            iframe.onload = function() {
+                iframe.style.display = 'block';
+                if (loading) loading.style.display = 'none';
+            };
+            iframe.src = url;
         }
 
         function prepareTranzilaUrl(orderData) {

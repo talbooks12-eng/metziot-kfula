@@ -48,6 +48,33 @@ export default function handler(req, res) {
 
     console.log('Redirecting to:', redirectUrl);
 
-    // Simple redirect - no postMessage needed since we're not in iframe
-    res.redirect(302, redirectUrl);
+    // Return HTML that breaks out of iframe (if loaded inside one) and
+    // redirects the parent window. Falls back to top-level redirect for
+    // direct (non-iframe) access. Same-origin so window.top access is allowed.
+    const safeUrl = JSON.stringify(redirectUrl);
+    const html = `<!DOCTYPE html>
+<html lang="he"><head><meta charset="utf-8"><title>מעבד תשלום…</title>
+<meta http-equiv="refresh" content="2;url=${redirectUrl}">
+<style>body{font-family:system-ui,-apple-system,sans-serif;text-align:center;padding:3rem 1rem;color:#5C5652}</style></head>
+<body>
+<p>מעבד תשלום…</p>
+<script>
+(function(){
+  var url = ${safeUrl};
+  try {
+    if (window.top && window.top !== window) {
+      window.top.location.href = url;
+    } else {
+      window.location.href = url;
+    }
+  } catch (e) {
+    window.location.href = url;
+  }
+})();
+</script>
+<noscript><a href="${redirectUrl}">לחץ כאן להמשך</a></noscript>
+</body></html>`;
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(200).send(html);
 }
