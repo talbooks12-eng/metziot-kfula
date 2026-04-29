@@ -976,6 +976,50 @@
             resize: vertical;
         }
 
+        .optional-fields-toggle {
+            background: transparent;
+            border: 1px dashed #B8B0A8;
+            border-radius: 10px;
+            padding: 0.9rem 1rem;
+            min-height: 44px;
+            width: 100%;
+            font-family: 'Rubik', sans-serif;
+            font-size: 0.95rem;
+            color: #5C5652;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            text-align: center;
+            -webkit-tap-highlight-color: rgba(92, 86, 82, 0.1);
+        }
+        .optional-fields-toggle:hover,
+        .optional-fields-toggle:active {
+            background: #F5F1ED;
+            border-color: #5C5652;
+        }
+        .optional-fields-toggle .toggle-icon {
+            display: inline-block;
+            width: 18px;
+            font-weight: 700;
+            transition: transform 0.2s ease;
+        }
+        .optional-fields-toggle[aria-expanded="true"] .toggle-icon {
+            transform: rotate(45deg);
+        }
+        .form-group input.invalid,
+        .form-group textarea.invalid {
+            border-color: #D32F2F !important;
+            background-color: #FFF5F5 !important;
+        }
+        .form-group .field-error {
+            color: #D32F2F;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        .form-group input.invalid + .field-error {
+            display: block;
+        }
+
         .submit-order-btn {
             background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%) !important;
             color: white !important;
@@ -3968,11 +4012,6 @@
                 <h2>בחרו את החבילה שלכם</h2>
                 <p class="pricing-subtitle">חסכו בקנייה של מספר עותקים!</p>
 
-                <div class="shipping-cutoff popup-variant" id="shippingCutoffPopup">
-                    <span>⏱️</span>
-                    <span id="shippingCutoffTextPopup">מזמינים עד 14:00 ביום עסקים? הספר יישלח עוד היום</span>
-                </div>
-
                 <div class="pricing-grid">
                     <div class="price-card" onclick="selectPackage('עותק בודד', '79.99')">
                         <div class="price-label">עותק בודד</div>
@@ -4058,12 +4097,14 @@
 
                     <div class="form-group">
                         <label>אימייל *</label>
-                        <input type="email" name="אימייל" id="emailInput" required placeholder="example@email.com" autocomplete="email">
+                        <input type="email" name="אימייל" id="emailInput" required placeholder="example@email.com" autocomplete="email" inputmode="email">
+                        <div class="field-error">כתובת אימייל לא תקינה</div>
                     </div>
 
                     <div class="form-group">
                         <label>טלפון *</label>
-                        <input type="tel" name="טלפון" id="phoneInput" required placeholder="050-0000000" autocomplete="tel">
+                        <input type="tel" name="טלפון" id="phoneInput" required placeholder="050-0000000" autocomplete="tel" inputmode="tel">
+                        <div class="field-error">מספר טלפון לא תקין (10 ספרות, מתחיל ב-05)</div>
                     </div>
 
                     <div class="form-group">
@@ -4113,26 +4154,27 @@
                     </div>
 
                     <div class="form-group">
-                        <label>הקדשה אישית (אופציונלי)</label>
-                        <textarea name="הקדשה" placeholder="אם תרצו הקדשה אישית בספר, כתבו כאן למי ומה לכתוב..."></textarea>
+                        <button type="button" class="optional-fields-toggle" id="optionalFieldsToggle" onclick="toggleOptionalFields()" aria-expanded="false" aria-controls="optionalFieldsContainer">
+                            <span class="toggle-icon">+</span> הוסף הקדשה / הערות (אופציונלי)
+                        </button>
                     </div>
 
-                    <div class="form-group">
-                        <label>הערות נוספות</label>
-                        <input type="text" name="הערות" placeholder="הערות מיוחדות להזמנה">
+                    <div id="optionalFieldsContainer" style="display:none;">
+                        <div class="form-group">
+                            <label>הקדשה אישית</label>
+                            <textarea name="הקדשה" placeholder="אם תרצו הקדשה אישית בספר, כתבו כאן למי ומה לכתוב..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>הערות נוספות</label>
+                            <input type="text" name="הערות" placeholder="הערות מיוחדות להזמנה">
+                        </div>
                     </div>
 
                     <div class="form-group checkbox-group">
                         <label class="checkbox-label">
                             <input type="checkbox" name="תנאים" required>
                             <span>קראתי ואני מסכים/ה ל<a href="#" onclick="openTerms(); return false;">תקנון האתר</a> ול<a href="#" onclick="openPrivacy(); return false;">מדיניות הפרטיות</a> *</span>
-                        </label>
-                    </div>
-
-                    <div class="form-group checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="דיוור">
-                            <span>אני מעוניין/ת לקבל עדכונים על ספרים חדשים ומבצעים (ניתן להסיר בכל עת)</span>
                         </label>
                     </div>
 
@@ -4747,6 +4789,13 @@
                 step2.classList.remove('mobile-inline');
             }
             loadSavedCustomerDetails();
+            // Autofocus name field if empty (saves a tap on mobile)
+            setTimeout(() => {
+                const nameInput = document.getElementById('nameInput');
+                if (nameInput && !nameInput.value) {
+                    nameInput.focus();
+                }
+            }, isMobile ? 200 : 50);
             const qty = parsePackageQuantity(packageName);
             const value = parseFloat(price);
             if (typeof gtag !== 'undefined') {
@@ -6214,6 +6263,52 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 }
             }
         }
+
+        // Toggle optional fields (dedication / notes)
+        function toggleOptionalFields() {
+            const container = document.getElementById('optionalFieldsContainer');
+            const toggle = document.getElementById('optionalFieldsToggle');
+            const isHidden = container.style.display === 'none' || container.style.display === '';
+            if (isHidden) {
+                container.style.display = 'block';
+                toggle.setAttribute('aria-expanded', 'true');
+            } else {
+                container.style.display = 'none';
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        // Real-time validation for email + phone
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.getElementById('emailInput');
+            const phoneInput = document.getElementById('phoneInput');
+
+            function validateEmail() {
+                const v = emailInput.value.trim();
+                if (!v) { emailInput.classList.remove('invalid'); return; }
+                const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+                emailInput.classList.toggle('invalid', !ok);
+            }
+            function validatePhone() {
+                const v = phoneInput.value.replace(/[\s-]/g, '');
+                if (!v) { phoneInput.classList.remove('invalid'); return; }
+                const ok = /^05\d{8}$/.test(v);
+                phoneInput.classList.toggle('invalid', !ok);
+            }
+
+            if (emailInput) {
+                emailInput.addEventListener('blur', validateEmail);
+                emailInput.addEventListener('input', function() {
+                    if (emailInput.classList.contains('invalid')) validateEmail();
+                });
+            }
+            if (phoneInput) {
+                phoneInput.addEventListener('blur', validatePhone);
+                phoneInput.addEventListener('input', function() {
+                    if (phoneInput.classList.contains('invalid')) validatePhone();
+                });
+            }
+        });
 
         // Countdown timer removed - no active sale
     </script>
