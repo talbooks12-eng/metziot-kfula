@@ -4698,6 +4698,29 @@
             document.getElementById('quantityPriceDisplay').innerHTML = '₪' + total + ' <span style="font-size:0.8rem;color:#888;">(₪' + perCopy + ' x ' + customQuantity + ')</span>';
         }
 
+        function updatePackageCardPrices() {
+            const cards = document.querySelectorAll('.pricing-grid .price-card');
+            [1, 2, 3, 4].forEach((qty, idx) => {
+                if (!cards[idx]) return;
+                const perCopy = getPerCopyPrice(qty);
+                const total = (perCopy * qty).toFixed(2);
+                const priceCurrent = cards[idx].querySelector('.price-current');
+                const pricePerBook = cards[idx].querySelector('.price-per-book');
+                const priceSave = cards[idx].querySelector('.price-save');
+                if (priceCurrent) priceCurrent.textContent = '₪' + total;
+                if (pricePerBook) pricePerBook.textContent = '₪' + perCopy + ' לעותק';
+                if (priceSave) {
+                    if (promoActive) {
+                        const saved = Math.round((79.99 * qty) - parseFloat(total));
+                        priceSave.textContent = 'חסכון של ₪' + saved;
+                    } else {
+                        const baseSavings = {2: 10, 3: 30, 4: 60};
+                        priceSave.textContent = 'חסכון של ₪' + (baseSavings[qty] || 0);
+                    }
+                }
+            });
+        }
+
         function applyPromoCode() {
             const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
             const msg = document.getElementById('promoMessage');
@@ -4711,6 +4734,7 @@
                 msg.style.color = 'red';
             }
             updateQuantityPrice();
+            updatePackageCardPrices();
         }
 
         function confirmCustomQuantity() {
@@ -4764,6 +4788,11 @@
         }
 
         function selectPackage(packageName, price) {
+            // Apply promo if active (overrides hardcoded prices on package cards)
+            if (promoActive) {
+                const qty = parsePackageQuantity(packageName);
+                price = (PROMO_PRICE * qty).toFixed(2);
+            }
             document.getElementById('selectedPackageDisplay').textContent = packageName + ' - ₪' + price;
             document.getElementById('packageInput').value = packageName;
             document.getElementById('priceInput').value = '₪' + price;
