@@ -5181,9 +5181,45 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             iframe.onload = function() {
                 iframe.style.display = 'block';
                 if (loading) loading.style.display = 'none';
+                // After Tranzila navigates iframe to its own result page
+                // (happens for Apple Pay when success_url_address isn't honored),
+                // we can't read iframe.contentWindow.location due to cross-origin.
+                // Instead we rely on postMessage from Tranzila — listener below.
             };
             iframe.src = url;
         }
+
+        // Listen for payment completion messages from Tranzila iframe.
+        // Tranzila's iframenew.php emits window.postMessage events for Apple Pay
+        // completion. This is the reliable channel when iframe redirect doesn't
+        // hit our success_url_address.
+        window.addEventListener('message', function(ev) {
+            try {
+                if (!ev.origin || ev.origin.indexOf('tranzila.com') === -1) return;
+                const data = (typeof ev.data === 'string') ? JSON.parse(ev.data) : ev.data;
+                if (!data) return;
+                console.log('Tranzila message:', data);
+
+                const status = (data.status || data.payment_status || data.Response || '').toString();
+                const isSuccess = status === '000' || status === 'success' || status === 'OK' || data.success === true;
+                const isFail = status && !isSuccess;
+
+                if (!isSuccess && !isFail) return;
+                if (paymentHandled) return;
+                paymentHandled = true;
+
+                const orderId = (currentOrderData && currentOrderData.orderId) || data.order_id || '';
+                const orderData = orderId ? JSON.parse(localStorage.getItem('pendingOrder_' + orderId) || 'null') : null;
+
+                if (isSuccess && orderData) {
+                    handlePaymentSuccess(orderData);
+                } else {
+                    handlePaymentFailed(orderId);
+                }
+            } catch (e) {
+                console.warn('Tranzila message parse error:', e);
+            }
+        });
 
         function prepareTranzilaUrl(orderData) {
             // Build Tranzila URL
@@ -5207,9 +5243,19 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             // Include order ID in pdesc since order_id is not a standard field
             params.append('pdesc', orderData.package + ' - ' + orderData.orderId);
 
-            // Callback URLs
+            // Callback URLs — Tranzila will redirect iframe here after success/fail.
+            // Also set notify_url_address for server-side notification — important
+            // because Apple Pay flows sometimes redirect to Tranzila result page
+            // inside iframe instead of honoring success_url_address.
             params.append('success_url_address', callbackUrl);
             params.append('fail_url_address', callbackUrl);
+            params.append('notify_url_address', callbackUrl);
+
+            // Transaction mode: J4 = standard auth+capture (works for both credit card and Apple Pay)
+            params.append('tranmode', 'A');
+
+            // Cleaner iframe UI
+            params.append('nologo', '1');
 
             // Language
             params.append('lang', 'il');
