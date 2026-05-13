@@ -39,11 +39,15 @@ export default async function handler(req, res) {
 
     const deliveryBlock = isPickup
         ? [
-            '📍 איסוף עצמי:',
-            'בחרת באיסוף עצמי, אז אנא צור איתי קשר לתיאום מקום ושעה לאיסוף.',
-            'האיסוף מתבצע באזור השרון/מרכז הארץ, בימים א׳-ה׳ בין 18:00 ל-20:00.',
+            '📍 איסוף עצמי — חשוב!',
+            'האיסוף מתבצע בתיאום מראש בלבד.',
+            'אנא יצרי/צור איתי קשר לפני שאתה מגיע, כדי שנתאם מקום ושעה.',
             '',
-            '📱 וואטסאפ/טלפון לתיאום: 054-325-7663',
+            '🗓️ אזור: השרון / מרכז הארץ',
+            '🕐 שעות תיאום אפשריות: ימים א׳-ה׳, 18:00–20:00',
+            '',
+            '📱 וואטסאפ או טלפון לתיאום: 054-325-7663',
+            '(אני אחזור אליך בהקדם)',
           ].join('\n')
         : [
             '📦 פרטי משלוח:',
@@ -97,10 +101,13 @@ export default async function handler(req, res) {
             '</div>' +
             '<div style="background:#fff;border-right:4px solid #2E7D32;padding:14px 16px;border-radius:6px;margin:0 0 18px 0;">' +
                 (isPickup
-                    ? '<div style="font-weight:800;color:#1B5E20;margin-bottom:6px;">📍 איסוף עצמי</div>' +
-                      '<p style="margin:0 0 8px 0;">בחרת באיסוף עצמי, אז <strong>אנא צור איתי קשר לתיאום</strong> מקום ושעה לאיסוף.</p>' +
-                      '<p style="margin:0 0 8px 0;">האיסוף מתבצע באזור השרון/מרכז הארץ, בימים א׳-ה׳ בין 18:00 ל-20:00.</p>' +
-                      '<p style="margin:0;">📱 וואטסאפ/טלפון: <a href="tel:054-3257663" style="color:#1B5E20;font-weight:700;text-decoration:none;">054-325-7663</a></p>'
+                    ? '<div style="font-weight:800;color:#1B5E20;margin-bottom:8px;font-size:16px;">📍 איסוף עצמי — חשוב!</div>' +
+                      '<p style="margin:0 0 10px 0;font-weight:700;">האיסוף מתבצע בתיאום מראש בלבד.</p>' +
+                      '<p style="margin:0 0 12px 0;">אנא <strong>יצרי/צור איתי קשר לפני שאתה מגיע</strong>, כדי שנתאם מקום ושעה.</p>' +
+                      '<p style="margin:0 0 4px 0;">🗓️ אזור: השרון / מרכז הארץ</p>' +
+                      '<p style="margin:0 0 10px 0;">🕐 שעות תיאום אפשריות: ימים א׳-ה׳, 18:00–20:00</p>' +
+                      '<p style="margin:0;font-size:16px;">📱 וואטסאפ/טלפון לתיאום: <a href="tel:054-3257663" style="color:#1B5E20;font-weight:800;text-decoration:none;">054-325-7663</a></p>' +
+                      '<p style="margin:6px 0 0 0;font-size:13px;color:#6B5744;">(אני אחזור אליך בהקדם)</p>'
                     : '<div style="font-weight:800;color:#1B5E20;margin-bottom:6px;">📦 משלוח עד הבית</div>' +
                       '<p style="margin:0 0 8px 0;">הספר יישלח לכתובת: <strong>' + escapeHtml(order.address || '') + '</strong></p>' +
                       '<p style="margin:0;">המשלוח יגיע אליך תוך <strong>3-5 ימי עסקים</strong>. אם נצטרך לעדכן פרטים — נצור איתך קשר.</p>') +
