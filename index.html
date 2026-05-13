@@ -4225,9 +4225,11 @@
                     <h2>התשלום בוצע בהצלחה!</h2>
                     <p class="success-name"></p>
                     <p class="success-order">מספר הזמנה: <strong id="successOrderId"></strong></p>
-                    <p class="success-email">אישור נשלח לכתובת: <strong id="successEmail"></strong></p>
+
+                    <!-- Delivery info block — populated by handlePaymentSuccess based on delivery method -->
+                    <div id="successDeliveryInfo" class="pickup-note" style="display:block;background:#FAF7F2;border:2px solid #8B7355;color:#2D2926;padding:1rem 1.2rem;border-radius:12px;margin:1.2rem 0;text-align:right;line-height:1.6;"></div>
+
                     <div class="success-details">
-                        <p>📦 ניצור איתך קשר בקרוב לתיאום המשלוח</p>
                         <p>🤍 תודה שתמכת בפרויקט שפת הים</p>
                     </div>
                     <!-- Share buttons -->
@@ -5447,11 +5449,28 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             // Update success message
             document.querySelector('.payment-success .success-name').textContent = orderData.name + ', תודה על ההזמנה!';
             document.getElementById('successOrderId').textContent = orderData.orderId;
-            document.getElementById('successEmail').textContent = orderData.email;
+
+            // Delivery-method-specific instructions. Pickup gets a prominent
+            // call-to-action because no shipping happens — the customer MUST
+            // initiate contact to coordinate. Delivery customers just wait.
+            const isPickup = orderData.deliveryMethod === 'איסוף עצמי';
+            const deliveryBox = document.getElementById('successDeliveryInfo');
+            if (isPickup) {
+                deliveryBox.innerHTML =
+                    '<div style="font-weight:800;font-size:1.05rem;color:#1B5E20;margin-bottom:.5rem;">📍 איסוף עצמי — חשוב!</div>' +
+                    '<p style="margin:0 0 .6rem 0;">בחרת באיסוף עצמי, אז <strong>אנא צור איתי קשר לתיאום</strong> מקום ושעה לאיסוף.</p>' +
+                    '<p style="margin:0 0 .4rem 0;">📱 וואטסאפ/טלפון: <a href="tel:054-3257663" style="color:#1B5E20;font-weight:800;text-decoration:none;">054-325-7663</a></p>' +
+                    '<p style="margin:0;font-size:.9rem;color:#6B5744;">איסוף בתיאום מראש באזור השרון/מרכז · ימים א׳-ה׳ 18:00-20:00</p>';
+            } else {
+                deliveryBox.innerHTML =
+                    '<div style="font-weight:800;font-size:1.05rem;color:#1B5E20;margin-bottom:.5rem;">📦 משלוח עד הבית</div>' +
+                    '<p style="margin:0 0 .4rem 0;">הספר יישלח לכתובת: <strong>' + (orderData.address || '') + '</strong></p>' +
+                    '<p style="margin:0;">המשלוח יגיע אליך תוך <strong>3-5 ימי עסקים</strong>. אצור איתך קשר אם נדרש לעדכן פרטים.</p>';
+            }
         }
 
         function handlePaymentFailed(orderId) {
-            alert('התשלום נכשל. אנא נסו שנית או צרו קשר בטלפון 073-2224400');
+            alert('התשלום נכשל. אנא נסו שנית או צרו קשר בטלפון 054-325-7663');
             // Reopen payment step
             const orderData = JSON.parse(localStorage.getItem('pendingOrder_' + orderId));
             if (orderData) {
