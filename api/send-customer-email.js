@@ -1,6 +1,6 @@
 // Send a thank-you / order-confirmation email to the customer.
 // Triggered from the frontend after a successful Tranzila payment.
-// Uses Resend (https://resend.com) — env var RESEND_API_KEY required.
+// Uses Brevo (https://brevo.com) — env var BREVO_API_KEY required.
 //
 // The email body is plain Hebrew text. The subject and main paragraph
 // fork on delivery method:
@@ -20,9 +20,9 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
+    const apiKey = process.env.BREVO_API_KEY;
     if (!apiKey) {
-        console.error('RESEND_API_KEY not set');
+        console.error('BREVO_API_KEY not set');
         return res.status(500).json({ error: 'Email service not configured' });
     }
 
@@ -114,28 +114,29 @@ export default async function handler(req, res) {
         '</div>';
 
     try {
-        const resp = await fetch('https://api.resend.com/emails', {
+        const resp = await fetch('https://api.brevo.com/v3/smtp/email', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + apiKey,
-                'Content-Type': 'application/json',
+                'accept': 'application/json',
+                'api-key': apiKey,
+                'content-type': 'application/json',
             },
             body: JSON.stringify({
-                from: 'מציאות כפולה <noreply@metziotkfula.com>',
-                reply_to: 'Talbooks12@gmail.com',
-                to: [order.email],
+                sender: { name: 'מציאות כפולה — טל הוך', email: 'noreply@metziotkfula.com' },
+                replyTo: { email: 'Talbooks12@gmail.com', name: 'טל הוך' },
+                to: [{ email: order.email, name: order.name }],
                 subject: subject,
-                text: text,
-                html: html,
+                textContent: text,
+                htmlContent: html,
             }),
         });
 
         const result = await resp.json();
         if (!resp.ok) {
-            console.error('Resend error:', resp.status, result);
+            console.error('Brevo error:', resp.status, result);
             return res.status(502).json({ error: 'Email send failed', detail: result });
         }
-        return res.status(200).json({ ok: true, id: result.id });
+        return res.status(200).json({ ok: true, id: result.messageId });
     } catch (err) {
         console.error('send-customer-email error:', err);
         return res.status(500).json({ error: 'Internal error' });
