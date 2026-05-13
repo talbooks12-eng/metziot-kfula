@@ -77,12 +77,12 @@
         },
         "description": "יומן מסע פנימי שנכתב בין לחימה להפוגה. ספר ביכורים מאת טל הוך, לוחם מילואים בחטיבת הצנחנים 55.",
         "image": "https://talbooks12-eng.github.io/metziot-kfula/assets/book-cover.png",
-        "url": "https://talbooks12-eng.github.io/metziot-kfula/",
+        "url": "https://www.metziotkfula.com/",
         "inLanguage": "he",
         "genre": "יומן אישי",
         "offers": {
             "@type": "Offer",
-            "price": "59",
+            "price": "79.99",
             "priceCurrency": "ILS",
             "availability": "https://schema.org/InStock"
         },
@@ -4870,7 +4870,6 @@
                 event.preventDefault();
                 event.stopPropagation();
             }
-            console.log('submitOrder called'); // Debug
 
             try {
                 const form = document.getElementById('orderForm');
@@ -5039,7 +5038,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 
 📍 איסוף עצמי:
 האיסוף מתבצע מאזור השרון, במרכז הארץ, בתיאום מראש.
-ניתן לתאם באמצעות טלפון: 054-3257663
+ניתן לתאם באמצעות טלפון: 054-325-7663
 
 לשאלות ובירורים:
 📱 טלפון: 054-325-7663
@@ -5089,7 +5088,6 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 emailFormData.append('message', isPickup ? pickupMessage : deliveryMessage);
 
                 // DISABLED: Do not send to customer via FormSubmit (causes activation email spam to customers)
-                console.log('Customer email skipped (FormSubmit disabled for customer addresses):', orderData.email);
             } catch (error) {
                 console.error('Error in customer confirmation function:', error);
             }
@@ -5118,7 +5116,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
 
 📍 איסוף עצמי:
 האיסוף מתבצע מאזור השרון, במרכז הארץ, בתיאום מראש.
-ניתן לתאם באמצעות טלפון: 054-3257663
+ניתן לתאם באמצעות טלפון: 054-325-7663
 
 לשאלות ובירורים:
 📱 טלפון: 054-325-7663
@@ -5131,7 +5129,6 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 `);
 
                 // DISABLED: Do not send to customer via FormSubmit (causes activation email spam to customers)
-                console.log('Customer pickup email skipped:', orderData.email);
             } catch (error) {
                 console.error('Error in pickup confirmation function:', error);
             }
@@ -5205,7 +5202,6 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 if (!ev.origin || ev.origin.indexOf('tranzila.com') === -1) return;
                 const data = (typeof ev.data === 'string') ? JSON.parse(ev.data) : ev.data;
                 if (!data) return;
-                console.log('Tranzila message:', data);
 
                 const status = (data.status || data.payment_status || data.Response || '').toString();
                 const isSuccess = status === '000' || status === 'success' || status === 'OK' || data.success === true;
@@ -5233,9 +5229,6 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
             const baseUrl = window.location.origin;
             const callbackUrl = baseUrl + '/api/payment-callback';
 
-            console.log('=== PREPARING TRANZILA URL ===');
-            console.log('Order:', orderData);
-            console.log('Callback URL:', callbackUrl);
 
             const params = new URLSearchParams();
 
@@ -5372,9 +5365,26 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 // Send Telegram notification for paid order
                 sendTelegramNotification(orderData, 'paid');
 
-                // NOTE: Customer email confirmation disabled - FormSubmit requires per-recipient activation
-                // which sends customers a confusing "Activate Form" email instead of the order confirmation.
-                // Customer sees the success message on the website and will be contacted personally.
+                // Send customer thank-you email via Resend (api/send-customer-email).
+                // Fire-and-forget — failure here must not block the success screen.
+                fetch('/api/send-customer-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: orderData.email,
+                        name: orderData.name,
+                        orderId: orderData.orderId,
+                        package: orderData.package,
+                        totalAmount: orderData.totalAmount,
+                        deliveryMethod: orderData.deliveryMethod,
+                        address: orderData.address || '',
+                        dedication: orderData.dedication || '',
+                    }),
+                }).then(function(r) {
+                    if (!r.ok) console.warn('Customer email send returned', r.status);
+                }).catch(function(e) {
+                    console.warn('Customer email send failed:', e);
+                });
             } catch (error) {
                 console.error('Error logging order:', error);
             }
@@ -5477,15 +5487,6 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 currentOrderData = orderData;
                 openPricing();
                 showPaymentStep(orderData);
-            }
-        }
-
-        // TEST MODE - Simulate successful payment (REMOVE AFTER TRANZILA IS CONNECTED)
-        function simulatePaymentSuccess() {
-            if (currentOrderData) {
-                handlePaymentSuccess(currentOrderData);
-            } else {
-                alert('אין הזמנה פעילה לסימולציה');
             }
         }
 
