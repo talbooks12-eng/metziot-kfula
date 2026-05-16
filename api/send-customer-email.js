@@ -31,6 +31,10 @@ export default async function handler(req, res) {
     for (const key of required) {
         if (!order[key]) return res.status(400).json({ error: 'Missing field: ' + key });
     }
+    order.phone = order.phone || '';
+    order.address = order.address || '';
+    order.dedication = order.dedication || '';
+    order.notes = order.notes || '';
 
     const isPickup = order.deliveryMethod === 'איסוף עצמי';
     const subject = isPickup
@@ -120,22 +124,24 @@ export default async function handler(req, res) {
             '<p style="margin:18px 0 0 0;">תודה שוב,<br><strong>טל</strong></p>' +
         '</div>';
 
+    const brevoSend = (payload) => fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json',
+            'api-key': apiKey,
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    });
+
     try {
-        const resp = await fetch('https://api.brevo.com/v3/smtp/email', {
-            method: 'POST',
-            headers: {
-                'accept': 'application/json',
-                'api-key': apiKey,
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                sender: { name: 'מציאות כפולה — טל הוך', email: 'noreply@metziotkfula.com' },
-                replyTo: { email: 'Talbooks12@gmail.com', name: 'טל הוך' },
-                to: [{ email: order.email, name: order.name }],
-                subject: subject,
-                textContent: text,
-                htmlContent: html,
-            }),
+        const resp = await brevoSend({
+            sender: { name: 'מציאות כפולה — טל הוך', email: 'noreply@metziotkfula.com' },
+            replyTo: { email: 'Talbooks12@gmail.com', name: 'טל הוך' },
+            to: [{ email: order.email, name: order.name }],
+            subject: subject,
+            textContent: text,
+            htmlContent: html,
         });
 
         const result = await resp.json();
@@ -143,6 +149,54 @@ export default async function handler(req, res) {
             console.error('Brevo error:', resp.status, result);
             return res.status(502).json({ error: 'Email send failed', detail: result });
         }
+
+        const adminSubject = (isPickup ? '🟡 איסוף עצמי — ' : '✅ משלוח — ') +
+            order.orderId + ' · ' + order.name + ' · ₪' + order.totalAmount;
+        const rows = [
+            ['מספר הזמנה', order.orderId],
+            ['סטטוס', '✅ שולם'],
+            ['שם', order.name],
+            ['אימייל', order.email],
+            ['טלפון', order.phone || '-'],
+            ['חבילה', order.package],
+            ['סה״כ שולם', '₪' + order.totalAmount],
+            ['אופן קבלה', order.deliveryMethod],
+            ['כתובת', order.address || '-'],
+            ['הקדשה', order.dedication || '-'],
+            ['הערות', order.notes || '-'],
+        ];
+        const adminText = rows.map(([k, v]) => k + ': ' + v).join('\n');
+        const adminHtml =
+            '<div dir="rtl" style="font-family:system-ui,-apple-system,Segoe UI,Rubik,Arial,sans-serif;font-size:15px;color:#2D2926;max-width:560px;">' +
+                '<h2 style="margin:0 0 12px 0;color:#1B5E20;">' + escapeHtml(adminSubject) + '</h2>' +
+                '<table cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%;background:#fff;border:1px solid #E5DDD0;">' +
+                    rows.map(([k, v]) =>
+                        '<tr><td style="border:1px solid #E5DDD0;font-weight:700;background:#F5F1E8;width:35%;">' +
+                            escapeHtml(k) +
+                        '</td><td style="border:1px solid #E5DDD0;">' +
+                            escapeHtml(String(v)) +
+                        '</td></tr>'
+                    ).join('') +
+                '</table>' +
+            '</div>';
+
+        try {
+            const adminResp = await brevoSend({
+                sender: { name: 'הזמנות מציאות כפולה', email: 'noreply@metziotkfula.com' },
+                replyTo: { email: order.email, name: order.name },
+                to: [{ email: 'Talbooks12@gmail.com', name: 'טל הוך' }],
+                subject: adminSubject,
+                textContent: adminText,
+                htmlContent: adminHtml,
+            });
+            if (!adminResp.ok) {
+                const adminErr = await adminResp.json().catch(() => ({}));
+                console.error('Brevo admin email error:', adminResp.status, adminErr);
+            }
+        } catch (adminErr) {
+            console.error('admin email send failed:', adminErr);
+        }
+
         return res.status(200).json({ ok: true, id: result.messageId });
     } catch (err) {
         console.error('send-customer-email error:', err);

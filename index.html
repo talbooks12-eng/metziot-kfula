@@ -5338,27 +5338,30 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                     body: googleFormData
                 });
 
-                // Send email notification
+                // Send email notification (admin notification via FormSubmit).
+                // keepalive: true keeps the request alive even if the user
+                // navigates / the success step re-renders mid-flight.
                 const emailFormData = new FormData();
                 emailFormData.append('_subject', '✅ תשלום התקבל! הזמנה ' + orderData.orderId + ' - ' + orderData.package);
                 emailFormData.append('מספר_הזמנה', orderData.orderId);
                 emailFormData.append('שם', orderData.name);
                 emailFormData.append('אימייל', orderData.email);
-                emailFormData.append('טלפון', orderData.phone);
+                emailFormData.append('טלפון', orderData.phone || '-');
                 emailFormData.append('חבילה', orderData.package);
                 emailFormData.append('סהכ_שולם', '₪' + orderData.totalAmount);
-                emailFormData.append('כתובת', orderData.address);
+                emailFormData.append('כתובת', orderData.address || '-');
                 emailFormData.append('אופן_קבלה', orderData.deliveryMethod);
-                emailFormData.append('הקדשה', orderData.dedication);
-                emailFormData.append('הערות', orderData.notes);
+                emailFormData.append('הקדשה', orderData.dedication || '-');
+                emailFormData.append('הערות', orderData.notes || '-');
                 emailFormData.append('סטטוס', '✅ שולם');
                 emailFormData.append('_captcha', 'false');
                 emailFormData.append('_template', 'table');
 
                 fetch('https://formsubmit.co/ajax/Talbooks12@gmail.com', {
                     method: 'POST',
-                    body: emailFormData
-                });
+                    body: emailFormData,
+                    keepalive: true
+                }).catch(function(e) { console.warn('FormSubmit paid notify failed:', e); });
 
                 // Send Telegram notification for paid order
                 sendTelegramNotification(orderData, 'paid');
@@ -5368,15 +5371,18 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 fetch('/api/send-customer-email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    keepalive: true,
                     body: JSON.stringify({
                         email: orderData.email,
                         name: orderData.name,
+                        phone: orderData.phone || '',
                         orderId: orderData.orderId,
                         package: orderData.package,
                         totalAmount: orderData.totalAmount,
                         deliveryMethod: orderData.deliveryMethod,
                         address: orderData.address || '',
                         dedication: orderData.dedication || '',
+                        notes: orderData.notes || '',
                     }),
                 }).then(function(r) {
                     if (!r.ok) console.warn('Customer email send returned', r.status);
