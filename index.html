@@ -89,7 +89,7 @@
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
-            "reviewCount": "9"
+            "reviewCount": "20"
         }
     }
     </script>
@@ -2482,19 +2482,58 @@
         }
 
         .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            display: flex;
+            gap: 1rem;
             margin-top: 2.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-padding: 0 1rem;
+            padding: 0.5rem 1rem 1.5rem;
+            scrollbar-width: thin;
         }
+        .reviews-grid::-webkit-scrollbar { height: 6px; }
+        .reviews-grid::-webkit-scrollbar-thumb { background: rgba(139,115,85,0.25); border-radius: 3px; }
 
         .review-card {
+            flex: 0 0 320px;
+            scroll-snap-align: center;
             background: white;
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             position: relative;
+        }
+
+        .reviews-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 0.25rem 0 1rem;
+            flex-wrap: wrap;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .reviews-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(139,115,85,0.25);
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .reviews-dot.active {
+            background: var(--accent, #8b7355);
+            transform: scale(1.4);
+        }
+        .reviews-hint {
+            text-align: center;
+            font-size: 0.85rem;
+            color: rgba(0,0,0,0.45);
+            margin: 0 0 2rem;
         }
 
         .review-card::before {
@@ -3356,10 +3395,8 @@
                 grid-template-columns: 1fr;
             }
 
-            /* Show only 3 reviews on mobile */
-            .reviews-grid .review-card:nth-child(n+4) {
-                display: none;
-            }
+            .review-card { flex: 0 0 85vw; max-width: 320px; }
+            .reviews-grid { padding: 0.5rem 7.5vw 1.5rem; }
 
             .review-form-wrapper {
                 padding: 1.5rem;
@@ -4517,7 +4554,54 @@
                     <p class="review-text">"בתור מילואימניק, הספר הזה נגע בי אישית. זה בדיוק מה שאנחנו חווים ביומיום — והמילים כאן מדויקות בטירוף."</p>
                     <div class="review-author">— רז גור לוי <span class="verified-badge">✓ מאומת</span></div>
                 </div>
+                <div class="review-card">
+
+                    <p class="review-text">"קניתי בעקבות המלצה ולא הצלחתי להניח. טל מצליח לתאר מה שעובר עלינו במילים שלא ידעתי שיש."</p>
+                    <div class="review-author">— גל בן חמו <span class="verified-badge">✓ מאומת</span></div>
+                </div>
+                <div class="review-card">
+
+                    <p class="review-text">"חזרתי ממילואים ואחותי הניחה לי את הספר על השולחן. שיר אחרי שיר הרגשתי שמישהו רואה אותי. תודה טל."</p>
+                    <div class="review-author">— גלעד בן עמי <span class="verified-badge">✓ מאומת</span></div>
+                </div>
+                <div class="review-card">
+
+                    <p class="review-text">"קניתי לאבא ליום ההולדת. הוא התקשר אחרי שעתיים, בקול נשבר, פשוט להגיד תודה. ספר נדיר."</p>
+                    <div class="review-author">— רותם גבאי <span class="verified-badge">✓ מאומת</span></div>
+                </div>
+                <div class="review-card">
+
+                    <p class="review-text">"פתחתי בערב לפני שינה ולא ידעתי שאני עומד להישאר ער עד הסוף. יש בו שורות שלא הצלחתי להפסיק לחזור אליהן."</p>
+                    <div class="review-author">— יותם נחושתן <span class="verified-badge">✓ מאומת</span></div>
+                </div>
+                <div class="review-card">
+
+                    <p class="review-text">"האיורים והשירים יחד יוצרים משהו שלא ראיתי בספר שירה לפני. קניתי שניים — אחד לעצמי, אחד לחבר שעדיין במילואים."</p>
+                    <div class="review-author">— מתניה כהן <span class="verified-badge">✓ מאומת</span></div>
+                </div>
+                <div class="review-card">
+
+                    <p class="review-text">"אני לא אשת מילואים ולא אמא של חייל. בכל זאת השירים נכנסו לי ישר ללב. ספר לכולם, באמת."</p>
+                    <div class="review-author">— עלמה סטריקובסקי <span class="verified-badge">✓ מאומת</span></div>
+                </div>
+                <div class="review-card">
+
+                    <p class="review-text">"קראתי בהיסעים בין מאחזים. כל מילה הרגישה מדויקת. שלחתי קישור לכל המ״כ שלי."</p>
+                    <div class="review-author">— עידו הרשקוביץ <span class="verified-badge">✓ מאומת</span></div>
+                </div>
+                <div class="review-card">
+
+                    <p class="review-text">"לא חיכיתי שספר שירה ירגש אותי ככה. הקצב, השפה, הזרימה — משהו שאני חושב עליו עוד שבועות אחרי שגמרתי."</p>
+                    <div class="review-author">— טל האוסליך <span class="verified-badge">✓ מאומת</span></div>
+                </div>
+                <div class="review-card">
+
+                    <p class="review-text">"מישהו שלח לי שורה אחת מהספר בוואטסאפ. הזמנתי באותו ערב. עכשיו אני זה ששולח שורות הלאה."</p>
+                    <div class="review-author">— שחר הלחמי <span class="verified-badge">✓ מאומת</span></div>
+                </div>
             </div>
+            <div class="reviews-dots" aria-label="ניווט בין ביקורות" role="tablist"></div>
+            <p class="reviews-hint">← החליקו לראות עוד ביקורות →</p>
 
             <!-- Share strip -->
             <div style="text-align:center; margin-top:2rem;">
@@ -4542,6 +4626,47 @@
 
     <script>
         // Gallery now uses CSS animation - no JS needed
+    </script>
+
+    <!-- Reviews Carousel (swipe + dots) -->
+    <script>
+    (function(){
+        const grid = document.querySelector('.reviews-grid');
+        const dotsContainer = document.querySelector('.reviews-dots');
+        if (!grid || !dotsContainer) return;
+        const cards = grid.querySelectorAll('.review-card');
+        if (cards.length === 0) return;
+        cards.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'reviews-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('role', 'tab');
+            dot.setAttribute('aria-label', 'ביקורת ' + (i + 1));
+            dot.addEventListener('click', () => {
+                cards[i].scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
+            });
+            dotsContainer.appendChild(dot);
+        });
+        const dots = dotsContainer.querySelectorAll('.reviews-dot');
+        let ticking = false;
+        function update() {
+            ticking = false;
+            const gridRect = grid.getBoundingClientRect();
+            const gridCenter = (gridRect.left + gridRect.right) / 2;
+            let active = 0, best = Infinity;
+            cards.forEach((c, i) => {
+                const r = c.getBoundingClientRect();
+                const cc = (r.left + r.right) / 2;
+                const d = Math.abs(cc - gridCenter);
+                if (d < best) { best = d; active = i; }
+            });
+            dots.forEach((d, i) => d.classList.toggle('active', i === active));
+        }
+        grid.addEventListener('scroll', () => {
+            if (!ticking) { requestAnimationFrame(update); ticking = true; }
+        }, {passive: true});
+        window.addEventListener('resize', update);
+        update();
+    })();
     </script>
 
     <!-- Quotes Slider Script -->
