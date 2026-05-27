@@ -4584,7 +4584,7 @@
                 </div>
                 <div class="review-card">
 
-                    <p class="review-text">"קראתי בהסעות בין מאחזים. כל מילה הרגישה מדויקת. שלחתי קישור לכל הכיתה שלי."</p>
+                    <p class="review-text">"קראתי בלילה במאחז, אחרי שמירה. שיר אחד גרם לי לסגור את הספר ולהסתכל בתקרה עשר דקות. עוד לא הצלחתי לחזור אליו."</p>
                     <div class="review-author">— עידו הרשקוביץ <span class="verified-badge">✓ מאומת</span></div>
                 </div>
                 <div class="review-card">
@@ -4669,30 +4669,29 @@
         window.addEventListener('resize', update);
         update();
 
-        // Auto-rotate (pauses on interaction, respects prefers-reduced-motion)
-        const AUTO_MS = 5000;
+        // Auto-rotate (pauses only on real interaction, never moves the page vertically)
+        const AUTO_MS = 4500;
         const PAUSE_MS = 9000;
         let pauseUntil = 0;
+        function scrollToCard(i) {
+            const card = cards[i];
+            const target = card.offsetLeft - (grid.clientWidth - card.offsetWidth) / 2;
+            grid.scrollTo({left: target, behavior: 'smooth'});
+        }
         function advance() {
             if (Date.now() < pauseUntil) return;
             if (document.hidden) return;
             const next = (activeIndex() + 1) % cards.length;
-            cards[next].scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
+            scrollToCard(next);
         }
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        let autoTimer = null;
-        function startAuto() {
-            if (autoTimer || reduceMotion.matches) return;
-            autoTimer = setInterval(advance, AUTO_MS);
-        }
-        startAuto();
-        ['mouseenter','touchstart','pointerdown','wheel','keydown'].forEach(ev => {
-            grid.addEventListener(ev, () => { pauseUntil = Date.now() + PAUSE_MS; }, {passive: true});
+        // Rebind dot clicks to use direct grid scroll (no page jump)
+        dots.forEach((d, i) => {
+            d.onclick = () => { scrollToCard(i); pauseUntil = Date.now() + PAUSE_MS; };
         });
-        dotsContainer.addEventListener('click', () => { pauseUntil = Date.now() + PAUSE_MS; });
-        reduceMotion.addEventListener && reduceMotion.addEventListener('change', () => {
-            if (reduceMotion.matches && autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-            else if (!reduceMotion.matches && !autoTimer) startAuto();
+        let autoTimer = setInterval(advance, AUTO_MS);
+        // Pause only on real user actions inside the strip, not on hover
+        ['touchstart','pointerdown','keydown'].forEach(ev => {
+            grid.addEventListener(ev, () => { pauseUntil = Date.now() + PAUSE_MS; }, {passive: true});
         });
     })();
     </script>
