@@ -4495,15 +4495,13 @@
         <div class="container">
             <h2 class="section-title">מה אומרים הקוראים</h2>
 
-            <!-- Featured Pull Quote -->
-            <figure class="featured-quote">
-                <div class="featured-quote-mark">"</div>
-                <blockquote class="featured-quote-text">נכתב ישר מהחדרים הכי עמוקים בלב. מדהים שהצלחת לדבר כל רגש של לוחם שלא מסוגל לבטא את מה שעבר ועובר.</blockquote>
-                <figcaption class="featured-quote-author">— רון סולומון <span class="verified-badge">✓ מאומת</span></figcaption>
-            </figure>
-
             <!-- Approved Reviews -->
             <div class="reviews-grid">
+                <div class="review-card">
+
+                    <p class="review-text">"נכתב ישר מהחדרים הכי עמוקים בלב. מדהים שהצלחת לדבר כל רגש של לוחם שלא מסוגל לבטא את מה שעבר ועובר."</p>
+                    <div class="review-author">— רון סולומון <span class="verified-badge">✓ מאומת</span></div>
+                </div>
                 <div class="review-card">
 
                     <p class="review-text">"הסופר מצליח להדגיש את המציאות הלא פשוטה שאנו חיים בה בעזרת סיפור נוגע ללב - בעזרת כמה מילים פשוטות ויד על הגב - טל מצליח לספר את סיפורים של הטובים בינינו."</p>
@@ -4556,7 +4554,7 @@
                 </div>
                 <div class="review-card">
 
-                    <p class="review-text">"קניתי בעקבות המלצה ולא הצלחתי להניח. טל מצליח לתאר מה שעובר עלינו במילים שלא ידעתי שיש."</p>
+                    <p class="review-text">"קניתי בעקבות המלצה ולא הצלחתי להפסיק לקרוא. טל מצליח לתאר מה שעובר עלינו במילים שלא ידעתי שיש."</p>
                     <div class="review-author">— גל בן חמו <span class="verified-badge">✓ מאומת</span></div>
                 </div>
                 <div class="review-card">
@@ -4576,22 +4574,22 @@
                 </div>
                 <div class="review-card">
 
-                    <p class="review-text">"האיורים והשירים יחד יוצרים משהו שלא ראיתי בספר שירה לפני. קניתי שניים — אחד לעצמי, אחד לחבר שעדיין במילואים."</p>
+                    <p class="review-text">"האיורים והשירים יחד יוצרים משהו שלא נתקלתי בו בספרי שירה אחרים. קניתי שניים — אחד לעצמי, אחד לחבר שעדיין במילואים."</p>
                     <div class="review-author">— מתניה כהן <span class="verified-badge">✓ מאומת</span></div>
                 </div>
                 <div class="review-card">
 
-                    <p class="review-text">"אני לא אשת מילואים ולא אמא של חייל. בכל זאת השירים נכנסו לי ישר ללב. ספר לכולם, באמת."</p>
+                    <p class="review-text">"אני לא במילואים ולא אמא של חייל. בכל זאת השירים נכנסו לי ישר ללב. ספר לכולם, באמת."</p>
                     <div class="review-author">— עלמה סטריקובסקי <span class="verified-badge">✓ מאומת</span></div>
                 </div>
                 <div class="review-card">
 
-                    <p class="review-text">"קראתי בהיסעים בין מאחזים. כל מילה הרגישה מדויקת. שלחתי קישור לכל המ״כ שלי."</p>
+                    <p class="review-text">"קראתי בהסעות בין מאחזים. כל מילה הרגישה מדויקת. שלחתי קישור לכל הכיתה שלי."</p>
                     <div class="review-author">— עידו הרשקוביץ <span class="verified-badge">✓ מאומת</span></div>
                 </div>
                 <div class="review-card">
 
-                    <p class="review-text">"לא חיכיתי שספר שירה ירגש אותי ככה. הקצב, השפה, הזרימה — משהו שאני חושב עליו עוד שבועות אחרי שגמרתי."</p>
+                    <p class="review-text">"לא ציפיתי שספר שירה ירגש אותי ככה. הקצב, השפה, הזרימה — משהו שאני חושב עליו עוד שבועות אחרי שגמרתי."</p>
                     <div class="review-author">— טל האוסליך <span class="verified-badge">✓ מאומת</span></div>
                 </div>
                 <div class="review-card">
@@ -4648,8 +4646,7 @@
         });
         const dots = dotsContainer.querySelectorAll('.reviews-dot');
         let ticking = false;
-        function update() {
-            ticking = false;
+        function activeIndex() {
             const gridRect = grid.getBoundingClientRect();
             const gridCenter = (gridRect.left + gridRect.right) / 2;
             let active = 0, best = Infinity;
@@ -4659,13 +4656,44 @@
                 const d = Math.abs(cc - gridCenter);
                 if (d < best) { best = d; active = i; }
             });
-            dots.forEach((d, i) => d.classList.toggle('active', i === active));
+            return active;
+        }
+        function update() {
+            ticking = false;
+            const a = activeIndex();
+            dots.forEach((d, i) => d.classList.toggle('active', i === a));
         }
         grid.addEventListener('scroll', () => {
             if (!ticking) { requestAnimationFrame(update); ticking = true; }
         }, {passive: true});
         window.addEventListener('resize', update);
         update();
+
+        // Auto-rotate (pauses on interaction, respects prefers-reduced-motion)
+        const AUTO_MS = 5000;
+        const PAUSE_MS = 9000;
+        let pauseUntil = 0;
+        function advance() {
+            if (Date.now() < pauseUntil) return;
+            if (document.hidden) return;
+            const next = (activeIndex() + 1) % cards.length;
+            cards[next].scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
+        }
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let autoTimer = null;
+        function startAuto() {
+            if (autoTimer || reduceMotion.matches) return;
+            autoTimer = setInterval(advance, AUTO_MS);
+        }
+        startAuto();
+        ['mouseenter','touchstart','pointerdown','wheel','keydown'].forEach(ev => {
+            grid.addEventListener(ev, () => { pauseUntil = Date.now() + PAUSE_MS; }, {passive: true});
+        });
+        dotsContainer.addEventListener('click', () => { pauseUntil = Date.now() + PAUSE_MS; });
+        reduceMotion.addEventListener && reduceMotion.addEventListener('change', () => {
+            if (reduceMotion.matches && autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+            else if (!reduceMotion.matches && !autoTimer) startAuto();
+        });
     })();
     </script>
 
