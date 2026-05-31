@@ -4834,8 +4834,11 @@
 
         let customQuantity = 1;
         let promoActive = false;
-        const PROMO_CODE = 'MILUIM49';
-        const PROMO_PRICE = 49.99;
+        let PROMO_PRICE = 0;
+        const PROMOS = {
+            'MILUIM49': 49.99,
+            'HATIVA55': 49.99
+        };
 
         function getPerCopyPrice(qty) {
             if (promoActive) return PROMO_PRICE;
@@ -4883,12 +4886,14 @@
         function applyPromoCode() {
             const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
             const msg = document.getElementById('promoMessage');
-            if (code === PROMO_CODE) {
+            if (Object.prototype.hasOwnProperty.call(PROMOS, code)) {
                 promoActive = true;
-                msg.textContent = '✅ קוד מילואים הופעל! ₪' + PROMO_PRICE + ' לעותק';
+                PROMO_PRICE = PROMOS[code];
+                msg.textContent = '✅ קוד הופעל! ₪' + PROMO_PRICE + ' לעותק';
                 msg.style.color = 'green';
             } else {
                 promoActive = false;
+                PROMO_PRICE = 0;
                 msg.textContent = '❌ קוד לא תקין';
                 msg.style.color = 'red';
             }
