@@ -862,6 +862,26 @@
             color: var(--text-secondary);
         }
 
+        .donation-highlight {
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0F4C5C;
+            background: linear-gradient(135deg, #E8F4FD 0%, #D6EAF5 100%);
+            border: 1px solid #9FCDE3;
+            border-radius: 14px;
+            padding: 0.8rem 1.1rem;
+            margin: 1rem auto 0;
+            max-width: 500px;
+            box-shadow: 0 3px 12px rgba(26,95,122,0.15);
+            line-height: 1.5;
+        }
+        .donation-highlight a {
+            color: #0F4C5C;
+            text-decoration: underline;
+            font-weight: 800;
+        }
+
         .project-info-ticker {
             background: linear-gradient(135deg, #f8f6f3 0%, #ece8e1 100%);
             border-radius: 12px;
@@ -4161,7 +4181,7 @@
                 </div>
                 <div style="font-size:0.8rem;color:#888;margin-top:0.6rem;text-align:center;">💡 רוצים כמות אחרת? בחרו את מספר העותקים בכרטיס "כמות אחרת" (₪69.99 לעותק מ-3 ומעלה)</div>
 
-                <p class="pricing-note">🤍 חלק מכל רכישה נתרמת לפרויקט שפת הים</p>
+                <div class="donation-highlight">🤍 חלק מכל רכישה נתרם לפרויקט <a href="https://www.sfat-hayam.com/" target="_blank" rel="noopener">שפת הים</a> 🌊</div>
                 <div class="project-info-ticker" onclick="this.classList.toggle('expanded')">
                     <span class="ticker-toggle">מה זה פרויקט שפת הים? <span class="ticker-arrow">▼</span></span>
                     <div class="ticker-content">
