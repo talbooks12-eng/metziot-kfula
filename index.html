@@ -4915,9 +4915,11 @@
         let customQuantity = 4;
         let promoActive = false;
         let PROMO_PRICE = 0;
+        let promoCodeApplied = '';
         const PROMOS = {
             'MILUIM49': 49.99,
-            'HATIVA55': 49.99
+            'HATIVA55': 49.99,
+            'HERZOG49': 49.99
         };
 
         function getPerCopyPrice(qty) {
@@ -4971,11 +4973,13 @@
             if (Object.prototype.hasOwnProperty.call(PROMOS, code)) {
                 promoActive = true;
                 PROMO_PRICE = PROMOS[code];
+                promoCodeApplied = code;
                 msg.textContent = '✅ קוד הופעל! ₪' + PROMO_PRICE + ' לעותק';
                 msg.style.color = 'green';
             } else {
                 promoActive = false;
                 PROMO_PRICE = 0;
+                promoCodeApplied = '';
                 msg.textContent = '❌ קוד לא תקין';
                 msg.style.color = 'red';
             }
@@ -5153,6 +5157,7 @@
                 deliveryMethod,
                 dedication,
                 notes,
+                coupon: promoActive ? promoCodeApplied : '',
                 timestamp: new Date().toISOString(),
                 paymentStatus: 'pending'
             };
@@ -5198,6 +5203,7 @@
                 emailFormData.append('אופן_קבלה', orderData.deliveryMethod);
                 emailFormData.append('הקדשה', orderData.dedication || '-');
                 emailFormData.append('הערות', orderData.notes || '-');
+                emailFormData.append('קוד_קופון', orderData.coupon || '-');
                 emailFormData.append('_captcha', 'false');
                 emailFormData.append('_template', 'table');
 
@@ -5592,6 +5598,7 @@ ${orderData.dedication ? 'הקדשה: ' + orderData.dedication : ''}
                 emailFormData.append('אופן_קבלה', orderData.deliveryMethod);
                 emailFormData.append('הקדשה', orderData.dedication || '-');
                 emailFormData.append('הערות', orderData.notes || '-');
+                emailFormData.append('קוד_קופון', orderData.coupon || '-');
                 emailFormData.append('סטטוס', '✅ שולם');
                 emailFormData.append('_captcha', 'false');
                 emailFormData.append('_template', 'table');
